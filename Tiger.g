@@ -1,4 +1,4 @@
-grammar Tiger;
+◊grammar Tiger;
 
 options {
   language = C;
@@ -50,171 +50,149 @@ tokens {
   END_INST  = ';' ;
 }
 
-
-
 INTEGER    : (DIGIT)+ ; // 42
 ML_COMMENT : '/*' ( options {greedy=false;} : . )* '*/' ; // /* a comment */
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; } ;
 STRING     : '"' ( options {greedy=false;} : . )* '"' ;
-BINARY_OP  : PLUS | MINUS | MULT | DIV | EQUAL | NOT_EQUAL | SUB | SUP | SUB_EQUAL | SUP_EQUAL | AND | OR ;
 
+BINARY_OP  : LOGICAL_OP | COMPARISON_OP | ARITHMETICAL_OP ;
 
-program	:	expr;
+LOGICAL_OP	:	AND | OR ;
+RELATIONAL_OP	:	EQUAL | NOT EQUAL | SUB | SUP | SUB_EQUAL | SUP_EQUAL ;
+ARITHMETICAL_OP	:	PLUS | MINUS | MULT | DIV ;
 
-expr
-  :	STRING
-  | INTEGER
-  | NIL
+program		:	expr
+		;
 
-  | variable
+expr		:	STRING
+  		|	INTEGER
+  		|	NIL
+  		|	variable
+  		|	negation
+  		|	assignment
+		|	INT_LIT
+		|	STRING_LIT
+		|	seqExp
+		|	callExp
+		|	infixExp
+		|	arrayCreate
+		|	recCreate
+		|	if
+		|	while
+		|	for
+		|	BREAK
+		|	letExp
+		;
 
-  | negation
+variable	:	ID            // my_Var
+		|	index         // my_var[i]
+		|	sub_variable  // my_var.sub_var
+		;
 
-  |	assignment
+index		: 	variable ‘[‘ exp ‘]’
+  		;
 
-	|	INT_LIT
-	|	STRING_LIT
-	|	seqExp
-	|	callExp
-	|	infixExp
-	|	arrayCreate
-	|	recCreate
-	|	if
-	|	while
-	|	for
-	|	BREAK
-	|	letExp
-	;
+sub_variable	: 	variable ‘.’ ID
+  		;
 
+negation	:	'-' NUMBER
+  		;
 
-variable
-  :	ID            // my_Var
-	|	index         // my_var[i]
-	|	sub_variable  // my_var.sub_var
-	;
+dec		:	tyDec
+		|	declararion
+		|	function
+		;
 
-index
-  : variable ‘[‘ exp ‘]’
-  ;
+tyDec		:	‘type’ VAR_TYPE ‘=’ ty
+		;
 
-sub_variable
-  : variable ‘.’ ID
-  ;
+ty		:	VAR_TYPE
+		|	arrayTy
+		|	recTy
+		;
 
+arrayTy		:	‘array of‘ VAR_TYPE
+		;
 
-negation
-  : '-' NUMBER
-  ;
+recTy		:	‘{‘ fieldDec* ‘}’
+		;
 
+fieldDec	:	ID ‘:’ VAR_TYPE
+		;
 
-dec
-  : tyDec
-	|	declararion
-	|	function
-	;
+function	: 	FUNCTION ID PARAMS EQUAL exp
+		|	FUNCTION ID PARAMS ’:’ VAR_TYPE EQUAL exp
+		;
 
+declararion	:	VAR ID ‘:=’ exp
+		|	VAR ID ‘:’ VAR_TYPE ‘:=’ exp
+		;
 
-tyDec :	‘type’ VAR_TYPE ‘=’ ty ;
+seqExp		: 	‘(‘ exp* ‘)’
+  		;
 
-ty
-  :	VAR_TYPE
-	|	arrayTy
-	|	recTy
-	;
+callExp		: 	ID ‘(‘ exp* ‘)’
+  		;
 
-arrayTy :	‘array of‘ VAR_TYPE ;
+infixExp	: 	exp INFIX_OP exp
+  		;
 
-recTy :	‘{‘ fieldDec* ‘}’ ;
+// Working
 
-fieldDec :	ID ‘:’ VAR_TYPE ;
+op		:	exp BINARY_OP exp
+		;
 
-function
-  : FUNCTION ID PARAMS EQUAL exp
-	| FUNCTION ID PARAMS ’:’ VAR_TYPE EQUAL exp
-	;
+// Working
 
-declararion
-  :	VAR ID ‘:=’ exp
-	|	VAR ID ‘:’ VAR_TYPE ‘:=’ exp
-	;
+arrayCreate	: 	VAR_TYPE ‘[‘ exp ‘] of’ exp
+  		;
 
+recCreate	: 	VAR_TYPE ‘{‘ fieldCreate* ‘}’
+  		;
 
+fieldCreate	: 	ID ‘=’ exp
+  		;
 
-seqExp
-  : ‘(‘ exp* ‘)’
-  ;
+assignment	: 	variable ‘:=’ exp
+  		;
 
+if		: 	‘if’ exp ‘then’ exp (‘else’ exp)?
+  		;
 
-callExp
-  : ID ‘(‘ exp* ‘)’
-  ;
+while		: 	‘while’ exp ‘do’ exp
+  		;
 
-infixExp
-  : exp INFIX_OP exp
-  ;
+for		: 	‘for’ ID ‘:=’ exp ‘to’ exp ‘do’ exp
+  		;
 
-arrayCreate
-  : VAR_TYPE ‘[‘ exp ‘] of’ exp
-  ;
+letExp		: 	‘let’ dec+ ‘in’ exp* ‘end’
+		;
 
-recCreate
-  : VAR_TYPE ‘{‘ fieldCreate* ‘}’
-  ;
+@members {
 
-fieldCreate
-  : ID ‘=’ exp
-  ;
+	#include "TigerLexer.h"
 
-assignment
-  : variable ‘:=’ exp
-  ;
+   	int main(int argc, char * argv[])
+   	{
+      		pANTLR3_INPUT_STREAM           input;
+      		pTigerLexer               lex;
+      		pANTLR3_COMMON_TOKEN_STREAM    tokens;
+      		pTigerParser              parser;
 
-if
-  : ‘if’ exp ‘then’ exp (‘else’ exp)?
-  ;
+      		input  = antlr3AsciiFileStreamNew          ((pANTLR3_UINT8)argv[1]);
+      		lex    = TigerLexerNew                (input);
+      		tokens = antlr3CommonTokenStreamSourceNew  (ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
+      		parser = TigerParserNew               (tokens);
 
-while
-  : ‘while’ exp ‘do’ exp
-  ;
+      		parser  ->expr(parser);
 
-for
-  : ‘for’ ID ‘:=’ exp ‘to’ exp ‘do’ exp
-  ;
+      		// Must manually clean up
+      		//
+      		parser ->free(parser);
+      		tokens ->free(tokens);
+      		lex    ->free(lex);
+      		input  ->close(input);
 
-letExp
-  : ‘let’ dec+ ‘in’ exp* ‘en
-  ’
-
-
-
-
-  @members {
-
-   #include "TigerLexer.h"
-
-   int main(int argc, char * argv[])
-   {
-
-      pANTLR3_INPUT_STREAM           input;
-      pTigerLexer               lex;
-      pANTLR3_COMMON_TOKEN_STREAM    tokens;
-      pTigerParser              parser;
-
-      input  = antlr3AsciiFileStreamNew          ((pANTLR3_UINT8)argv[1]);
-      lex    = TigerLexerNew                (input);
-      tokens = antlr3CommonTokenStreamSourceNew  (ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
-      parser = TigerParserNew               (tokens);
-
-      parser  ->expr(parser);
-
-      // Must manually clean up
-      //
-      parser ->free(parser);
-      tokens ->free(tokens);
-      lex    ->free(lex);
-      input  ->close(input);
-
-      return 0;
-   }
-
-  }
+      		return 0;
+   	}
+}
