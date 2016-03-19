@@ -4,5 +4,5 @@ compile:
 	antlr3 Tiger.g
 
 test: compile
-	javac TLexer.java TParser.java Test.java
+	javac TigerLexer.c TigerParser.c Test.java
 	java Test
