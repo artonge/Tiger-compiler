@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/installer.failurerequests
+in main() end\n

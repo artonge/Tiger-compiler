@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/System
+in main() end\n

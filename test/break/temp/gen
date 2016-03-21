@@ -1,0 +1,32 @@
+#!/bin/bash
+
+base='/* break dans un'
+c1=", apres instruction */"
+c2=", sans instruction avant */"
+
+com=(
+"$base <for> $c1",
+"$base <for> $c2",
+"$base <while> $c1",
+"$base <while> $c2",
+"$base <if then> $c1",
+"$base <if then> $c2",
+"$base <if then else> $c1",
+"$base <if then else> $c2"
+)
+
+begin="let\nfunction main() =\n"
+end="in main() end\n"
+
+it=0
+
+for i in $com
+do
+	nomFichier="break$it"
+	touch $nomFichier
+	echo $begin > $nomFichier
+	echo $i >> $nomFichier
+	echo $end >> $nomFichier
+	((it++))
+done
+exit 0

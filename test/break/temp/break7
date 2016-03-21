@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/cores
+in main() end\n

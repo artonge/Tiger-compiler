@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/bin
+in main() end\n
