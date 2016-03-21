@@ -1,0 +1,15 @@
+let
+	var i := 0
+	var j := 0
+	S := "Ok"
+	function test(s : string, i : int) : int =
+		if i = 0 then
+			print(s)
+			1
+		else
+			0
+in
+	j := test(s,i)
+	print(j)
+end
+ 
