@@ -2,50 +2,43 @@ grammar Tiger;
 
 options {
   language = C;
+  k = 1;
   output = AST;
 }
 
 
 
 tokens {
-    PARAMS;
-    PARAM;
-    FUNC;
-    FUNC_CALL;
-    WHILE;
-    IF;
-    FOR;
-    AND;
-    OR;
-    MULT;
-    ADD;
-    VAR;
-    LET;
-    ASSIGNE;
-    COMP;
+  PARAMS;
+  PARAM;
+  FUNC;
+  FUNC_CALL;
+  WHILE;
+  IF;
+  FOR;
+  AND;
+  OR;
+  MULT;
+  ADD;
+  VAR;
+  LET;
+  ASSIGNE;
+  COMP;
+  VARIABLE;
 }
 
 
-fragment
-DIGIT    : '0'..'9' ;
-fragment
-LETTER   : 'a'..'z'|'A'..'Z' ;
-fragment
-ESC_WS   : ' '|'\n'|'\t'|'\r' ;
-fragment
-ESC_CHAR : '\\' ('a'|'b'|'f'|'v'|'n'|'r'|'t'|'\\'|'\"') ;
 
-
-WHITESPACE : (ESC_WS|'\u000C')+ { $channel = HIDDEN; } ;
+WHITESPACE : (' '|'\n'|'\t'|'\r'|'\u000C')+ { $channel = HIDDEN; } ;
 COMMENT    : '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;} ;
 
 fragment
-ID         : LETTER (LETTER|DIGIT|'_')* ;
+LETTER     : 'A'..'Z'|'a'..'z';
 
-fragment
-STRING     :  '"' ( ESC_CHAR | ~('\\'|'"') )* '"' ;
-fragment
-INTEGER    : DIGIT+ ;
+ID         : LETTER (LETTER|INTEGER|'_')* ;
+
+STRING     :  '"' LETTER* '"' ;
+INTEGER    : '0'..'9'+ ;
 
 
 program : instructions ;
@@ -66,7 +59,7 @@ param
 
 
 declararion
-  : 'var' name=ID (':' type=ID)? ':=' value                                     -> ^(VAR $name $type? value)
+  : 'var' name=ID (':' type=ID)? ':=' expr                                      -> ^(VAR $name $type? expr)
   | 'function' name=ID params (':' return_type=ID)? '=' instructions            -> ^(FUNC $name params $return_type? instructions)
   ;
 
@@ -74,86 +67,52 @@ declararion
 
 
 instruction
-  : 'let' declararion+ 'in' instructions* 'end'                                 -> ^(LET declararion+ instructions*)
+  : 'let' declararion+ 'in' instructions 'end'                                  -> ^(LET declararion+ instructions)
 
-  | ID ':=' value                                                               -> ^(ASSIGNE ID value)
+  | expr
 
-  | 'if' value 'then' i1=instructions
-    (options {greedy=true;} : 'else' i2=instructions)?                          -> ^(IF value $i1 $i2?)
-  | 'while' value 'do' instructions                                             -> ^(WHILE value instructions)
-  | 'for' ID ':=' v1=value 'to' v2=value 'do' instructions                      -> ^(FOR ID $v1 $v2 instructions)
+  | 'if' expr 'then' i1=instructions
+    (options {greedy=true;} : 'else' i2=instructions)?                          -> ^(IF expr $i1 $i2?)
+  | 'while' expr 'do' instructions                                              -> ^(WHILE expr instructions)
+  | 'for' ID ':=' v1=expr 'to' v2=expr 'do' instructions                        -> ^(FOR ID $v1 $v2 instructions)
   | 'break'
-
-  | value
   ;
 
 
 
 atom
-  : ID
-
-  | name=ID '(' (p1=ID (',' p2=ID)*)? ')' ';'                                   -> ^(FUNC_CALL $name ($p1 $p2*)?)
+  : ID after_ID?                                                                -> ^(VARIABLE ID after_ID)
 
   | STRING
   | INTEGER
   | 'nil'
   ;
 
+after_ID
+  : ':='                                                                        -> ^(ASSIGNE)
+  | '(' (p1=ID (',' p2=ID)*)? ')'                                               -> ^(FUNC_CALL ($p1 $p2*)?)
+  ;
 
 
-value
-  : or
+expr
+  : atom or*
   ;
 
 or
-  : a1=and ('|' a2=and)*                                                        -> ^(OR $a1 $a2*)
+  : '|' and                                                                     -> ^(OR and*)
   ;
 
 and
-  : c1=comparison ('&' c2=comparison)*                                          -> ^(AND $c1 $c2*)
+  : ('&' comparison)*                                                           -> ^(AND comparison*)
   ;
 
 comparison
-  : a1=addition (('='|'<>'|'<'|'>'|'<='|'>=') a2=addition)?                     -> ^(COMP $a1 $a2*)
+  : (('='|'<>'|'<'|'>'|'<='|'>=') addition)*                                    -> ^(COMP addition*)
   ;
 
 addition
-  : m1=multiplication (('+'|'-') m2=multiplication)*                            -> ^(ADD $m1 $m2*)
+  : (('+'|'-') multiplication)*                                                 -> ^(ADD multiplication*)
   ;
 multiplication
-  : a1=atom (('*'|'/') a2=atom)*                                                -> ^(MULT $a1 $a2*)
+  : (('*'|'/') atom)*                                                           -> ^(MULT atom)
   ;
-
-
-
-/*@members
-{
-
- #include "SimpleCalcLexer.h"
-
- int main(int argc, char * argv[])
- {
-
-    pANTLR3_INPUT_STREAM           input;
-    pSimpleCalcLexer               lex;
-    pANTLR3_COMMON_TOKEN_STREAM    tokens;
-    pSimpleCalcParser              parser;
-
-    input  = antlr3AsciiFileStreamNew          ((pANTLR3_UINT8)argv[1]);
-    lex    = SimpleCalcLexerNew                (input);
-    tokens = antlr3CommonTokenStreamSourceNew  (ANTLR3_SIZE_HINT, TOKENSOURCE(lex));
-    parser = SimpleCalcParserNew               (tokens);
-
-    parser  ->expr(parser);
-
-    // Must manually clean up
-    //
-    parser ->free(parser);
-    tokens ->free(tokens);
-    lex    ->free(lex);
-    input  ->close(input);
-
-    return 0;
- }
-
-}*/
