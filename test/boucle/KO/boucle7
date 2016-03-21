@@ -1,0 +1,7 @@
+/* boucle avec oubli du <to> */
+
+let
+	function main() =
+		for i := 0 3 do
+			print("test")
+in main() end

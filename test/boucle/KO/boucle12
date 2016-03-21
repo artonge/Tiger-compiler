@@ -1,0 +1,7 @@
+/* boucle avec oubli de l'identifiant du compteur */
+
+let
+	function main() =
+		for := 0 to 3 do
+			print("test")
+in main() end

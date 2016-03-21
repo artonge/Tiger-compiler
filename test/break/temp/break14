@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/sbin
+in main() end\n

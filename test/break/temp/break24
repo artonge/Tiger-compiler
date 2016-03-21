@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+instruction
+in main() end\n

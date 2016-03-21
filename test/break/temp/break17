@@ -1,0 +1,3 @@
+let\nfunction main() =\n
+/var
+in main() end\n
