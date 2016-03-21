@@ -1,7 +1,6 @@
 grammar Tiger;
 
 options {
-  language = C;
   k = 1;
   output = AST;
 }
@@ -90,7 +89,7 @@ atom
 
 after_ID
   : ':='                                                                        -> ^(ASSIGNE)
-  | '(' (p1=ID (',' p2=ID)*)? ')'                                               -> ^(FUNC_CALL ($p1 $p2*)?)
+  | '(' (p1=atom (',' p2=atom)*)? ')'                                               -> ^(FUNC_CALL ($p1 $p2*)?)
   ;
 
 
@@ -99,20 +98,20 @@ expr
   ;
 
 or
-  : '|' and                                                                     -> ^(OR and*)
+  : '|'? and                                                                    -> ^(OR and*)
   ;
 
 and
-  : ('&' comparison)*                                                           -> ^(AND comparison*)
+  : '&'? comparison                                                             -> ^(AND comparison*)
   ;
 
 comparison
-  : (('='|'<>'|'<'|'>'|'<='|'>=') addition)*                                    -> ^(COMP addition*)
+  : ('='|'<>'|'<'|'>'|'<='|'>=')? addition                                      -> ^(COMP addition*)
   ;
 
 addition
-  : (('+'|'-') multiplication)*                                                 -> ^(ADD multiplication*)
+  : ('+'|'-')? multiplication                                                    -> ^(ADD multiplication*)
   ;
 multiplication
-  : (('*'|'/') atom)*                                                           -> ^(MULT atom)
+  : ('*'|'/')? atom                                                              -> ^(MULT atom)
   ;
