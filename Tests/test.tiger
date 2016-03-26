@@ -1,0 +1,19 @@
+/* <break> dans un <while>, apres instruction */
+
+let
+	function main(test:int, ok :string, deux: char) = (
+    while i <> a+a do print("test", a, 2);
+
+    if i < 4 then
+      print("ok")
+    else
+      print("ok")
+  )
+
+  var a := 1+4*56/9*(3+a)+34
+
+in
+
+for i:=0 to func(89) do main(test, 2, "ok")
+
+end
