@@ -62,7 +62,7 @@ params
   ;
 param
   : id1=ID ':' id2=ID                                                           -> ^(PARAM $id1 $id2)
-  ;
+  ;	
 
 
 declararion
