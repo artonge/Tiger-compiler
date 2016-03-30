@@ -1,0 +1,11 @@
+/* break dans un <if then else>, apres instruction */
+
+let
+	function main() =
+		int i := 3
+		if i=3 then
+			i := 2
+		else
+			printf("test")
+			break
+in main() end

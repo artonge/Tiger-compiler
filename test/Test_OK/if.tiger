@@ -1,0 +1,8 @@
+let
+	 j := 10
+in
+	if j=10 then
+		print(j);
+	else
+		print("test");
+end

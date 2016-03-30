@@ -1,0 +1,8 @@
+/* break dans un <for>, apres instruction */
+
+let
+	function main() =
+		for i := 0 to 3 do
+			printf("test")
+			break
+in main() end

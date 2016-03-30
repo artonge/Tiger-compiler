@@ -1,0 +1,8 @@
+/* break dans un <if then>, sans instruction avant */
+
+let
+	function main() =
+		int i := 3
+		if i=3 then
+			break
+in main() end

@@ -1,0 +1,9 @@
+/* break dans un <while>, apres instruction */
+
+let
+	function main() =
+		int i := 3
+		while i > 0 do
+			printf("test")
+			break
+in main() end

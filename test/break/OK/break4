@@ -1,0 +1,9 @@
+/* break dans un <if then>, apres instruction */
+
+let
+	function main() =
+		int i := 3
+		if i=3 then
+			printf("test")
+			break
+in main() end
