@@ -1,8 +1,4 @@
-all: test
+all: grammar
 
-compile:
-	antlr3 Tiger.g
-
-test: compile
-	javac TigerLexer.c TigerParser.c Test.java
-	java Test
+grammar:
+	antlr3 Tiger.g -o output
