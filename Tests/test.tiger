@@ -8,7 +8,7 @@ let
       print("ok")
     else (
       print("ok");
-			x = 3
+			x := -1+1-1
 		)
   )
 
@@ -16,6 +16,6 @@ let
 
 in
 
-for i:=0 to func(89) do main(test, 2, "ok")
+for i:=0 to func(89) do main(test, 2+1, "ok")
 
 end
