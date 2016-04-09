@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for f in $(ls *.tiger)
+do
+	n=${f:9}
+	m=$(echo $n | tr -d .tiger)
+	((m+=2))
+	mv $f break_OK_$m.tiger
+done
