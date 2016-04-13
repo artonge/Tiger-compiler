@@ -4,6 +4,6 @@ let
 	function main() =
 		int i := 3
 		if i=3 then
-			printf("test")
+			print("test")
 			break
 in main() end

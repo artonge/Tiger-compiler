@@ -6,6 +6,6 @@ let
 		if i=3 then
 			i := 2
 		else
-			printf("test")
+			print("test")
 			break
 in main() end
