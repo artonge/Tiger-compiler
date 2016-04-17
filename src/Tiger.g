@@ -84,7 +84,7 @@ multDivExpr : atom        ( multDiv^        atom)* ;
 
  addMin : '+'|'-' ;
 multDiv : '*'|'/' ;
-   comp : '<'|'>'|'=<'|'>='|'='|'<>' ;
+   comp : '<'|'>'|'<='|'>='|'='|'<>' ;
     and : '&' ;
     or  : '|' ;
 assign  : ':=' ;
