@@ -20,13 +20,12 @@ SOURCES = ./src/main.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
-
 FLAGS =	-pedantic \
-        -pedantic-errors \
-				# -Wall
-				# -ansi
+        -pedantic-errors
 
-PATH_EXTEND = -I /usr/local/include/
+PATH_EXTEND = -I /usr/local/include/ \
+							-L /usr/local/opt/libantlr3c/lib \
+							-l antlr3c
 OUTPUT = -o ./main.out
 
 
@@ -34,6 +33,8 @@ OUTPUT = -o ./main.out
 ######## COMMANDES ########
 ###########################
 all : clean grammar c exec ## clean grammar c exec
+
+com_exec : c exec ## Compile C files and launch executable
 
 grammar : ## Compile the grammar using antlr3
 	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
@@ -43,9 +44,9 @@ c : ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT)
 
-exec : ## Execute the program
+exec : ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
-	./main.out
+	./main.out ./Tests/test.tiger
 
 clean : ## Clean the project
 	$(info ${\n} ${line} CLEAN ${line} ${\n})

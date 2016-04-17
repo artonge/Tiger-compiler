@@ -2,4 +2,24 @@
 Un super projet de compilation pour telecom nancy
 
 
-`make` --> build grammar and lexer/parser files
+`make` pour afficher les options de compilations
+
+[DOC](http://www.antlr3.org/api/C/main.html)
+
+[o] - TODO <br>
+[-] - DOING <br>
+[+] - DONE
+
+[-] - `artonge` - `checkVarDeclaration(tree);` <br>
+[o] - `<nom>` - `checkFuncDeclaration(tree);` <br>
+[o] - `<nom>` - `checkParam(tree);` <br>
+[o] - `<nom>` - `checkAssigne(tree);` <br>
+[o] - `<nom>` - `checkOr(tree);` <br>
+[o] - `<nom>` - `checkAnd(tree);` <br>
+[o] - `<nom>` - `checkAdd(tree);` <br>
+[o] - `<nom>` - `checkMult(tree);` <br>
+[o] - `<nom>` - `checkID(tree);` <br>
+[o] - `<nom>` - `checkArgs(tree);` <br>
+[o] - `<nom>` - `checkInt(tree);` <br>
+[o] - `<nom>` - `checkStr(tree);` <br>
+[o] - `<nom>` - `checkNeg(tree);` <br>

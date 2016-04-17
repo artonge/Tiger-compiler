@@ -7,9 +7,9 @@ options {
 
 tokens {
   INSTRUCTIONS; LET; WHILE; FOR; IF;
-  DECLARATION; VAR; FUNC; PARAMS; PARAM; TYPE;
+  DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM; TYPE;
   EXPR; ASSIGNE; OR; AND; COMP; MULT; ADD;
-  VARIABLE; FUNC_CALL; ARGS; STR; INT; NEG; NIL;
+  ARGS; STR; INT; NEG; NIL;
 }
 
 
@@ -33,9 +33,9 @@ instructions
 
 
 // DECLARATIONS
-declararion
-  : 'var' name=ID (':' type=ID)? ':=' expr                                      -> ^(VAR $name $type? expr)
-  | 'function' name=ID params (':' return_type=ID)? '=' instructions            -> ^(FUNC $name params ^(TYPE $return_type?) instructions)
+declaration
+  : 'var' name=ID (':' type=ID)? ':=' expr                                      -> ^(VAR_DECLARATION $name $type? expr)
+  | 'function' name=ID params (':' return_type=ID)? '=' instructions            -> ^(FUNC_DECLARATION $name params ^(TYPE $return_type?) instructions)
   ;
 
 params
@@ -48,7 +48,7 @@ param
 
 // INSTRUCTIONS
 instruction
-  : 'let' declararion+ 'in' instructions 'end'                                  -> ^(LET ^(DECLARATION declararion+) instructions)
+  : 'let' declaration+ 'in' instructions 'end'                                  -> ^(LET ^(DECLARATIONS declaration+) instructions)
 
   | expr
 
