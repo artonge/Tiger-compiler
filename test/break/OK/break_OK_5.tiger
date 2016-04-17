@@ -1,4 +1,4 @@
-/* break dans un <if then>, sans instruction avant */
+/* <break> dans un <if then>, sans instruction avant */
 
 let
 	function main() =

@@ -1,7 +1,0 @@
-/* boucle avec affectation de chaine pour le compteur  */
-
-let
-	function main() =
-		for i := "3" to 10 do
-			print("test")
-in main() end

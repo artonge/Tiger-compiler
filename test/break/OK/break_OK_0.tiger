@@ -1,4 +1,4 @@
-/* break dans un <for>, apres instruction */
+/* <break> dans un <for>, apres instruction */
 
 let
 	function main() =

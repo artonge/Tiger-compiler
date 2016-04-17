@@ -1,9 +1,0 @@
-/* <break> dans un <while>, apres instruction */
-
-let
-	function main() =
-		i := 1
-		while i <> 0 do
-			print("test")
-			break
-in main() end

@@ -1,4 +1,4 @@
-/* break dans un <while>, apres instruction */
+/* <break> dans un <while>, apres instruction */
 
 let
 	function main() =
