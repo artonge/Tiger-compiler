@@ -1,0 +1,7 @@
+/* <let> avec declaration vide */
+
+let
+
+in
+	print("test")
+end

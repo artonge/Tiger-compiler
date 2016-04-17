@@ -1,0 +1,8 @@
+/* comparaison triple de chaines */
+
+let
+	var s := "test"
+
+	function main() =
+		if s > "a" & s < "z" & s = "test" then print("OK")
+in main() end

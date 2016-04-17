@@ -1,0 +1,7 @@
+/* declaration de caractere special */
+
+let
+	var \ := 1
+in
+	printi(\)
+end

@@ -1,0 +1,179 @@
+###
+/* declaration d'entier simple */
+let
+	var i := 1
+in
+	printi(i)
+end
+###
+/* declarations d'entier avec reutilisation de 2 autres entiers */
+
+let
+	var j := 1
+	var k := 1
+	var i := j+k
+in
+	printi(i)
+end
+###
+/* declarations d'entier avec reutilisation de 3 autres entiers */
+
+let
+	var j := 1
+	var k := 1
+	var l := 1
+	var i := j+k+l
+in
+	printi(i)
+end
+###
+/* declaration simple d'entier avec type */
+
+let
+	var i : int := 1
+in
+	printi(i)
+end
+###
+/* declarations d'entier avec types et reutilisation de 2 autres entiers */
+
+let
+	var j : int := 1
+	var k : int := 1
+	var i : int := j+k
+in
+	printi(i)
+end
+###
+/* declarations d'entier avec types et reutilisation de 3 autres entiers */
+
+let
+	var j : int := 1
+	var k : int := 1
+	var l : int := 1
+	var i : int := j+k+l
+in
+	printi(i)
+end
+###
+/* declaration de chaine simple */
+
+let
+	var s := "s"
+in
+	print(s)
+end
+###
+/* declarations de chaine avec reutilisation de 2 autres chaines */
+
+let
+	var t := "test"
+	var u := "test"
+	var s := t+u
+in
+	print(s)
+end
+###
+/* declarations de chaine avec reutilisation de 3 autres chaines */
+
+let
+	var t := "test"
+	var u := "test"
+	var v := "test"
+	var s := t+u+v
+in
+	print(s)
+end
+###
+/* declaration de chaine avec type */
+
+let
+	var s : string := "test"
+in
+	print(s)
+end
+###
+/* declarations de chaine avec types et reutilisation de 2 autres chaines */
+
+let
+	var t : string := "test"
+	var u : string := "test"
+	var s : string := t+u
+in
+	print(s)
+end
+###
+/* declarations de chaine avec types et reutilisation de 3 autres chaines */
+
+let
+	var t : string := "test"
+	var u : string := "test"
+	var v : string := "test"
+	var s : string := t+u+v
+in
+	print(s)
+end
+###
+/* lettre minuscule comme nom de variable */
+
+let
+	var v := 1
+
+	function main() = printi(v)
+in main() end
+###
+/* lettre majuscule comme nom de variable */
+
+let
+	var V := 1
+
+	function main() = printi(V)
+in main() end
+###
+/* lettre minuscule et chiffre dans nom de variable */
+
+let
+	var v1 := 1
+
+	function main() = printi(v1)
+in main() end
+###
+/* lettre majuscule et chiffre dans nom de variable */
+
+let
+	var V1 := 1
+
+	function main() = printi(V1)
+in main() end
+###
+/* lettre minuscule et <_> dans nom de variable */
+
+let
+	var v_ := 1
+
+	function main() = printi(v_)
+in main() end
+###
+/* lettre majuscule et <_> dans nom de variable */
+
+let
+	var V_ := 1
+
+	function main() = printi(V_)
+in main() end
+###
+/* lettre minuscule, chiffre et <_> dans nom de variable */
+
+let
+	var v1_ := 1
+
+	function main() = printi(v1_)
+in main() end
+###
+/* lettre majuscule, chiffre et <_> dans nom de variable */
+
+let
+	var V1_ := 1
+
+	function main() = printi(V1_)
+in main() end

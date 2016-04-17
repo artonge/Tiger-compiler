@@ -1,0 +1,7 @@
+/* <_> comme nom de variable */
+
+let
+	var _ := 1
+
+	function main() = printi(_)
+in main() end

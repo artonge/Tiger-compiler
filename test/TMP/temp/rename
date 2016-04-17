@@ -1,9 +1,0 @@
-#!/bin/bash
-
-for f in $(ls *.tiger)
-do
-	s=${f:10}
-	t=${s/.tiger/}
-	n=for_KO_$t.tiger
-	mv $f $n
-done

@@ -1,0 +1,7 @@
+/* oubli de <*> en fin de commentaire */
+
+/* commentaire /
+
+let
+	function main() = print("test")
+in main() end

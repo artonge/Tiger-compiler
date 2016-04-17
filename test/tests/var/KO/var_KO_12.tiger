@@ -1,0 +1,7 @@
+/* affectation d'operation logique sur chaines */
+
+let
+	var s := "u" | "v"
+in
+	print(s)
+end

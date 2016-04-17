@@ -1,0 +1,3 @@
+/* addition de 2 multiplications parenthesees */
+
+let function main() = printi((1*2)+(2*3)) in main() end

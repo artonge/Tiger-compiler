@@ -1,0 +1,5 @@
+/* addition avec operateur mal ecrit */
+
+let
+	function main() = printi(1++2)
+in main() end

@@ -1,0 +1,5 @@
+/* multiplication suivie de division */
+
+let
+	function main() = printi(1*2/3)
+in main() end

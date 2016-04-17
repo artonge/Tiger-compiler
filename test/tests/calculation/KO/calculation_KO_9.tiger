@@ -1,0 +1,3 @@
+/* calcul a 4 termes avec oubli de parenthese gauche */
+
+let function main() = printi(1+2)*(2+3)) in main() end

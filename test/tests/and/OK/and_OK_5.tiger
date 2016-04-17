@@ -1,0 +1,6 @@
+/* <&> avec des chaines */
+
+let
+	function main() =
+		if "test" & "test" then print("test")
+in main() end

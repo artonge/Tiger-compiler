@@ -1,0 +1,5 @@
+/* fonction avec chaine directement en parametre */
+
+let
+	function main("test") = print("test")
+in main() end

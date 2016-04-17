@@ -1,0 +1,6 @@
+/* declaration d'entier simple */
+let
+	var i := 1
+in
+	printi(i)
+end

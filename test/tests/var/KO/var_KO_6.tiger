@@ -1,0 +1,8 @@
+/* double-declaration avec valeurs egales */
+
+let
+	var i := 1
+	var i := 1
+in
+	printi(i)
+end

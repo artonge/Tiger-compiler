@@ -1,0 +1,8 @@
+/* 1 saut de ligne entre <var> et <i> */
+
+let
+	var
+	i := 1
+
+	function main() = printi(i)
+in main() end

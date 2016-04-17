@@ -1,0 +1,11 @@
+/* double-imbrication de <if then> */
+
+let
+	var i := 0
+	var j := 0
+
+	function main() =
+		if i < 1 then
+			if j < 1 then
+				print("test")
+in main() end

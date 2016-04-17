@@ -1,0 +1,7 @@
+/* <for> simple decroissant */
+
+let
+	function main() =
+		for i := 10 to 0 do
+			print("test")
+in main() end

@@ -1,0 +1,7 @@
+/* declaration de chaine avec type sans affectation */
+
+let
+	var s : string
+in
+	print(s)
+end

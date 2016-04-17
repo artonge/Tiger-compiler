@@ -1,0 +1,5 @@
+/* fonction simple, avec declaration du type de retour <int> et instruction de retour */
+
+let
+	function main() : int = 1
+in main() end

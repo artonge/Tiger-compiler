@@ -1,0 +1,8 @@
+/* condition avec 2 <|> et 1 <&> */
+
+let
+	var v := 1
+
+	function main() =
+		if v < 0 | v/2 > 0 & v < 1 | v = 1 then print("OK")
+in main() end

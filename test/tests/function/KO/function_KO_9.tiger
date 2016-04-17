@@ -1,0 +1,5 @@
+/* <:> pour type de fonction present mais pas de type */
+
+let
+	function main(): = 0
+in main() end

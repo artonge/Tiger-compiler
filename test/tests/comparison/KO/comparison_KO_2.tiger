@@ -1,0 +1,8 @@
+/* comparaison avec oubli d'operateur droit */
+
+let
+	var i := 0
+
+	function main() =
+		if i = then print("OK")
+in main() end

@@ -1,0 +1,7 @@
+/* affectation de chaine sans declaration */
+
+let
+	s := "test"
+in
+	print(s)
+end

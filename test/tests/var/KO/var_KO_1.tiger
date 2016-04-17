@@ -1,0 +1,7 @@
+/* declaration d'entier avec type sans affectation */
+
+let
+	var i : int
+in
+	printi(i)
+end

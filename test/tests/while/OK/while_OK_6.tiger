@@ -1,0 +1,7 @@
+/* <while> avec condition entiere */
+
+let
+	function main()() =
+		while 1 do
+			print("test")
+in main() end

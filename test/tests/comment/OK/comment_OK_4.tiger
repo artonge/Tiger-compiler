@@ -1,0 +1,9 @@
+/* 2 commentaires, sans instruction avant, sur 1 ligne */
+
+/* commentaire 1 */
+
+/* commentaire 2 */
+
+let
+	function main() = print("test")
+in main() end

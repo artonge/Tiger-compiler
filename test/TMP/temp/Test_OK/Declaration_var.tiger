@@ -1,9 +1,0 @@
-let
-	type foo = {foo : int}
-  	var n : foo := nil
-	var j := 1
-	var reel := 2.2  
-	var s := "test"
-in
-	print(s);
-end

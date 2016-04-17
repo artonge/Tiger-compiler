@@ -1,0 +1,5 @@
+/* fonction simple, avec declaration du type de retour <string> et instruction de retour */
+
+let
+	function main() : string = "test"
+in main() end

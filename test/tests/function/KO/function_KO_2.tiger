@@ -1,0 +1,5 @@
+/* fonction sans identifiant */
+
+let
+	function () = print("test")
+in () end

@@ -1,0 +1,5 @@
+/* addition suivie de soustraction, avec un terme ayant moins unaire */
+
+let
+	function main() = printi(-1+2-3)
+in main() end

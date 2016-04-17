@@ -1,0 +1,5 @@
+/* oubli de <function> */
+
+let
+	main() = print("test")
+in main() end

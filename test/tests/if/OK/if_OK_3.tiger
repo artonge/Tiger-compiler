@@ -1,0 +1,9 @@
+/* <if then> avec simple condition */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+			print("test")
+in main() end

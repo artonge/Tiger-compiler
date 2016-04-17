@@ -1,0 +1,7 @@
+/* <let> avec inversion de declaration et instruction */
+
+let
+	printi(i)
+in
+	var i := 0
+end

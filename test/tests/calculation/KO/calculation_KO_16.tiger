@@ -1,0 +1,3 @@
+/* <;> sans instruction avant */
+
+let function main() = ;

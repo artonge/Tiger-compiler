@@ -1,0 +1,7 @@
+/* <for> avec oubli du <do> */
+
+let
+	function main() =
+		for i := 0 to 3
+			print("test")
+in main() end

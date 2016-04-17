@@ -1,0 +1,9 @@
+/* <if then> avec oubli du <then> */
+
+let
+	var i := 0
+
+	function main() =
+		if i = 0
+			print("test")
+in main() end

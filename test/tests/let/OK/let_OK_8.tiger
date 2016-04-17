@@ -1,0 +1,15 @@
+/* <let> avec triple-imbrication */
+
+let
+	var i := 0
+in
+	let
+		var j := 0
+	in
+		let
+			var k := 0
+		in
+			printi(i+j+k)
+		end
+	end
+end

@@ -1,0 +1,10 @@
+/* <while> avec double-condition */
+
+let
+	var i := 0
+
+	function main()() =
+		while i <= 5 & i >= 0 do
+			printi(i);
+			i := i+1
+in main() end
