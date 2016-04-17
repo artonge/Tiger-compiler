@@ -1,0 +1,50 @@
+###
+/* condition avec 1 <&> */
+
+let
+	var v := 1
+
+	function main() =
+		if v > 0 & v < 3 then print("OK")
+in main() end
+###
+/* condition avec 2 <&> */
+
+let
+	var v := 2
+
+	function main() =
+		if v > 0 & v < 3 & v/2 = 1 then print("OK")
+in main() end
+###
+/* condition avec 3 <&> */
+
+let
+	var v := 2
+
+	function main() =
+		if v > 0 & v < 3 & v/2 = 1 & v-1 = 1 then print("OK")
+in main() end
+###
+/* condition avec 2 <&> et 1 <|> */
+
+let
+	var v := 1
+
+	function main() =
+		if v/2 > 0 & v <> 1 | v < 5 & v = 1 then print("OK")
+in main() end
+###
+/* <&> avec des entiers */
+
+let
+	function main() =
+		if 1 & 1 then print("test")
+in main() end
+###
+/* <&> avec des chaines */
+
+let
+	function main() =
+		if "test" & "test" then print("test")
+in main() end

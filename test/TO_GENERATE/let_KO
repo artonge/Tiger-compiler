@@ -1,0 +1,38 @@
+###
+/* <let> sans declaration */
+
+let
+in
+	print("test")
+end
+###
+/* <let> sans instruction */
+
+let
+	var i := 0
+in
+end
+###
+/* <let> avec inversion de declaration et instruction */
+
+let
+	printi(i)
+in
+	var i := 0
+end
+###
+/* <let> avec declaration vide */
+
+let
+
+in
+	print("test")
+end
+###
+/* <let> avec instruction vide */
+
+let
+	var i := 0
+in
+
+end

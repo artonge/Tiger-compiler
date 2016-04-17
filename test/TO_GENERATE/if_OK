@@ -1,0 +1,122 @@
+###
+/* <if then> avec condition entiere */
+
+let
+	function main()() =
+		if 1 then
+			print("test")
+in main() end
+###
+/* <if then> sans instruction */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+in main() end
+###
+/* <if then> avec ligne vide */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+
+in main() end
+###
+/* <if then> avec simple condition */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+			print("test")
+in main() end
+###
+/* <if then> avec double-condition */
+
+let
+	var i := 0
+	var j := 0
+
+	function main() =
+		if i < 3 & j < 2 then
+			print("test")
+in main() end
+###
+/* <if then> avec triple-condition */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main() =
+		if i < 3 & j < 2 & k < 1 then
+			print("test")
+in main() end
+###
+/* double-imbrication de <if then> */
+
+let
+	var i := 0
+	var j := 0
+
+	function main() =
+		if i < 1 then
+			if j < 1 then
+				print("test")
+in main() end
+###
+/* triple-imbrication de <if then> */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main() =
+		if i < 1 then
+			if j < 1 then
+				if k < 1 then
+					print("test")
+in main() end
+###
+/* double-imbrication de <if then else> */
+
+let
+	var i := 0
+	var j := 0
+
+	function main() =
+		if i < 0 then
+			print("test")
+		else
+			if j < 0 then
+				print("test")
+			else
+				print("test")
+in main() end
+###
+/* triple-imbrication de <if then else> */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main() =
+		if i < 0 then
+			print("test")
+		else
+			if j < 0 then
+				print("test")
+			else
+				if k < 0 then
+					print("test")
+				else
+					print("test")
+in main() end

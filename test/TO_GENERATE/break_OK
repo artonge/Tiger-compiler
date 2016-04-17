@@ -1,0 +1,111 @@
+###
+/* <break> dans un <for>, apres instruction */
+
+let
+	function main() =
+		for i := 0 to 3 do
+			print("test");
+			break
+in main() end
+###
+/* <break> dans un <for>, sans instruction avant */
+
+let
+	function main() =
+		for i := 0 to 3 do
+			break
+in main() end
+###
+/* fonction executant seulement <break> */
+
+let
+	function main() = break
+in main() end
+###
+/* appel de <break>, avec corps de programme contenant <break> */
+
+let
+	break
+in break end
+###
+/* appel de <break>, avec corps de programme ne contenant pas <break> */
+
+let
+	function main() = print("test")
+in break end
+###
+/* <break> dans un <while>, apres instruction */
+
+let
+	var i := 3
+
+	function main() =
+		while i > 0 do
+			print("test");
+			break
+in main() end
+###
+/* <break> dans un <while>, sans instruction avant */
+
+let
+	var i := 3
+
+	function main() =
+		while i > 0 do
+			break
+in main() end
+###
+/* <break> dans un <if then>, apres instruction */
+
+let
+	var i := 3
+
+	function main() =
+		if i=3 then
+			print("test");
+			break
+in main() end
+###
+/* <break> dans un <if then>, sans instruction avant */
+
+let
+	var i := 3
+
+	function main() =
+		if i=3 then
+			break
+in main() end
+###
+/* <break> dans un <if then else>, apres instruction */
+
+let
+	var i := 3
+
+	function main() =
+		if i=3 then
+			i := 2
+		else
+			print("test");
+			break
+in main() end
+###
+/* <break> dans un <if then else>, sans instruction avant */
+
+let
+	var i := 3
+
+	function main() =
+		if i=3 then
+			i := 2
+		else
+			break
+in main() end
+###
+/* <break> seul */
+
+break
+###
+/* <break> seul, apres saut de ligne */
+
+
+break

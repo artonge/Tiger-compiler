@@ -1,0 +1,143 @@
+###
+/* <while> avec iteration croissante */
+
+let
+	var i := 0
+
+	function main()() =
+		while i <= 5 do
+			printi(i);
+			i := i+1
+in main() end
+###
+/* <while> avec iteration decroissante */
+
+let
+	var i := 5
+
+	function main()() =
+		while i >= 0 do
+			printi(i);
+			i := i-1
+in main() end
+###
+/* <while> avec double-condition */
+
+let
+	var i := 0
+
+	function main()() =
+		while i <= 5 & i >= 0 do
+			printi(i);
+			i := i+1
+in main() end
+###
+/* <while> avec triple-condition */
+
+let
+	var i := 5
+
+	function main()() =
+		while i >= 0 & i <= 5 & i < 6 do
+			printi(i);
+			i := i-1
+in main() end
+###
+/* <while> sans instruction */
+
+let
+	var i := 0
+
+	function main()() =
+		while i < 1 do
+in main() end
+###
+/* <while> avec ligne vide */
+
+let
+	var i := 0
+
+	function main()() =
+		while i < 1 do
+
+in main() end
+###
+/* <while> avec condition entiere */
+
+let
+	function main()() =
+		while 1 do
+			print("test")
+in main() end
+###
+/* <while> avec double-imbrication */
+
+let
+	var i := 0
+	var j := 0
+
+	function main()() =
+		while i < 1 do
+			while j < 1 do
+				i := i+1;
+				j := j+1;
+				printi(i+j)
+in main() end
+###
+/* <while> avec triple-imbrication */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main()() =
+		while i < 1 do
+			while j < 1 do
+				while k < 1 do
+					i := i+1;
+					j := j+1;
+					k := k+1;
+					printi(i+j+k)
+in main() end
+###
+/* <while> avec reutilisation de compteur */
+
+let
+	var i := 0
+	var j := 0
+
+	function main()() =
+		while i < 1 do
+			while j < i+1 do
+				i := i+1;
+				j := j+2;
+				printi(i+j)
+in main() end
+###
+/* <while> avec reutilisation de compteurs */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main()() =
+		while i < 1 do
+			while j < i+1 do
+				while k < j+1 do
+					i := i+1;
+					j := j+2;
+					k := k+3;
+					printi(i+j+k)
+in main() end
+###
+/* <while> avec iteration sur une chaine */
+
+let
+	var s := "t"
+
+	function main()() =
+		while s <> "ttt" do
+			s := s+"t"
+in main() end

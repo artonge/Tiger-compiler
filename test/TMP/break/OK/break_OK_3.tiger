@@ -1,8 +1,9 @@
 /* <break> dans un <while>, sans instruction avant */
 
 let
+	var i := 3
+
 	function main() =
-		int i := 3
 		while i > 0 do
 			break
 in main() end

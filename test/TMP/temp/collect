@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for f in $(ls *.tiger)
+do
+	echo "###"
+	cat $f
+done

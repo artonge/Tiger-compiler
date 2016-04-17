@@ -1,0 +1,27 @@
+###
+/* comparaison avec oubli d'operande gauche */
+
+let
+	var i := 0
+
+	function main() =
+		if = 0 then print("OK")
+in main() end
+###
+/* comparaison avec oubli d'operateur */
+
+let
+	var i := 0
+
+	function main() =
+		if i 0 then print("OK")
+in main() end
+###
+/* comparaison avec oubli d'operateur droit */
+
+let
+	var i := 0
+
+	function main() =
+		if i = then print("OK")
+in main() end

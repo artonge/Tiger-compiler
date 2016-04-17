@@ -1,0 +1,16 @@
+###
+/* <break> comme condition dans <if> */
+
+let
+	function main() =
+		if break then
+			print("test")
+in main() end
+###
+/* <break> comme condition dans <while> */
+
+let
+	function main() =
+		while break then
+			print("test")
+in main() end

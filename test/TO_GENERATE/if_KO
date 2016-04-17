@@ -1,0 +1,91 @@
+###
+/* incrementation dans la condition <if then> */
+
+let
+	var i := 0
+
+	function main() =
+		if i := i+1 then
+			print("test")
+in main() end
+###
+/* affectation d'entier dans la condition <if then> */
+
+let
+	var i := 0
+
+	function main() =
+		if i := 0 then
+			print("test")
+in main() end
+###
+/* affectation de chaine dans la condition <if then> */
+
+let
+	var s := "toto"
+
+	function main() =
+		if s := "toto" then
+			print("test")
+in main() end
+###
+/* <if then> avec oubli du <if> */
+
+let
+	var i := 0
+
+	function main() =
+		i = 0 then
+			print("test")
+in main() end
+###
+/* <if then> avec oubli du <then> */
+
+let
+	var i := 0
+
+	function main() =
+		if i = 0
+			print("test")
+in main() end
+###
+/* <if then> avec oubli de la condition */
+
+let
+	function main() =
+		if then
+			print("test")
+in main() end
+###
+/* <if then else> avec oubli de la condition */
+
+let
+	function main() =
+		if then
+			print("test")
+		else
+			print("test")
+in main() end
+###
+/* <if then else> sans instruction dans <else> */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 0 then
+			print("test")
+		else
+in main() end
+###
+/* <if then else> avec ligne vide dans <else> */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 0 then
+			print("test")
+		else
+
+in main() end

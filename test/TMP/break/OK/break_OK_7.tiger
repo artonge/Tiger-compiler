@@ -1,8 +1,9 @@
 /* <break> dans un <if then else>, sans instruction avant */
 
 let
+	var i := 3
+
 	function main() =
-		int i := 3
 		if i=3 then
 			i := 2
 		else

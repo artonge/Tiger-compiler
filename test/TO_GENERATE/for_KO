@@ -1,0 +1,104 @@
+###
+/* <for> avec affectation de chaine pour le compteur  */
+
+let
+	function main() =
+		for i := "3" to 10 do
+			print("test")
+in main() end
+###
+/* <for> avec affectation de chaine pour la borne superieure de l'iteration  */
+
+let
+	function main() =
+		for i := 0 to "3" do
+			print("test")
+in main() end
+###
+/* <for> avec oubli de l'identifiant du compteur */
+
+let
+	function main() =
+		for := 0 to 3 do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <for> */
+
+let
+	function main() =
+		i := 0 to 3 do
+			print("test")
+in main() end
+###
+/* <for> "express" */
+
+let
+	function main() =
+		for 3 to 5 do
+			print("test")
+in main() end
+###
+/* <for> avec affectation de chaines pour le compteur et la borne maximale de l'iteration  */
+
+let
+	function main() =
+		for i := "0" to "3" do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <do> */
+
+let
+	function main() =
+		for i := 0 to 3
+			print("test")
+in main() end
+###
+/* <for> avec oubli de la borne maximale de l'iteration */
+
+let
+	function main() =
+		for i := 0 to do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <to> */
+
+let
+	function main() =
+		for i := 0 3 do
+			print("test")
+in main() end
+###
+/* <for> avec oubli de la borne inferieure de l'iteration */
+
+let
+	function main() =
+		for i := to 3 do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <=> */
+
+let
+	function main() =
+		for i : 0 to 3 do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <:> */
+
+let
+	function main() =
+		for i = 0 to 3 do
+			print("test")
+in main() end
+###
+/* <for> avec oubli du <:=> */
+
+let
+	function main() =
+		for i 0 to 3 do
+			print("test")
+in main() end

@@ -1,0 +1,139 @@
+###
+/* fonction definissant un entier */
+
+let
+	function main() = 1
+in main() end
+###
+/* fonction simple, avec declaration du type de retour <int> et instruction de retour */
+
+let
+	function main() : int = 1
+in main() end
+###
+/* fonction simple, avec instruction simple et instruction retournant un entier */
+
+let
+	function main() =
+		print("test");
+		1
+in main() end
+###
+/* fonction avec 1 parametre entier */
+
+let
+	function main(i: int) = printi(i)
+in main() end
+###
+/* fonction avec 2 parametres entiers */
+
+let
+	function main(i: int, j: int) = printi(i+j)
+in main() end
+###
+/* fonction avec 3 parametres entiers */
+
+let
+	function main(i: int, j: int, k: int) = printi(i+j+k)
+in main() end
+###
+/* fonction avec 2 parametres entiers et 1 parametre de type <string> */
+
+let
+	function main(i: int, s: string, j: int) =
+		printi(i+j);
+		print(s)
+in main() end
+###
+/* fonction definissant une chaine */
+
+let
+	function main() = "test"
+in main() end
+###
+/* fonction simple, avec declaration du type de retour <string> et instruction de retour */
+
+let
+	function main() : string = "test"
+in main() end
+###
+/* fonction simple, avec instruction simple et instruction retournant une chaine */
+
+let
+	function main() =
+		print("test");
+		"test"
+in main() end
+###
+/* fonction avec 1 parametre de type <string> */
+
+let
+	function main(s: string) = print(s)
+in main() end
+###
+/* fonction avec 2 parametres de type <string> */
+
+let
+	function main(s: string, t: string) =
+		print(s);
+		print(t)
+in main() end
+###
+/* fonction avec 3 parametres de type <string> */
+
+let
+	function main(s: string, t: string, u: string) =
+		print(s);
+		print(t);
+		print(u)
+in main() end
+###
+/* fonction avec 2 parametres de type <string> et 1 parametre entier */
+
+let
+	function main(s: string, i: int, t: string) =
+		print(s);
+		printi(i);
+		print(t)
+in main() end
+###
+/* double-imbrication de fonction */
+
+let
+	function subFunction1(i: int, s: string) =
+		print(s);
+		i
+
+	function subFunction2() = 1
+
+	function main() = subFunction1(subFunction2(), "test")
+in main() end
+###
+/* triple-imbrication de fonction */
+
+let
+	function subFunction1(i: int, s: string) =
+		print(s);
+		i
+
+	funtion subFunction2(s: string) = 1
+
+	function subFonction3() = "test"
+
+	function main() = subFunction1(subFonction2(subFonction3()), "test")
+in main() end
+###
+/* recursion finie */
+
+let
+	function main(n: int) =
+		if n > 1 then
+			n * main(n-1)
+		else 1
+in main(5) end
+###
+/* recursion infinie */
+
+let
+	function main(n: int) = main(n+1)
+in main(0) end

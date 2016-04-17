@@ -1,9 +1,10 @@
 /* <break> dans un <if then>, apres instruction */
 
 let
+	var i := 3
+
 	function main() =
-		int i := 3
 		if i=3 then
-			print("test")
+			print("test");
 			break
 in main() end

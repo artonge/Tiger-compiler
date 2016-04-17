@@ -1,0 +1,52 @@
+###
+/* <while> avec affectation d'entier */
+
+let
+	function main()() =
+		while i := 1 do
+			print("test")
+in main() end
+###
+/* <while> avec affectation de chaine */
+
+let
+	function main()() =
+		while s := "toto" do
+			print("test")
+in main() end
+###
+/* <while> avec oubli du compteur */
+
+let
+	function main() =
+		while > 0 do
+			print("test")
+in main() end
+###
+/* <while> avec oubli du <while> */
+
+let
+	var i := 0
+
+	function main() =
+		i >= 0 do
+			print("test")
+in main() end
+###
+/* <while> avec oubli du <do> */
+
+let
+	var i := 0
+
+	function main() :
+		while i >= 0
+			print("test")
+in main() end
+###
+/* <while> avec oubli de la condition */
+
+let
+	function main() =
+		while do
+			print("test")
+in main() end

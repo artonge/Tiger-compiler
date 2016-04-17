@@ -1,0 +1,59 @@
+###
+/* imbrication */
+
+/* 
+	un commentaire
+	/* imbrique dans ce commentaire */
+*/
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de </> en debut de commentaire */
+
+* commentaire */
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de <*> en debut de commentaire */
+
+/ commentaire */
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de </*> en debut de commentaire */
+
+commentaire */
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de <*> en fin de commentaire */
+
+/* commentaire /
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de </> en fin de commentaire */
+
+/* commentaire *
+
+let
+	function main() = print("test")
+in main() end
+###
+/* oubli de <*/> en fin de commentaire */
+
+/* commentaire
+
+let
+	function main() = print("test")
+in main() end

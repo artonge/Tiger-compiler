@@ -1,0 +1,120 @@
+###
+/* comparaison simple d'entiers avec <"<"> */
+
+let
+	function main() =
+		if 1 < 2 then print("OK")
+in main() end
+###
+/* comparaison simple d'entiers avec <">"> */
+
+let
+	function main() =
+		if 2 > 1 then print("OK")
+in main() end
+###
+/* comparaison simple d'entiers avec <"<="> */
+
+let
+	function main() =
+		if 2 <= 2 then print("OK")
+in main() end
+###
+/* comparaison simple d'entiers avec <">="> */
+
+let
+	function main() =
+		if 2 >= 2 then print("OK")
+in main() end
+###
+/* comparaison simple d'entiers avec <=> */
+
+let
+	function main() =
+		if 1 = 1 then print("OK")
+in main() end
+###
+/* comparaison simple d'entiers avec <"<>"> */
+
+let
+	function main() =
+		if 1 <> 2 then print("OK")
+in main() end
+###
+/* comparaison double d'entiers */
+
+let
+	var i := 1
+
+	function main() =
+		if i > 0 & i = 1 then print("OK")
+in main() end
+###
+/* comparaison triple d'entiers */
+
+let
+	var i := 1
+
+	function main() =
+		if i > 0 & i < 3 & i = 1 then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <"<"> */
+
+let
+	function main() =
+		if "a" < "b" then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <">"> */
+
+let
+	function main() =
+		if "b" > "a" then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <"<="> */
+
+let
+	function main() =
+		if "a" <= "a" then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <">="> */
+
+let
+	function main() =
+		if "a" >= "a" then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <=> */
+
+let
+	function main() =
+		if "a" = "a" then print("OK")
+in main() end
+###
+/* comparaison simple de chaines avec <"<>"> */
+
+let
+	function main() =
+		if "a" <> "b" then print("OK")
+in main() end
+###
+/* comparaison double de chaines */
+
+let
+	var s := "test"
+
+	function main() =
+		if s > "a" & s = "test" then print("OK")
+in main() end
+###
+/* comparaison triple de chaines */
+
+let
+	var s := "test"
+
+	function main() =
+		if s > "a" & s < "z" & s = "test" then print("OK")
+in main() end

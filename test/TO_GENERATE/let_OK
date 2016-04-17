@@ -1,0 +1,110 @@
+###
+/* <let> avec 1 declaration de fonction et 1 appel de fonction */
+
+let
+	function main() = print("test")
+in main() end
+###
+/* <let> avec 2 declarations de fonction et 2 appels de fonction */
+
+let
+	function test() = print("test")
+
+	function main() = test()
+in
+	test()
+	main()
+end
+###
+/* <let> avec 3 declarations de fonction et 3 appels de fonction */
+
+let
+	function test1() = print("test")
+
+	function test2() = test1()
+
+	function main() = test2()
+in
+	test1()
+	test2()
+	main()
+end
+###
+/* <let> avec 1 declaration de variable et 1 instruction */
+
+let
+	var i := 0
+in
+	printi(i)
+end
+###
+/* <let> avec 2 declarations de variable et 2 instructions */
+
+let
+	var i := 0
+	var j := 0
+in
+	printi(i)
+	printi(j)
+end
+###
+/* <let> avec 3 declarations de variable et 3 instructions */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+in
+	printi(i)
+	printi(j)
+	printi(k)
+end
+###
+/* <let> avec 3 declarations de variable et fonction, et 3 instructions et appels de fonction */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function test1() = print("test")
+
+	function test2() = test1()
+
+	function main() = test2()
+in
+	printi(i)
+	printi(j)
+	printi(k)
+	test1()
+	test2()
+	main()
+end
+###
+/* <let> avec double-imbrication */
+
+let
+	var i := 0
+in
+	let
+		var j := 0
+	in
+		printi(i+j)
+	end
+end
+###
+/* <let> avec triple-imbrication */
+
+let
+	var i := 0
+in
+	let
+		var j := 0
+	in
+		let
+			var k := 0
+		in
+			printi(i+j+k)
+		end
+	end
+end

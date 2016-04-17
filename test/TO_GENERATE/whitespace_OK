@@ -1,0 +1,78 @@
+###
+/* 1 espace entre <var> et <i> */
+
+let
+	var i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 1 tabulation entre <var> et <i> */
+
+let
+	var	i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 1 saut de ligne entre <var> et <i> */
+
+let
+	var
+	i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 2 espaces entre <var> et <i> */
+
+let
+	var  i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 2 tabulations entre <var> et <i> */
+
+let
+	var		i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 2 sauts de ligne entre <var> et <i> */
+
+let
+	var
+
+	i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 3 espaces entre <var> et <i> */
+
+let
+	var   i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 3 tabulations entre <var> et <i> */
+
+let
+	var			i := 1
+
+	function main() = printi(i)
+in main() end
+###
+/* 3 sauts de ligne entre <var> et <i> */
+
+let
+	var
+
+
+	i := 1
+
+	function main() = printi(i)
+in main() end
