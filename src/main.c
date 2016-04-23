@@ -11,8 +11,8 @@
 void parse(ANTLR3_BASE_TREE *tree);
 void dispatch(ANTLR3_BASE_TREE *tree);
 
-int ANTLR3_CDECL main (int argc, char *argv[])
-{
+int ANTLR3_CDECL main (int argc, char *argv[]) {
+
 	pANTLR3_UINT8                   fName;
 	pANTLR3_INPUT_STREAM            input;
 	pTigerLexer                     lxr;
@@ -70,6 +70,7 @@ int ANTLR3_CDECL main (int argc, char *argv[])
 }
 
 void dispatch(ANTLR3_BASE_TREE *tree) {
+	
 	pANTLR3_COMMON_TOKEN token = tree->getToken(tree);
 
 	pANTLR3_STRING string = tree->toString(tree);
@@ -85,61 +86,60 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 		case IF:
 			parse(tree);
 			break;
-		//
-		//
-		// case VAR_DECLARATION:
-		// 	checkVarDeclaration(tree);
-		// 	break;
-		//
-		// case FUNC_DECLARATION:
-		// 	checkFuncDeclaration(tree);
-		// 	break;
-		//
-		// case PARAM:
-		// 	checkParam(tree);
-		// 	break;
-		//
-		//
-		// case ASSIGNE:
-		// 	checkAssigne(tree);
-		// 	break;
-		//
-		// case OR:
-		// 	checkOr(tree);
-		// 	break;
-		//
-		// case AND:
-		// 	checkAnd(tree);
-		// 	break;
-		//
-		// case ADD:
-		// 	checkAdd(tree);
-		// 	break;
-		//
-		// case MULT:
-		// 	checkMult(tree);
-		// 	break;
-		//
-		//
-		// case ID:
-		// 	checkID(tree);
-		// 	break;
-		//
-		// case ARGS:
-		// 	checkArgs(tree);
-		// 	break;
-		//
-		// case INT:
-		// 	checkInt(tree);
-		// 	break;
-		//
-		// case STR:
-		// 	checkStr(tree);
-		// 	break;
-		//
-		// case NEG:
-		// 	checkNeg(tree);
-		// 	break;
+
+		case VAR_DECLARATION:
+			checkVarDeclaration(tree);
+			break;
+
+		case FUNC_DECLARATION:
+			checkFuncDeclaration(tree);
+			break;
+
+		case PARAM:
+			checkParam(tree);
+			break;
+
+
+		case ASSIGNE:
+			checkAssigne(tree);
+			break;
+
+		case OR:
+			checkOr(tree);
+			break;
+
+		case AND:
+			checkAnd(tree);
+			break;
+
+		case ADD:
+			checkAdd(tree);
+			break;
+
+		case MULT:
+			checkMult(tree);
+			break;
+
+
+		case ID:
+			checkID(tree);
+			break;
+
+		case ARGS:
+			checkArgs(tree);
+			break;
+
+		case INT:
+			checkInt(tree);
+			break;
+
+		case STR:
+			checkStr(tree);
+			break;
+
+		case NEG:
+			checkNeg(tree);
+			break;
 
 
 		default:

@@ -12,5 +12,6 @@
 #include <stdio.h>
 #include "TigerLexer.h"
 #include "TigerParser.h"
+#include "checkers.h"
 
 #endif /* main_h */
