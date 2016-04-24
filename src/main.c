@@ -70,11 +70,11 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 }
 
 void dispatch(ANTLR3_BASE_TREE *tree) {
-	
+
 	pANTLR3_COMMON_TOKEN token = tree->getToken(tree);
 
-	pANTLR3_STRING string = tree->toString(tree);
-	printf("%s\n", string->chars);
+	// pANTLR3_STRING string = tree->toString(tree);
+	// printf("%s\n", string->chars);
 
 
 	switch (token->type) {

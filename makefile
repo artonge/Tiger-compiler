@@ -17,6 +17,7 @@ endef
 CC = gcc
 
 SOURCES = ./src/main.c \
+          ./src/checkers.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
@@ -38,7 +39,7 @@ com_exec : c exec ## Compile C files and launch executable
 
 grammar : ## Compile the grammar using antlr3
 	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
-	antlr3 ./src/Tiger.g
+	antlr3 ./src/Tiger.g -language C -make
 
 c : ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
