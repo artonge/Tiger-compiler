@@ -22,7 +22,8 @@ SOURCES = ./src/main.c \
           ./src/TigerParser.c
 
 FLAGS =	-pedantic \
-        -pedantic-errors
+        -pedantic-errors \
+				-w
 
 PATH_EXTEND = -I /usr/local/include/ \
 							-L /usr/local/opt/libantlr3c/lib \
@@ -35,7 +36,7 @@ OUTPUT = -o ./main.out
 ###########################
 all : clean grammar c exec ## clean grammar c exec
 
-com_exec : c exec ## Compile C files and launch executable
+c_e : c exec ## Compile C files and launch executable
 
 grammar : ## Compile the grammar using antlr3
 	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
