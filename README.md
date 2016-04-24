@@ -10,8 +10,8 @@ Un super projet de compilation pour telecom nancy
 [-] - DOING <br>
 [+] - DONE
 
-[-] - `artonge` - `checkVarDeclaration(tree);` <br>
-[o] - `<nom>` - `checkFuncDeclaration(tree);` <br>
+[+] - `artonge` - `checkVarDeclaration(tree);` <br>
+[-] - `artonge` - `checkFuncDeclaration(tree);` <br>
 [o] - `<nom>` - `checkParam(tree);` <br>
 [o] - `<nom>` - `checkAssigne(tree);` <br>
 [o] - `<nom>` - `checkOr(tree);` <br>
