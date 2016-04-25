@@ -8,8 +8,11 @@ let
       print("ok")
     else (
       print("ok");
-			x := -1+1-1
-		)
+			x := -1+1-1;
+			return x
+		);
+
+		return x
   )
 
   var a : int := 1+4*56/9*(3+a)+34

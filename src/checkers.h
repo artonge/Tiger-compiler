@@ -1,5 +1,8 @@
-#include <antlr3.h>
 #include <string.h>
+#include <antlr3.h>
+
+#include "TigerParser.h"
+
 
 void checkVarDeclaration(ANTLR3_BASE_TREE *tree);
 void checkFuncDeclaration(ANTLR3_BASE_TREE *tree);
