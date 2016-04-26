@@ -24,6 +24,7 @@ void checkVarDeclaration(ANTLR3_BASE_TREE *tree) {
 // Check that returnType is 'int' or 'string'
 // Check if a return instruction exist when return type is set
 void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
+  
   ANTLR3_UINT32 count = tree->getChildCount(tree);
 
   ANTLR3_BASE_TREE *nameNode = tree->getChild(tree, 0);
@@ -36,6 +37,7 @@ void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
 
 
   if (count == 4) {
+    
       if (strcmp(returnTypeString, "int") &&
           strcmp(returnTypeString, "string") ) {
 
@@ -60,6 +62,7 @@ void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
 // If the child is a function do not dig deeper because any return instruction
 // would concern only the child function
 int findReturnInstruction(ANTLR3_BASE_TREE *tree) {
+  
   int i;
   ANTLR3_UINT32 count = tree->getChildCount(tree);
   pANTLR3_COMMON_TOKEN token;
@@ -67,6 +70,7 @@ int findReturnInstruction(ANTLR3_BASE_TREE *tree) {
 
 
   for (i = 0; i < count; i++) {
+    
     child = tree->getChild(tree, i);
     token = tree->getToken(child);
 
@@ -83,16 +87,17 @@ int findReturnInstruction(ANTLR3_BASE_TREE *tree) {
 
 // Check that type is 'int' or 'string'
 void checkParam(ANTLR3_BASE_TREE *tree) {
-  ANTLR3_BASE_TREE *type  = tree->getChild(tree, 1);
-  char * typeString = (char *)type->toString(type)->chars;
+  
+  ANTLR3_BASE_TREE *typeNode = tree->getChild(tree, 1);
+  char * typeString = (char *)tree->toString(typeNode)->chars;
 
   if (strcmp(typeString, "int") &&
       strcmp(typeString, "string") ) {
 
     printf("Unknown type (%s) at line %d:%d\n",
            typeString,
-           type->getLine(type),
-           type->getCharPositionInLine(type));
+           tree->getLine(typeNode),
+           tree->getCharPositionInLine(typeNode));
   }
 }
 
