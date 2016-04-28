@@ -102,51 +102,45 @@ void checkParam(ANTLR3_BASE_TREE *tree) {
 }
 
 
+// Check that left operand is an ID and don't any children
+// Check that right operant don't contains an instruction beside an expr
 void checkAssigne(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that right operant don't contains an instruction beside an expr
 void checkOr(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that right operant don't contains an instruction beside an expr
 void checkAnd(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that right operant don't contains an instruction beside an expr
 void checkAdd(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that right operant don't contains an instruction beside an expr
 void checkMult(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that right operant don't contains an instruction beside an expr
 void checkID(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
+// Check that all args don't contains an instruction beside an expr
 void checkArgs(ANTLR3_BASE_TREE *tree) {
 
 }
 
-
-void checkInt(ANTLR3_BASE_TREE *tree) {
-
-}
-
-
-void checkStr(ANTLR3_BASE_TREE *tree) {
-
-}
-
-
-void checkNeg(ANTLR3_BASE_TREE *tree) {
-
-}
