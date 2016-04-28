@@ -121,24 +121,8 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			break;
 
 
-		case ID:
-			checkID(tree);
-			break;
-
 		case ARGS:
 			checkArgs(tree);
-			break;
-
-		case INT:
-			checkInt(tree);
-			break;
-
-		case STR:
-			checkStr(tree);
-			break;
-
-		case NEG:
-			checkNeg(tree);
 			break;
 
 
