@@ -133,12 +133,6 @@ void checkMult(ANTLR3_BASE_TREE *tree) {
 }
 
 
-// Check that right operant don't contains an instruction beside an expr
-void checkID(ANTLR3_BASE_TREE *tree) {
-
-}
-
-
 // Check that all args don't contains an instruction beside an expr
 void checkArgs(ANTLR3_BASE_TREE *tree) {
 
