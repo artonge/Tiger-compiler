@@ -15,7 +15,7 @@ Un super projet de compilation pour telecom nancy
 [+] - `artonge` - `checkParam(tree);` <br>
 [-] - `artonge` - `checkAssigne(tree);` <br>
 [o] - `<nom>` - `checkOr(tree);` <br>
-[o] - `<nom>` - `checkAnd(tree);` <br>
+[-] - `Lilian` - `checkAnd(tree);` <br>
 [o] - `<nom>` - `checkAdd(tree);` <br>
 [o] - `<nom>` - `checkMult(tree);` <br>
 [o] - `<nom>` - `checkID(tree);` <br>
