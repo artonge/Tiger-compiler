@@ -6,8 +6,8 @@ options {
 }
 
 tokens {
-  INSTRUCTIONS; LET; WHILE; FOR; IF;
-  DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM; TYPE;
+  INSTRUCTIONS; LET; WHILE; FOR; IF; BREAK; RETURN;
+  DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM;
   EXPR; ASSIGNE; OR; AND; COMP; MULT; ADD;
   ARGS; STR; INT; NEG; NIL;
 }
@@ -35,7 +35,7 @@ instructions
 // DECLARATIONS
 declaration
   : 'var' name=ID (':' type=ID)? ':=' expr                                      -> ^(VAR_DECLARATION $name $type? expr)
-  | 'function' name=ID params (':' return_type=ID)? '=' instructions            -> ^(FUNC_DECLARATION $name params ^(TYPE $return_type?) instructions)
+  | 'function' name=ID params (':' return_type=ID)? '=' instructions            -> ^(FUNC_DECLARATION $name params $return_type? instructions)
   ;
 
 params
@@ -56,7 +56,8 @@ instruction
     (options {greedy=true;} : 'else' i2=instructions)?                          -> ^(IF expr $i1 $i2?)
   | 'while' expr 'do' instructions                                              -> ^(WHILE expr instructions)
   | 'for' ID ':=' v1=expr 'to' v2=expr 'do' instructions                        -> ^(FOR ID $v1 $v2 instructions)
-  | 'break'
+  | 'break'                                                                     -> BREAK
+  | 'return' expr                                                               -> ^(RETURN expr)
   ;
 
 atom

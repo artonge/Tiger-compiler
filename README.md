@@ -10,12 +10,12 @@ Un super projet de compilation pour telecom nancy
 [-] - DOING <br>
 [+] - DONE
 
-[-] - `artonge` - `checkVarDeclaration(tree);` <br>
-[o] - `<nom>` - `checkFuncDeclaration(tree);` <br>
-[o] - `<nom>` - `checkParam(tree);` <br>
-[o] - `<nom>` - `checkAssigne(tree);` <br>
+[+] - `artonge` - `checkVarDeclaration(tree);` <br>
+[+] - `artonge` - `checkFuncDeclaration(tree);` <br>
+[+] - `artonge` - `checkParam(tree);` <br>
+[-] - `artonge` - `checkAssigne(tree);` <br>
 [o] - `<nom>` - `checkOr(tree);` <br>
-[o] - `<nom>` - `checkAnd(tree);` <br>
+[-] - `Lilian` - `checkAnd(tree);` <br>
 [o] - `<nom>` - `checkAdd(tree);` <br>
 [o] - `<nom>` - `checkMult(tree);` <br>
 [o] - `<nom>` - `checkID(tree);` <br>
