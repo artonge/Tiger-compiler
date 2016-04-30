@@ -89,3 +89,11 @@ let
 		else
 
 in main() end
+###
+/* <if then> avec condition entiere */
+
+let
+	function main()() =
+		if 1 then
+			print("test")
+in main() end

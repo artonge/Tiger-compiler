@@ -14,3 +14,9 @@ let
 		while break then
 			print("test")
 in main() end
+###
+/* appel de <break>, avec corps de programme contenant <break> */
+
+let
+	break
+in break end

@@ -15,8 +15,7 @@ in main() end
 
 let
 	function main() =
-		print("test");
-		1
+		(print("test"); 1)
 in main() end
 ###
 /* fonction avec 1 parametre entier */
@@ -41,8 +40,7 @@ in main() end
 
 let
 	function main(i: int, s: string, j: int) =
-		printi(i+j);
-		print(s)
+		(printi(i+j); print(s))
 in main() end
 ###
 /* fonction definissant une chaine */
@@ -61,8 +59,7 @@ in main() end
 
 let
 	function main() =
-		print("test");
-		"test"
+		(print("test"); "test")
 in main() end
 ###
 /* fonction avec 1 parametre de type <string> */
@@ -75,34 +72,28 @@ in main() end
 
 let
 	function main(s: string, t: string) =
-		print(s);
-		print(t)
+		(print(s); print(t))
 in main() end
 ###
 /* fonction avec 3 parametres de type <string> */
 
 let
 	function main(s: string, t: string, u: string) =
-		print(s);
-		print(t);
-		print(u)
+		(print(s); print(t); print(u))
 in main() end
 ###
 /* fonction avec 2 parametres de type <string> et 1 parametre entier */
 
 let
 	function main(s: string, i: int, t: string) =
-		print(s);
-		printi(i);
-		print(t)
+		(print(s); printi(i); print(t))
 in main() end
 ###
 /* double-imbrication de fonction */
 
 let
 	function subFunction1(i: int, s: string) =
-		print(s);
-		i
+		(print(s); i)
 
 	function subFunction2() = 1
 
@@ -113,10 +104,9 @@ in main() end
 
 let
 	function subFunction1(i: int, s: string) =
-		print(s);
-		i
+		(print(s); i)
 
-	funtion subFunction2(s: string) = 1
+	function subFunction2(s: string) = 1
 
 	function subFonction3() = "test"
 

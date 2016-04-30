@@ -179,20 +179,31 @@ in main() end
 \newpage
 {\color{red}\textbf{Pas d'AST, problème de syntaxe.}}
 \newpage
+\subsubsection{appel de $ < $break$ > $, avec corps de programme contenant $ < $break$ > $}
+\begin{lstlisting}
+let
+	break
+in break end
+\end{lstlisting}
+\newpage
+\begin{figure}[H]
+\centering
+\includegraphics[max width=\textwidth]{ast/ast_9.pdf}
+\end{figure}
+\newpage
 \subsection{OK}
 \subsubsection{$ < $break$ > $ dans un $ < $for$ > $, apres instruction}
 \begin{lstlisting}
 let
 	function main() =
 		for i := 0 to 3 do
-			print("test");
-			break
+			(print("test"); break)
 in main() end
 \end{lstlisting}
 \newpage
 \begin{figure}[H]
 \centering
-\includegraphics[max width=\textwidth]{ast/ast_9.pdf}
+\includegraphics[max width=\textwidth]{ast/ast_10.pdf}
 \end{figure}
 \newpage
 \subsubsection{$ < $break$ > $ dans un $ < $for$ > $, sans instruction avant}
@@ -206,7 +217,7 @@ in main() end
 \newpage
 \begin{figure}[H]
 \centering
-\includegraphics[max width=\textwidth]{ast/ast_10.pdf}
+\includegraphics[max width=\textwidth]{ast/ast_11.pdf}
 \end{figure}
 \newpage
 \subsubsection{fonction executant seulement $ < $break$ > $}
@@ -214,18 +225,6 @@ in main() end
 let
 	function main() = break
 in main() end
-\end{lstlisting}
-\newpage
-\begin{figure}[H]
-\centering
-\includegraphics[max width=\textwidth]{ast/ast_11.pdf}
-\end{figure}
-\newpage
-\subsubsection{appel de $ < $break$ > $, avec corps de programme contenant $ < $break$ > $}
-\begin{lstlisting}
-let
-	break
-in break end
 \end{lstlisting}
 \newpage
 \begin{figure}[H]
@@ -252,8 +251,7 @@ let
 
 	function main() =
 		while i > 0 do
-			print("test");
-			break
+			(print("test"); break)
 in main() end
 \end{lstlisting}
 \newpage
@@ -285,8 +283,7 @@ let
 
 	function main() =
 		if i=3 then
-			print("test");
-			break
+			(print("test"); break)
 in main() end
 \end{lstlisting}
 \newpage
@@ -320,8 +317,7 @@ let
 		if i=3 then
 			i := 2
 		else
-			print("test");
-			break
+			(print("test"); break)
 in main() end
 \end{lstlisting}
 \newpage
@@ -2138,10 +2134,11 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
+		(print("test");
 		/* commentaire 1 */
 		print("test")
 		/* commentaire 2 */
+		)
 in main() end
 \end{lstlisting}
 \newpage
@@ -2154,7 +2151,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
+		(print("test");
 		/*
 		1
 		2
@@ -2166,6 +2163,7 @@ let
 		5
 		6
 		*/
+		)
 in main() end
 \end{lstlisting}
 \newpage
@@ -2226,12 +2224,13 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
+		(print("test");
 		/* commentaire 1 */
 		print("test");
 		/* commentaire 2 */
 		print("test")
 		/* commentaire 3 */
+		)
 in main() end
 \end{lstlisting}
 \newpage
@@ -2244,7 +2243,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
+		(print("test");
 		/*
 		1
 		2
@@ -2262,6 +2261,7 @@ let
 		8
 		9
 		*/
+		)
 in main() end
 \end{lstlisting}
 \newpage
@@ -2935,7 +2935,7 @@ in main() end
 \subsubsection{double-imbrication de $ < $for$ > $}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		for i := 0 to 3 do
 			for j := 4 to 7 do
 				printi(i+j)
@@ -2950,7 +2950,7 @@ in main() end
 \subsubsection{triple-imbrication de $ < $for$ > $}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		for i := 0 to 3 do
 			for j := 4 to 7 do
 				for k := 8 to 10 do
@@ -2966,7 +2966,7 @@ in main() end
 \subsubsection{$ < $for$ > $ avec reutilisation de compteur}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		for i := 0 to 3 do
 			for j := i+4 to 10 do
 				printi(i+j)
@@ -2981,7 +2981,7 @@ in main() end
 \subsubsection{$ < $for$ > $ avec reutilisation de compteurs}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		for i := 0 to 3 do
 			for j := 4 to i+4 do
 				for k := j-4 to 4 do
@@ -3132,8 +3132,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main(i: int s: string) =
-		printi(i);
-		print(s)
+		(printi(i); print(s))
 in main(1, "test") end
 \end{lstlisting}
 \newpage
@@ -3231,8 +3230,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
-		1
+		(print("test"); 1)
 in main() end
 \end{lstlisting}
 \newpage
@@ -3281,8 +3279,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main(i: int, s: string, j: int) =
-		printi(i+j);
-		print(s)
+		(printi(i+j); print(s))
 in main() end
 \end{lstlisting}
 \newpage
@@ -3319,8 +3316,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main() =
-		print("test");
-		"test"
+		(print("test"); "test")
 in main() end
 \end{lstlisting}
 \newpage
@@ -3345,8 +3341,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main(s: string, t: string) =
-		print(s);
-		print(t)
+		(print(s); print(t))
 in main() end
 \end{lstlisting}
 \newpage
@@ -3359,9 +3354,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main(s: string, t: string, u: string) =
-		print(s);
-		print(t);
-		print(u)
+		(print(s); print(t); print(u))
 in main() end
 \end{lstlisting}
 \newpage
@@ -3374,9 +3367,7 @@ in main() end
 \begin{lstlisting}
 let
 	function main(s: string, i: int, t: string) =
-		print(s);
-		printi(i);
-		print(t)
+		(print(s); printi(i); print(t))
 in main() end
 \end{lstlisting}
 \newpage
@@ -3389,8 +3380,7 @@ in main() end
 \begin{lstlisting}
 let
 	function subFunction1(i: int, s: string) =
-		print(s);
-		i
+		(print(s); i)
 
 	function subFunction2() = 1
 
@@ -3407,10 +3397,9 @@ in main() end
 \begin{lstlisting}
 let
 	function subFunction1(i: int, s: string) =
-		print(s);
-		i
+		(print(s); i)
 
-	funtion subFunction2(s: string) = 1
+	function subFunction2(s: string) = 1
 
 	function subFonction3() = "test"
 
@@ -3597,7 +3586,6 @@ in main() end
 \includegraphics[max width=\textwidth]{ast/ast_256.pdf}
 \end{figure}
 \newpage
-\subsection{OK}
 \subsubsection{$ < $if then$ > $ avec condition entiere}
 \begin{lstlisting}
 let
@@ -3609,6 +3597,7 @@ in main() end
 \newpage
 {\color{red}\textbf{Pas d'AST, problème de syntaxe.}}
 \newpage
+\subsection{OK}
 \subsubsection{$ < $if then$ > $ sans instruction}
 \begin{lstlisting}
 let
@@ -3867,8 +3856,7 @@ let
 
 	function main() = test()
 in
-	test()
-	main()
+	(test(); main())
 end
 \end{lstlisting}
 \newpage
@@ -3886,9 +3874,7 @@ let
 
 	function main() = test2()
 in
-	test1()
-	test2()
-	main()
+	(test1(); test2(); main())
 end
 \end{lstlisting}
 \newpage
@@ -3917,8 +3903,7 @@ let
 	var i := 0
 	var j := 0
 in
-	printi(i)
-	printi(j)
+	(printi(i); printi(j))
 end
 \end{lstlisting}
 \newpage
@@ -3934,9 +3919,7 @@ let
 	var j := 0
 	var k := 0
 in
-	printi(i)
-	printi(j)
-	printi(k)
+	(printi(i); printi(j); printi(k))
 end
 \end{lstlisting}
 \newpage
@@ -3958,12 +3941,12 @@ let
 
 	function main() = test2()
 in
-	printi(i)
-	printi(j)
-	printi(k)
-	test1()
-	test2()
-	main()
+	(printi(i);
+	printi(j);
+	printi(k);
+	test1();
+	test2();
+	main())
 end
 \end{lstlisting}
 \newpage
@@ -4635,7 +4618,7 @@ in main() end
 \subsubsection{$ < $while$ > $ avec affectation d'entier}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		while i := 1 do
 			print("test")
 in main() end
@@ -4649,7 +4632,7 @@ in main() end
 \subsubsection{$ < $while$ > $ avec affectation de chaine}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		while s := "toto" do
 			print("test")
 in main() end
@@ -4723,10 +4706,10 @@ in main() end
 let
 	var i := 0
 
-	function main()() =
+	function main() =
 		while i <= 5 do
-			printi(i);
-			i := i+1
+			(printi(i);
+			i := i+1)
 in main() end
 \end{lstlisting}
 \newpage
@@ -4740,10 +4723,10 @@ in main() end
 let
 	var i := 5
 
-	function main()() =
+	function main() =
 		while i >= 0 do
-			printi(i);
-			i := i-1
+			(printi(i);
+			i := i-1)
 in main() end
 \end{lstlisting}
 \newpage
@@ -4757,10 +4740,10 @@ in main() end
 let
 	var i := 0
 
-	function main()() =
+	function main() =
 		while i <= 5 & i >= 0 do
-			printi(i);
-			i := i+1
+			(printi(i);
+			i := i+1)
 in main() end
 \end{lstlisting}
 \newpage
@@ -4774,10 +4757,10 @@ in main() end
 let
 	var i := 5
 
-	function main()() =
+	function main() =
 		while i >= 0 & i <= 5 & i < 6 do
-			printi(i);
-			i := i-1
+			(printi(i);
+			i := i-1)
 in main() end
 \end{lstlisting}
 \newpage
@@ -4791,7 +4774,7 @@ in main() end
 let
 	var i := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 in main() end
 \end{lstlisting}
@@ -4806,7 +4789,7 @@ in main() end
 let
 	var i := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 
 in main() end
@@ -4820,13 +4803,16 @@ in main() end
 \subsubsection{$ < $while$ > $ avec condition entiere}
 \begin{lstlisting}
 let
-	function main()() =
+	function main() =
 		while 1 do
 			print("test")
 in main() end
 \end{lstlisting}
 \newpage
-{\color{red}\textbf{Pas d'AST, problème de syntaxe.}}
+\begin{figure}[H]
+\centering
+\includegraphics[max width=\textwidth]{ast/ast_335.pdf}
+\end{figure}
 \newpage
 \subsubsection{$ < $while$ > $ avec double-imbrication}
 \begin{lstlisting}
@@ -4834,12 +4820,12 @@ let
 	var i := 0
 	var j := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 			while j < 1 do
-				i := i+1;
+				(i := i+1;
 				j := j+1;
-				printi(i+j)
+				printi(i+j))
 in main() end
 \end{lstlisting}
 \newpage
@@ -4855,14 +4841,14 @@ let
 	var j := 0
 	var k := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 			while j < 1 do
 				while k < 1 do
-					i := i+1;
+					(i := i+1;
 					j := j+1;
 					k := k+1;
-					printi(i+j+k)
+					printi(i+j+k))
 in main() end
 \end{lstlisting}
 \newpage
@@ -4877,12 +4863,12 @@ let
 	var i := 0
 	var j := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 			while j < i+1 do
-				i := i+1;
+				(i := i+1;
 				j := j+2;
-				printi(i+j)
+				printi(i+j))
 in main() end
 \end{lstlisting}
 \newpage
@@ -4898,14 +4884,14 @@ let
 	var j := 0
 	var k := 0
 
-	function main()() =
+	function main() =
 		while i < 1 do
 			while j < i+1 do
 				while k < j+1 do
-					i := i+1;
+					(i := i+1;
 					j := j+2;
 					k := k+3;
-					printi(i+j+k)
+					printi(i+j+k))
 in main() end
 \end{lstlisting}
 \newpage
@@ -4919,7 +4905,7 @@ in main() end
 let
 	var s := "t"
 
-	function main()() =
+	function main() =
 		while s <> "ttt" do
 			s := s+"t"
 in main() end

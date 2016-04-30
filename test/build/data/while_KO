@@ -2,7 +2,7 @@
 /* <while> avec affectation d'entier */
 
 let
-	function main()() =
+	function main() =
 		while i := 1 do
 			print("test")
 in main() end
@@ -10,7 +10,7 @@ in main() end
 /* <while> avec affectation de chaine */
 
 let
-	function main()() =
+	function main() =
 		while s := "toto" do
 			print("test")
 in main() end

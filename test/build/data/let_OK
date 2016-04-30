@@ -12,8 +12,7 @@ let
 
 	function main() = test()
 in
-	test()
-	main()
+	(test(); main())
 end
 ###
 /* <let> avec 3 declarations de fonction et 3 appels de fonction */
@@ -25,9 +24,7 @@ let
 
 	function main() = test2()
 in
-	test1()
-	test2()
-	main()
+	(test1(); test2(); main())
 end
 ###
 /* <let> avec 1 declaration de variable et 1 instruction */
@@ -44,8 +41,7 @@ let
 	var i := 0
 	var j := 0
 in
-	printi(i)
-	printi(j)
+	(printi(i); printi(j))
 end
 ###
 /* <let> avec 3 declarations de variable et 3 instructions */
@@ -55,9 +51,7 @@ let
 	var j := 0
 	var k := 0
 in
-	printi(i)
-	printi(j)
-	printi(k)
+	(printi(i); printi(j); printi(k))
 end
 ###
 /* <let> avec 3 declarations de variable et fonction, et 3 instructions et appels de fonction */
@@ -73,12 +67,12 @@ let
 
 	function main() = test2()
 in
-	printi(i)
-	printi(j)
-	printi(k)
-	test1()
-	test2()
-	main()
+	(printi(i);
+	printi(j);
+	printi(k);
+	test1();
+	test2();
+	main())
 end
 ###
 /* <let> avec double-imbrication */
