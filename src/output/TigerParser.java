@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-04-29 12:25:19
+// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-04-30 10:38:37
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -14,16 +14,15 @@ import org.antlr.runtime.tree.*;
 public class TigerParser extends DebugParser {
 	public static final String[] tokenNames = new String[] {
 		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "ADD", "AND", "ARGS", "ASSIGNE", 
-		"COMMENT", "COMP", "DECLARATIONS", "EXPR", "FOR", "FUNC_DECLARATION", 
+		"BREAK", "COMMENT", "COMP", "DECLARATIONS", "EXPR", "FOR", "FUNC_DECLARATION", 
 		"ID", "IF", "INSTRUCTIONS", "INT", "INTEGER", "LET", "LETTER", "MULT", 
-		"NEG", "NIL", "OR", "PARAM", "PARAMS", "STR", "STRING", "TYPE", "VAR_DECLARATION", 
+		"NEG", "NIL", "OR", "PARAM", "PARAMS", "RETURN", "STR", "STRING", "VAR_DECLARATION", 
 		"WHILE", "WHITESPACE", "'&'", "'('", "')'", "'*'", "'+'", "','", "'-'", 
 		"'/'", "':'", "':='", "';'", "'<'", "'<='", "'<>'", "'='", "'>'", "'>='", 
 		"'break'", "'do'", "'else'", "'end'", "'for'", "'function'", "'if'", "'in'", 
-		"'let'", "'nil'", "'then'", "'to'", "'var'", "'while'", "'|'"
+		"'let'", "'nil'", "'return'", "'then'", "'to'", "'var'", "'while'", "'|'"
 	};
 	public static final int EOF=-1;
-	public static final int T__33=33;
 	public static final int T__34=34;
 	public static final int T__35=35;
 	public static final int T__36=36;
@@ -55,35 +54,38 @@ public class TigerParser extends DebugParser {
 	public static final int T__62=62;
 	public static final int T__63=63;
 	public static final int T__64=64;
+	public static final int T__65=65;
+	public static final int T__66=66;
 	public static final int ADD=4;
 	public static final int AND=5;
 	public static final int ARGS=6;
 	public static final int ASSIGNE=7;
-	public static final int COMMENT=8;
-	public static final int COMP=9;
-	public static final int DECLARATIONS=10;
-	public static final int EXPR=11;
-	public static final int FOR=12;
-	public static final int FUNC_DECLARATION=13;
-	public static final int ID=14;
-	public static final int IF=15;
-	public static final int INSTRUCTIONS=16;
-	public static final int INT=17;
-	public static final int INTEGER=18;
-	public static final int LET=19;
-	public static final int LETTER=20;
-	public static final int MULT=21;
-	public static final int NEG=22;
-	public static final int NIL=23;
-	public static final int OR=24;
-	public static final int PARAM=25;
-	public static final int PARAMS=26;
-	public static final int STR=27;
-	public static final int STRING=28;
-	public static final int TYPE=29;
-	public static final int VAR_DECLARATION=30;
-	public static final int WHILE=31;
-	public static final int WHITESPACE=32;
+	public static final int BREAK=8;
+	public static final int COMMENT=9;
+	public static final int COMP=10;
+	public static final int DECLARATIONS=11;
+	public static final int EXPR=12;
+	public static final int FOR=13;
+	public static final int FUNC_DECLARATION=14;
+	public static final int ID=15;
+	public static final int IF=16;
+	public static final int INSTRUCTIONS=17;
+	public static final int INT=18;
+	public static final int INTEGER=19;
+	public static final int LET=20;
+	public static final int LETTER=21;
+	public static final int MULT=22;
+	public static final int NEG=23;
+	public static final int NIL=24;
+	public static final int OR=25;
+	public static final int PARAM=26;
+	public static final int PARAMS=27;
+	public static final int RETURN=28;
+	public static final int STR=29;
+	public static final int STRING=30;
+	public static final int VAR_DECLARATION=31;
+	public static final int WHILE=32;
+	public static final int WHITESPACE=33;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -94,9 +96,10 @@ public class TigerParser extends DebugParser {
 
 
 	public static final String[] ruleNames = new String[] {
-		"invalidRule", "multDiv", "instructions", "multDivExpr", "atom", "assign", 
-		"instruction", "params", "addMin", "compExpr", "and", "addMinExpr", "param", 
-		"expr", "program", "logExpr", "andExpr", "comp", "or", "assignExpr", "declaration"
+		"invalidRule", "logExpr", "addMinExpr", "declaration", "params", "multDiv", 
+		"comp", "compExpr", "assignExpr", "multDivExpr", "andExpr", "or", "param", 
+		"atom", "assign", "instructions", "program", "expr", "instruction", "and", 
+		"addMin"
 	};
 
 	public static final boolean[] decisionCanBacktrack = new boolean[] {
@@ -187,7 +190,7 @@ public class TigerParser extends DebugParser {
 
 
 			dbg.location(28,11);
-			pushFollow(FOLLOW_instructions_in_program249);
+			pushFollow(FOLLOW_instructions_in_program252);
 			instructions1=instructions();
 			state._fsp--;
 
@@ -254,7 +257,7 @@ public class TigerParser extends DebugParser {
 			// /Users/moshi/compilation/src/Tiger.g:31:5: instruction
 			{
 			dbg.location(31,5);
-			pushFollow(FOLLOW_instruction_in_instructions260);
+			pushFollow(FOLLOW_instruction_in_instructions263);
 			instruction2=instruction();
 			state._fsp--;
 
@@ -326,7 +329,7 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "declaration"
-	// /Users/moshi/compilation/src/Tiger.g:36:1: declaration : ( 'var' name= ID ( ':' type= ID )? ':=' expr -> ^( VAR_DECLARATION $name ( $type)? expr ) | 'function' name= ID params ( ':' return_type= ID )? '=' instructions -> ^( FUNC_DECLARATION $name params ^( TYPE ( $return_type)? ) instructions ) );
+	// /Users/moshi/compilation/src/Tiger.g:36:1: declaration : ( 'var' name= ID ( ':' type= ID )? ':=' expr -> ^( VAR_DECLARATION $name ( $type)? expr ) | 'function' name= ID params ( ':' return_type= ID )? '=' instructions -> ^( FUNC_DECLARATION $name params ( $return_type)? instructions ) );
 	public final TigerParser.declaration_return declaration() throws RecognitionException {
 		TigerParser.declaration_return retval = new TigerParser.declaration_return();
 		retval.start = input.LT(1);
@@ -355,12 +358,12 @@ public class TigerParser extends DebugParser {
 		Object string_literal7_tree=null;
 		Object char_literal9_tree=null;
 		Object char_literal10_tree=null;
-		RewriteRuleTokenStream stream_55=new RewriteRuleTokenStream(adaptor,"token 55");
-		RewriteRuleTokenStream stream_47=new RewriteRuleTokenStream(adaptor,"token 47");
+		RewriteRuleTokenStream stream_56=new RewriteRuleTokenStream(adaptor,"token 56");
+		RewriteRuleTokenStream stream_48=new RewriteRuleTokenStream(adaptor,"token 48");
 		RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
-		RewriteRuleTokenStream stream_62=new RewriteRuleTokenStream(adaptor,"token 62");
-		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
 		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
+		RewriteRuleTokenStream stream_64=new RewriteRuleTokenStream(adaptor,"token 64");
+		RewriteRuleTokenStream stream_43=new RewriteRuleTokenStream(adaptor,"token 43");
 		RewriteRuleSubtreeStream stream_instructions=new RewriteRuleSubtreeStream(adaptor,"rule instructions");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		RewriteRuleSubtreeStream stream_params=new RewriteRuleSubtreeStream(adaptor,"rule params");
@@ -371,15 +374,15 @@ public class TigerParser extends DebugParser {
 		dbg.location(36, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:37:3: ( 'var' name= ID ( ':' type= ID )? ':=' expr -> ^( VAR_DECLARATION $name ( $type)? expr ) | 'function' name= ID params ( ':' return_type= ID )? '=' instructions -> ^( FUNC_DECLARATION $name params ^( TYPE ( $return_type)? ) instructions ) )
+			// /Users/moshi/compilation/src/Tiger.g:37:3: ( 'var' name= ID ( ':' type= ID )? ':=' expr -> ^( VAR_DECLARATION $name ( $type)? expr ) | 'function' name= ID params ( ':' return_type= ID )? '=' instructions -> ^( FUNC_DECLARATION $name params ( $return_type)? instructions ) )
 			int alt3=2;
 			try { dbg.enterDecision(3, decisionCanBacktrack[3]);
 
 			int LA3_0 = input.LA(1);
-			if ( (LA3_0==62) ) {
+			if ( (LA3_0==64) ) {
 				alt3=1;
 			}
-			else if ( (LA3_0==55) ) {
+			else if ( (LA3_0==56) ) {
 				alt3=2;
 			}
 
@@ -399,10 +402,10 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:37:5: 'var' name= ID ( ':' type= ID )? ':=' expr
 					{
 					dbg.location(37,5);
-					string_literal3=(Token)match(input,62,FOLLOW_62_in_declaration347);  
-					stream_62.add(string_literal3);
+					string_literal3=(Token)match(input,64,FOLLOW_64_in_declaration350);  
+					stream_64.add(string_literal3);
 					dbg.location(37,15);
-					name=(Token)match(input,ID,FOLLOW_ID_in_declaration351);  
+					name=(Token)match(input,ID,FOLLOW_ID_in_declaration354);  
 					stream_ID.add(name);
 					dbg.location(37,19);
 					// /Users/moshi/compilation/src/Tiger.g:37:19: ( ':' type= ID )?
@@ -411,7 +414,7 @@ public class TigerParser extends DebugParser {
 					try { dbg.enterDecision(1, decisionCanBacktrack[1]);
 
 					int LA1_0 = input.LA(1);
-					if ( (LA1_0==41) ) {
+					if ( (LA1_0==42) ) {
 						alt1=1;
 					}
 					} finally {dbg.exitDecision(1);}
@@ -423,10 +426,10 @@ public class TigerParser extends DebugParser {
 							// /Users/moshi/compilation/src/Tiger.g:37:20: ':' type= ID
 							{
 							dbg.location(37,20);
-							char_literal4=(Token)match(input,41,FOLLOW_41_in_declaration354);  
-							stream_41.add(char_literal4);
+							char_literal4=(Token)match(input,42,FOLLOW_42_in_declaration357);  
+							stream_42.add(char_literal4);
 							dbg.location(37,28);
-							type=(Token)match(input,ID,FOLLOW_ID_in_declaration358);  
+							type=(Token)match(input,ID,FOLLOW_ID_in_declaration361);  
 							stream_ID.add(type);
 
 							}
@@ -435,16 +438,16 @@ public class TigerParser extends DebugParser {
 					}
 					} finally {dbg.exitSubRule(1);}
 					dbg.location(37,34);
-					string_literal5=(Token)match(input,42,FOLLOW_42_in_declaration362);  
-					stream_42.add(string_literal5);
+					string_literal5=(Token)match(input,43,FOLLOW_43_in_declaration365);  
+					stream_43.add(string_literal5);
 					dbg.location(37,39);
-					pushFollow(FOLLOW_expr_in_declaration364);
+					pushFollow(FOLLOW_expr_in_declaration367);
 					expr6=expr();
 					state._fsp--;
 
 					stream_expr.add(expr6.getTree());
 					// AST REWRITE
-					// elements: expr, name, type
+					// elements: name, expr, type
 					// token labels: name, type
 					// rule labels: retval
 					// token list labels: 
@@ -490,13 +493,13 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:38:5: 'function' name= ID params ( ':' return_type= ID )? '=' instructions
 					{
 					dbg.location(38,5);
-					string_literal7=(Token)match(input,55,FOLLOW_55_in_declaration422);  
-					stream_55.add(string_literal7);
+					string_literal7=(Token)match(input,56,FOLLOW_56_in_declaration425);  
+					stream_56.add(string_literal7);
 					dbg.location(38,20);
-					name=(Token)match(input,ID,FOLLOW_ID_in_declaration426);  
+					name=(Token)match(input,ID,FOLLOW_ID_in_declaration429);  
 					stream_ID.add(name);
 					dbg.location(38,24);
-					pushFollow(FOLLOW_params_in_declaration428);
+					pushFollow(FOLLOW_params_in_declaration431);
 					params8=params();
 					state._fsp--;
 
@@ -507,7 +510,7 @@ public class TigerParser extends DebugParser {
 					try { dbg.enterDecision(2, decisionCanBacktrack[2]);
 
 					int LA2_0 = input.LA(1);
-					if ( (LA2_0==41) ) {
+					if ( (LA2_0==42) ) {
 						alt2=1;
 					}
 					} finally {dbg.exitDecision(2);}
@@ -519,10 +522,10 @@ public class TigerParser extends DebugParser {
 							// /Users/moshi/compilation/src/Tiger.g:38:32: ':' return_type= ID
 							{
 							dbg.location(38,32);
-							char_literal9=(Token)match(input,41,FOLLOW_41_in_declaration431);  
-							stream_41.add(char_literal9);
+							char_literal9=(Token)match(input,42,FOLLOW_42_in_declaration434);  
+							stream_42.add(char_literal9);
 							dbg.location(38,47);
-							return_type=(Token)match(input,ID,FOLLOW_ID_in_declaration435);  
+							return_type=(Token)match(input,ID,FOLLOW_ID_in_declaration438);  
 							stream_ID.add(return_type);
 
 							}
@@ -531,16 +534,16 @@ public class TigerParser extends DebugParser {
 					}
 					} finally {dbg.exitSubRule(2);}
 					dbg.location(38,53);
-					char_literal10=(Token)match(input,47,FOLLOW_47_in_declaration439);  
-					stream_47.add(char_literal10);
+					char_literal10=(Token)match(input,48,FOLLOW_48_in_declaration442);  
+					stream_48.add(char_literal10);
 					dbg.location(38,57);
-					pushFollow(FOLLOW_instructions_in_declaration441);
+					pushFollow(FOLLOW_instructions_in_declaration444);
 					instructions11=instructions();
 					state._fsp--;
 
 					stream_instructions.add(instructions11.getTree());
 					// AST REWRITE
-					// elements: params, name, return_type, instructions
+					// elements: name, instructions, return_type, params
 					// token labels: return_type, name
 					// rule labels: retval
 					// token list labels: 
@@ -552,33 +555,24 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 38:81: -> ^( FUNC_DECLARATION $name params ^( TYPE ( $return_type)? ) instructions )
+					// 38:81: -> ^( FUNC_DECLARATION $name params ( $return_type)? instructions )
 					{
 						dbg.location(38,84);
-						// /Users/moshi/compilation/src/Tiger.g:38:84: ^( FUNC_DECLARATION $name params ^( TYPE ( $return_type)? ) instructions )
+						// /Users/moshi/compilation/src/Tiger.g:38:84: ^( FUNC_DECLARATION $name params ( $return_type)? instructions )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						dbg.location(38,86);
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(FUNC_DECLARATION, "FUNC_DECLARATION"), root_1);
 						dbg.location(38,104);
 						adaptor.addChild(root_1, stream_name.nextNode());dbg.location(38,109);
-						adaptor.addChild(root_1, stream_params.nextTree());dbg.location(38,116);
-						// /Users/moshi/compilation/src/Tiger.g:38:116: ^( TYPE ( $return_type)? )
-						{
-						Object root_2 = (Object)adaptor.nil();
-						dbg.location(38,118);
-						root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(TYPE, "TYPE"), root_2);
-						dbg.location(38,124);
-						// /Users/moshi/compilation/src/Tiger.g:38:124: ( $return_type)?
+						adaptor.addChild(root_1, stream_params.nextTree());dbg.location(38,117);
+						// /Users/moshi/compilation/src/Tiger.g:38:117: ( $return_type)?
 						if ( stream_return_type.hasNext() ) {
-							dbg.location(38,124);
-							adaptor.addChild(root_2, stream_return_type.nextNode());
+							dbg.location(38,117);
+							adaptor.addChild(root_1, stream_return_type.nextNode());
 						}
 						stream_return_type.reset();
-
-						adaptor.addChild(root_1, root_2);
-						}
-						dbg.location(38,138);
+						dbg.location(38,130);
 						adaptor.addChild(root_1, stream_instructions.nextTree());
 						adaptor.addChild(root_0, root_1);
 						}
@@ -644,9 +638,9 @@ public class TigerParser extends DebugParser {
 		Object char_literal12_tree=null;
 		Object char_literal14_tree=null;
 		Object char_literal16_tree=null;
-		RewriteRuleTokenStream stream_34=new RewriteRuleTokenStream(adaptor,"token 34");
 		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
-		RewriteRuleTokenStream stream_38=new RewriteRuleTokenStream(adaptor,"token 38");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
+		RewriteRuleTokenStream stream_39=new RewriteRuleTokenStream(adaptor,"token 39");
 		RewriteRuleSubtreeStream stream_param=new RewriteRuleSubtreeStream(adaptor,"rule param");
 
 		try { dbg.enterRule(getGrammarFileName(), "params");
@@ -661,8 +655,8 @@ public class TigerParser extends DebugParser {
 			// /Users/moshi/compilation/src/Tiger.g:42:5: '(' ( param ( ',' param )* )? ')'
 			{
 			dbg.location(42,5);
-			char_literal12=(Token)match(input,34,FOLLOW_34_in_params486);  
-			stream_34.add(char_literal12);
+			char_literal12=(Token)match(input,35,FOLLOW_35_in_params485);  
+			stream_35.add(char_literal12);
 			dbg.location(42,9);
 			// /Users/moshi/compilation/src/Tiger.g:42:9: ( param ( ',' param )* )?
 			int alt5=2;
@@ -682,7 +676,7 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:42:11: param ( ',' param )*
 					{
 					dbg.location(42,11);
-					pushFollow(FOLLOW_param_in_params490);
+					pushFollow(FOLLOW_param_in_params489);
 					param13=param();
 					state._fsp--;
 
@@ -696,7 +690,7 @@ public class TigerParser extends DebugParser {
 						try { dbg.enterDecision(4, decisionCanBacktrack[4]);
 
 						int LA4_0 = input.LA(1);
-						if ( (LA4_0==38) ) {
+						if ( (LA4_0==39) ) {
 							alt4=1;
 						}
 
@@ -709,10 +703,10 @@ public class TigerParser extends DebugParser {
 							// /Users/moshi/compilation/src/Tiger.g:42:18: ',' param
 							{
 							dbg.location(42,18);
-							char_literal14=(Token)match(input,38,FOLLOW_38_in_params493);  
-							stream_38.add(char_literal14);
+							char_literal14=(Token)match(input,39,FOLLOW_39_in_params492);  
+							stream_39.add(char_literal14);
 							dbg.location(42,22);
-							pushFollow(FOLLOW_param_in_params495);
+							pushFollow(FOLLOW_param_in_params494);
 							param15=param();
 							state._fsp--;
 
@@ -732,8 +726,8 @@ public class TigerParser extends DebugParser {
 			}
 			} finally {dbg.exitSubRule(5);}
 			dbg.location(42,32);
-			char_literal16=(Token)match(input,35,FOLLOW_35_in_params501);  
-			stream_35.add(char_literal16);
+			char_literal16=(Token)match(input,36,FOLLOW_36_in_params500);  
+			stream_36.add(char_literal16);
 
 			// AST REWRITE
 			// elements: param
@@ -823,7 +817,7 @@ public class TigerParser extends DebugParser {
 		Object type_tree=null;
 		Object char_literal17_tree=null;
 		RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
-		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
+		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
 
 		try { dbg.enterRule(getGrammarFileName(), "param");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
@@ -837,17 +831,17 @@ public class TigerParser extends DebugParser {
 			// /Users/moshi/compilation/src/Tiger.g:45:5: name= ID ':' type= ID
 			{
 			dbg.location(45,9);
-			name=(Token)match(input,ID,FOLLOW_ID_in_param569);  
+			name=(Token)match(input,ID,FOLLOW_ID_in_param568);  
 			stream_ID.add(name);
 			dbg.location(45,13);
-			char_literal17=(Token)match(input,41,FOLLOW_41_in_param571);  
-			stream_41.add(char_literal17);
+			char_literal17=(Token)match(input,42,FOLLOW_42_in_param570);  
+			stream_42.add(char_literal17);
 			dbg.location(45,21);
-			type=(Token)match(input,ID,FOLLOW_ID_in_param575);  
+			type=(Token)match(input,ID,FOLLOW_ID_in_param574);  
 			stream_ID.add(type);
 
 			// AST REWRITE
-			// elements: name, type
+			// elements: type, name
 			// token labels: name, type
 			// rule labels: retval
 			// token list labels: 
@@ -916,7 +910,7 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "instruction"
-	// /Users/moshi/compilation/src/Tiger.g:50:1: instruction : ( 'let' ( declaration )+ 'in' instructions 'end' -> ^( LET ^( DECLARATIONS ( declaration )+ ) instructions ) | expr | 'if' expr 'then' i1= instructions ( options {greedy=true; } : 'else' i2= instructions )? -> ^( IF expr $i1 ( $i2)? ) | 'while' expr 'do' instructions -> ^( WHILE expr instructions ) | 'for' ID ':=' v1= expr 'to' v2= expr 'do' instructions -> ^( FOR ID $v1 $v2 instructions ) | 'break' );
+	// /Users/moshi/compilation/src/Tiger.g:50:1: instruction : ( 'let' ( declaration )+ 'in' instructions 'end' -> ^( LET ^( DECLARATIONS ( declaration )+ ) instructions ) | expr | 'if' expr 'then' i1= instructions ( options {greedy=true; } : 'else' i2= instructions )? -> ^( IF expr $i1 ( $i2)? ) | 'while' expr 'do' instructions -> ^( WHILE expr instructions ) | 'for' ID ':=' v1= expr 'to' v2= expr 'do' instructions -> ^( FOR ID $v1 $v2 instructions ) | 'break' -> BREAK | 'return' expr -> ^( RETURN expr ) );
 	public final TigerParser.instruction_return instruction() throws RecognitionException {
 		TigerParser.instruction_return retval = new TigerParser.instruction_return();
 		retval.start = input.LT(1);
@@ -937,6 +931,7 @@ public class TigerParser extends DebugParser {
 		Token string_literal35=null;
 		Token string_literal36=null;
 		Token string_literal38=null;
+		Token string_literal39=null;
 		ParserRuleReturnScope i1 =null;
 		ParserRuleReturnScope i2 =null;
 		ParserRuleReturnScope v1 =null;
@@ -948,6 +943,7 @@ public class TigerParser extends DebugParser {
 		ParserRuleReturnScope expr29 =null;
 		ParserRuleReturnScope instructions31 =null;
 		ParserRuleReturnScope instructions37 =null;
+		ParserRuleReturnScope expr40 =null;
 
 		Object string_literal18_tree=null;
 		Object string_literal20_tree=null;
@@ -963,18 +959,21 @@ public class TigerParser extends DebugParser {
 		Object string_literal35_tree=null;
 		Object string_literal36_tree=null;
 		Object string_literal38_tree=null;
-		RewriteRuleTokenStream stream_56=new RewriteRuleTokenStream(adaptor,"token 56");
+		Object string_literal39_tree=null;
+		RewriteRuleTokenStream stream_55=new RewriteRuleTokenStream(adaptor,"token 55");
 		RewriteRuleTokenStream stream_57=new RewriteRuleTokenStream(adaptor,"token 57");
 		RewriteRuleTokenStream stream_58=new RewriteRuleTokenStream(adaptor,"token 58");
-		RewriteRuleTokenStream stream_60=new RewriteRuleTokenStream(adaptor,"token 60");
-		RewriteRuleTokenStream stream_61=new RewriteRuleTokenStream(adaptor,"token 61");
+		RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
 		RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
+		RewriteRuleTokenStream stream_61=new RewriteRuleTokenStream(adaptor,"token 61");
+		RewriteRuleTokenStream stream_62=new RewriteRuleTokenStream(adaptor,"token 62");
 		RewriteRuleTokenStream stream_51=new RewriteRuleTokenStream(adaptor,"token 51");
 		RewriteRuleTokenStream stream_52=new RewriteRuleTokenStream(adaptor,"token 52");
 		RewriteRuleTokenStream stream_63=new RewriteRuleTokenStream(adaptor,"token 63");
 		RewriteRuleTokenStream stream_53=new RewriteRuleTokenStream(adaptor,"token 53");
-		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
 		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
+		RewriteRuleTokenStream stream_65=new RewriteRuleTokenStream(adaptor,"token 65");
+		RewriteRuleTokenStream stream_43=new RewriteRuleTokenStream(adaptor,"token 43");
 		RewriteRuleSubtreeStream stream_instructions=new RewriteRuleSubtreeStream(adaptor,"rule instructions");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		RewriteRuleSubtreeStream stream_declaration=new RewriteRuleSubtreeStream(adaptor,"rule declaration");
@@ -985,12 +984,12 @@ public class TigerParser extends DebugParser {
 		dbg.location(50, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:51:3: ( 'let' ( declaration )+ 'in' instructions 'end' -> ^( LET ^( DECLARATIONS ( declaration )+ ) instructions ) | expr | 'if' expr 'then' i1= instructions ( options {greedy=true; } : 'else' i2= instructions )? -> ^( IF expr $i1 ( $i2)? ) | 'while' expr 'do' instructions -> ^( WHILE expr instructions ) | 'for' ID ':=' v1= expr 'to' v2= expr 'do' instructions -> ^( FOR ID $v1 $v2 instructions ) | 'break' )
-			int alt8=6;
+			// /Users/moshi/compilation/src/Tiger.g:51:3: ( 'let' ( declaration )+ 'in' instructions 'end' -> ^( LET ^( DECLARATIONS ( declaration )+ ) instructions ) | expr | 'if' expr 'then' i1= instructions ( options {greedy=true; } : 'else' i2= instructions )? -> ^( IF expr $i1 ( $i2)? ) | 'while' expr 'do' instructions -> ^( WHILE expr instructions ) | 'for' ID ':=' v1= expr 'to' v2= expr 'do' instructions -> ^( FOR ID $v1 $v2 instructions ) | 'break' -> BREAK | 'return' expr -> ^( RETURN expr ) )
+			int alt8=7;
 			try { dbg.enterDecision(8, decisionCanBacktrack[8]);
 
 			switch ( input.LA(1) ) {
-			case 58:
+			case 59:
 				{
 				alt8=1;
 				}
@@ -998,31 +997,36 @@ public class TigerParser extends DebugParser {
 			case ID:
 			case INTEGER:
 			case STRING:
-			case 34:
-			case 39:
-			case 59:
+			case 35:
+			case 40:
+			case 60:
 				{
 				alt8=2;
 				}
 				break;
-			case 56:
+			case 57:
 				{
 				alt8=3;
 				}
 				break;
-			case 63:
+			case 65:
 				{
 				alt8=4;
 				}
 				break;
-			case 54:
+			case 55:
 				{
 				alt8=5;
 				}
 				break;
-			case 50:
+			case 51:
 				{
 				alt8=6;
+				}
+				break;
+			case 61:
+				{
+				alt8=7;
 				}
 				break;
 			default:
@@ -1040,8 +1044,8 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:51:5: 'let' ( declaration )+ 'in' instructions 'end'
 					{
 					dbg.location(51,5);
-					string_literal18=(Token)match(input,58,FOLLOW_58_in_instruction658);  
-					stream_58.add(string_literal18);
+					string_literal18=(Token)match(input,59,FOLLOW_59_in_instruction657);  
+					stream_59.add(string_literal18);
 					dbg.location(51,11);
 					// /Users/moshi/compilation/src/Tiger.g:51:11: ( declaration )+
 					int cnt6=0;
@@ -1053,7 +1057,7 @@ public class TigerParser extends DebugParser {
 						try { dbg.enterDecision(6, decisionCanBacktrack[6]);
 
 						int LA6_0 = input.LA(1);
-						if ( (LA6_0==55||LA6_0==62) ) {
+						if ( (LA6_0==56||LA6_0==64) ) {
 							alt6=1;
 						}
 
@@ -1066,7 +1070,7 @@ public class TigerParser extends DebugParser {
 							// /Users/moshi/compilation/src/Tiger.g:51:11: declaration
 							{
 							dbg.location(51,11);
-							pushFollow(FOLLOW_declaration_in_instruction660);
+							pushFollow(FOLLOW_declaration_in_instruction659);
 							declaration19=declaration();
 							state._fsp--;
 
@@ -1085,16 +1089,16 @@ public class TigerParser extends DebugParser {
 					}
 					} finally {dbg.exitSubRule(6);}
 					dbg.location(51,24);
-					string_literal20=(Token)match(input,57,FOLLOW_57_in_instruction663);  
-					stream_57.add(string_literal20);
+					string_literal20=(Token)match(input,58,FOLLOW_58_in_instruction662);  
+					stream_58.add(string_literal20);
 					dbg.location(51,29);
-					pushFollow(FOLLOW_instructions_in_instruction665);
+					pushFollow(FOLLOW_instructions_in_instruction664);
 					instructions21=instructions();
 					state._fsp--;
 
 					stream_instructions.add(instructions21.getTree());dbg.location(51,42);
-					string_literal22=(Token)match(input,53,FOLLOW_53_in_instruction667);  
-					stream_53.add(string_literal22);
+					string_literal22=(Token)match(input,54,FOLLOW_54_in_instruction666);  
+					stream_54.add(string_literal22);
 
 					// AST REWRITE
 					// elements: declaration, instructions
@@ -1154,7 +1158,7 @@ public class TigerParser extends DebugParser {
 
 
 					dbg.location(53,5);
-					pushFollow(FOLLOW_expr_in_instruction722);
+					pushFollow(FOLLOW_expr_in_instruction721);
 					expr23=expr();
 					state._fsp--;
 
@@ -1168,18 +1172,18 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:55:5: 'if' expr 'then' i1= instructions ( options {greedy=true; } : 'else' i2= instructions )?
 					{
 					dbg.location(55,5);
-					string_literal24=(Token)match(input,56,FOLLOW_56_in_instruction729);  
-					stream_56.add(string_literal24);
+					string_literal24=(Token)match(input,57,FOLLOW_57_in_instruction728);  
+					stream_57.add(string_literal24);
 					dbg.location(55,10);
-					pushFollow(FOLLOW_expr_in_instruction731);
+					pushFollow(FOLLOW_expr_in_instruction730);
 					expr25=expr();
 					state._fsp--;
 
 					stream_expr.add(expr25.getTree());dbg.location(55,15);
-					string_literal26=(Token)match(input,60,FOLLOW_60_in_instruction733);  
-					stream_60.add(string_literal26);
+					string_literal26=(Token)match(input,62,FOLLOW_62_in_instruction732);  
+					stream_62.add(string_literal26);
 					dbg.location(55,24);
-					pushFollow(FOLLOW_instructions_in_instruction737);
+					pushFollow(FOLLOW_instructions_in_instruction736);
 					i1=instructions();
 					state._fsp--;
 
@@ -1190,7 +1194,7 @@ public class TigerParser extends DebugParser {
 					try { dbg.enterDecision(7, decisionCanBacktrack[7]);
 
 					int LA7_0 = input.LA(1);
-					if ( (LA7_0==52) ) {
+					if ( (LA7_0==53) ) {
 						alt7=1;
 					}
 					} finally {dbg.exitDecision(7);}
@@ -1202,10 +1206,10 @@ public class TigerParser extends DebugParser {
 							// /Users/moshi/compilation/src/Tiger.g:56:31: 'else' i2= instructions
 							{
 							dbg.location(56,31);
-							string_literal27=(Token)match(input,52,FOLLOW_52_in_instruction753);  
-							stream_52.add(string_literal27);
+							string_literal27=(Token)match(input,53,FOLLOW_53_in_instruction752);  
+							stream_53.add(string_literal27);
 							dbg.location(56,40);
-							pushFollow(FOLLOW_instructions_in_instruction757);
+							pushFollow(FOLLOW_instructions_in_instruction756);
 							i2=instructions();
 							state._fsp--;
 
@@ -1217,7 +1221,7 @@ public class TigerParser extends DebugParser {
 					} finally {dbg.exitSubRule(7);}
 
 					// AST REWRITE
-					// elements: expr, i1, i2
+					// elements: i2, expr, i1
 					// token labels: 
 					// rule labels: i1, i2, retval
 					// token list labels: 
@@ -1263,24 +1267,24 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:57:5: 'while' expr 'do' instructions
 					{
 					dbg.location(57,5);
-					string_literal28=(Token)match(input,63,FOLLOW_63_in_instruction805);  
-					stream_63.add(string_literal28);
+					string_literal28=(Token)match(input,65,FOLLOW_65_in_instruction804);  
+					stream_65.add(string_literal28);
 					dbg.location(57,13);
-					pushFollow(FOLLOW_expr_in_instruction807);
+					pushFollow(FOLLOW_expr_in_instruction806);
 					expr29=expr();
 					state._fsp--;
 
 					stream_expr.add(expr29.getTree());dbg.location(57,18);
-					string_literal30=(Token)match(input,51,FOLLOW_51_in_instruction809);  
-					stream_51.add(string_literal30);
+					string_literal30=(Token)match(input,52,FOLLOW_52_in_instruction808);  
+					stream_52.add(string_literal30);
 					dbg.location(57,23);
-					pushFollow(FOLLOW_instructions_in_instruction811);
+					pushFollow(FOLLOW_instructions_in_instruction810);
 					instructions31=instructions();
 					state._fsp--;
 
 					stream_instructions.add(instructions31.getTree());
 					// AST REWRITE
-					// elements: instructions, expr
+					// elements: expr, instructions
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -1317,32 +1321,32 @@ public class TigerParser extends DebugParser {
 					// /Users/moshi/compilation/src/Tiger.g:58:5: 'for' ID ':=' v1= expr 'to' v2= expr 'do' instructions
 					{
 					dbg.location(58,5);
-					string_literal32=(Token)match(input,54,FOLLOW_54_in_instruction872);  
-					stream_54.add(string_literal32);
+					string_literal32=(Token)match(input,55,FOLLOW_55_in_instruction871);  
+					stream_55.add(string_literal32);
 					dbg.location(58,11);
-					ID33=(Token)match(input,ID,FOLLOW_ID_in_instruction874);  
+					ID33=(Token)match(input,ID,FOLLOW_ID_in_instruction873);  
 					stream_ID.add(ID33);
 					dbg.location(58,14);
-					string_literal34=(Token)match(input,42,FOLLOW_42_in_instruction876);  
-					stream_42.add(string_literal34);
+					string_literal34=(Token)match(input,43,FOLLOW_43_in_instruction875);  
+					stream_43.add(string_literal34);
 					dbg.location(58,21);
-					pushFollow(FOLLOW_expr_in_instruction880);
+					pushFollow(FOLLOW_expr_in_instruction879);
 					v1=expr();
 					state._fsp--;
 
 					stream_expr.add(v1.getTree());dbg.location(58,27);
-					string_literal35=(Token)match(input,61,FOLLOW_61_in_instruction882);  
-					stream_61.add(string_literal35);
+					string_literal35=(Token)match(input,63,FOLLOW_63_in_instruction881);  
+					stream_63.add(string_literal35);
 					dbg.location(58,34);
-					pushFollow(FOLLOW_expr_in_instruction886);
+					pushFollow(FOLLOW_expr_in_instruction885);
 					v2=expr();
 					state._fsp--;
 
 					stream_expr.add(v2.getTree());dbg.location(58,40);
-					string_literal36=(Token)match(input,51,FOLLOW_51_in_instruction888);  
-					stream_51.add(string_literal36);
+					string_literal36=(Token)match(input,52,FOLLOW_52_in_instruction887);  
+					stream_52.add(string_literal36);
 					dbg.location(58,45);
-					pushFollow(FOLLOW_instructions_in_instruction890);
+					pushFollow(FOLLOW_instructions_in_instruction889);
 					instructions37=instructions();
 					state._fsp--;
 
@@ -1388,13 +1392,74 @@ public class TigerParser extends DebugParser {
 
 					// /Users/moshi/compilation/src/Tiger.g:59:5: 'break'
 					{
-					root_0 = (Object)adaptor.nil();
-
-
 					dbg.location(59,5);
-					string_literal38=(Token)match(input,50,FOLLOW_50_in_instruction935); 
-					string_literal38_tree = (Object)adaptor.create(string_literal38);
-					adaptor.addChild(root_0, string_literal38_tree);
+					string_literal38=(Token)match(input,51,FOLLOW_51_in_instruction934);  
+					stream_51.add(string_literal38);
+
+					// AST REWRITE
+					// elements: 
+					// token labels: 
+					// rule labels: retval
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					retval.tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
+
+					root_0 = (Object)adaptor.nil();
+					// 59:81: -> BREAK
+					{
+						dbg.location(59,84);
+						adaptor.addChild(root_0, (Object)adaptor.create(BREAK, "BREAK"));
+					}
+
+
+					retval.tree = root_0;
+
+					}
+					break;
+				case 7 :
+					dbg.enterAlt(7);
+
+					// /Users/moshi/compilation/src/Tiger.g:60:5: 'return' expr
+					{
+					dbg.location(60,5);
+					string_literal39=(Token)match(input,61,FOLLOW_61_in_instruction1012);  
+					stream_61.add(string_literal39);
+					dbg.location(60,14);
+					pushFollow(FOLLOW_expr_in_instruction1014);
+					expr40=expr();
+					state._fsp--;
+
+					stream_expr.add(expr40.getTree());
+					// AST REWRITE
+					// elements: expr
+					// token labels: 
+					// rule labels: retval
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					retval.tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
+
+					root_0 = (Object)adaptor.nil();
+					// 60:81: -> ^( RETURN expr )
+					{
+						dbg.location(60,84);
+						// /Users/moshi/compilation/src/Tiger.g:60:84: ^( RETURN expr )
+						{
+						Object root_1 = (Object)adaptor.nil();
+						dbg.location(60,86);
+						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(RETURN, "RETURN"), root_1);
+						dbg.location(60,93);
+						adaptor.addChild(root_1, stream_expr.nextTree());
+						adaptor.addChild(root_0, root_1);
+						}
+
+					}
+
+
+					retval.tree = root_0;
 
 					}
 					break;
@@ -1414,7 +1479,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(60, 2);
+		dbg.location(61, 2);
 
 		}
 		finally {
@@ -1436,50 +1501,50 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "atom"
-	// /Users/moshi/compilation/src/Tiger.g:62:1: atom : ( ID ( '(' ( expr ( ',' expr )* )? ')' )? -> ^( ID ( ^( ARGS ( expr )* ) )? ) | '(' instruction ( ';' instruction )* ')' -> ( instruction )+ | STRING -> ^( STR STRING ) | INTEGER -> ^( INT INTEGER ) | '-' INTEGER -> ^( NEG INTEGER ) | 'nil' -> ^( NIL ) );
+	// /Users/moshi/compilation/src/Tiger.g:63:1: atom : ( ID ( '(' ( expr ( ',' expr )* )? ')' )? -> ^( ID ( ^( ARGS ( expr )* ) )? ) | '(' instruction ( ';' instruction )* ')' -> ( instruction )+ | STRING -> ^( STR STRING ) | INTEGER -> ^( INT INTEGER ) | '-' INTEGER -> ^( NEG INTEGER ) | 'nil' -> ^( NIL ) );
 	public final TigerParser.atom_return atom() throws RecognitionException {
 		TigerParser.atom_return retval = new TigerParser.atom_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token ID39=null;
-		Token char_literal40=null;
+		Token ID41=null;
 		Token char_literal42=null;
 		Token char_literal44=null;
-		Token char_literal45=null;
+		Token char_literal46=null;
 		Token char_literal47=null;
 		Token char_literal49=null;
-		Token STRING50=null;
-		Token INTEGER51=null;
-		Token char_literal52=null;
+		Token char_literal51=null;
+		Token STRING52=null;
 		Token INTEGER53=null;
-		Token string_literal54=null;
-		ParserRuleReturnScope expr41 =null;
+		Token char_literal54=null;
+		Token INTEGER55=null;
+		Token string_literal56=null;
 		ParserRuleReturnScope expr43 =null;
-		ParserRuleReturnScope instruction46 =null;
+		ParserRuleReturnScope expr45 =null;
 		ParserRuleReturnScope instruction48 =null;
+		ParserRuleReturnScope instruction50 =null;
 
-		Object ID39_tree=null;
-		Object char_literal40_tree=null;
+		Object ID41_tree=null;
 		Object char_literal42_tree=null;
 		Object char_literal44_tree=null;
-		Object char_literal45_tree=null;
+		Object char_literal46_tree=null;
 		Object char_literal47_tree=null;
 		Object char_literal49_tree=null;
-		Object STRING50_tree=null;
-		Object INTEGER51_tree=null;
-		Object char_literal52_tree=null;
+		Object char_literal51_tree=null;
+		Object STRING52_tree=null;
 		Object INTEGER53_tree=null;
-		Object string_literal54_tree=null;
-		RewriteRuleTokenStream stream_34=new RewriteRuleTokenStream(adaptor,"token 34");
+		Object char_literal54_tree=null;
+		Object INTEGER55_tree=null;
+		Object string_literal56_tree=null;
+		RewriteRuleTokenStream stream_44=new RewriteRuleTokenStream(adaptor,"token 44");
 		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
-		RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
-		RewriteRuleTokenStream stream_38=new RewriteRuleTokenStream(adaptor,"token 38");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
 		RewriteRuleTokenStream stream_39=new RewriteRuleTokenStream(adaptor,"token 39");
 		RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
+		RewriteRuleTokenStream stream_60=new RewriteRuleTokenStream(adaptor,"token 60");
 		RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
-		RewriteRuleTokenStream stream_43=new RewriteRuleTokenStream(adaptor,"token 43");
+		RewriteRuleTokenStream stream_40=new RewriteRuleTokenStream(adaptor,"token 40");
 		RewriteRuleTokenStream stream_INTEGER=new RewriteRuleTokenStream(adaptor,"token INTEGER");
 		RewriteRuleSubtreeStream stream_instruction=new RewriteRuleSubtreeStream(adaptor,"rule instruction");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
@@ -1487,10 +1552,10 @@ public class TigerParser extends DebugParser {
 		try { dbg.enterRule(getGrammarFileName(), "atom");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(62, 0);
+		dbg.location(63, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:63:3: ( ID ( '(' ( expr ( ',' expr )* )? ')' )? -> ^( ID ( ^( ARGS ( expr )* ) )? ) | '(' instruction ( ';' instruction )* ')' -> ( instruction )+ | STRING -> ^( STR STRING ) | INTEGER -> ^( INT INTEGER ) | '-' INTEGER -> ^( NEG INTEGER ) | 'nil' -> ^( NIL ) )
+			// /Users/moshi/compilation/src/Tiger.g:64:3: ( ID ( '(' ( expr ( ',' expr )* )? ')' )? -> ^( ID ( ^( ARGS ( expr )* ) )? ) | '(' instruction ( ';' instruction )* ')' -> ( instruction )+ | STRING -> ^( STR STRING ) | INTEGER -> ^( INT INTEGER ) | '-' INTEGER -> ^( NEG INTEGER ) | 'nil' -> ^( NIL ) )
 			int alt13=6;
 			try { dbg.enterDecision(13, decisionCanBacktrack[13]);
 
@@ -1500,7 +1565,7 @@ public class TigerParser extends DebugParser {
 				alt13=1;
 				}
 				break;
-			case 34:
+			case 35:
 				{
 				alt13=2;
 				}
@@ -1515,12 +1580,12 @@ public class TigerParser extends DebugParser {
 				alt13=4;
 				}
 				break;
-			case 39:
+			case 40:
 				{
 				alt13=5;
 				}
 				break;
-			case 59:
+			case 60:
 				{
 				alt13=6;
 				}
@@ -1537,19 +1602,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:63:5: ID ( '(' ( expr ( ',' expr )* )? ')' )?
+					// /Users/moshi/compilation/src/Tiger.g:64:5: ID ( '(' ( expr ( ',' expr )* )? ')' )?
 					{
-					dbg.location(63,5);
-					ID39=(Token)match(input,ID,FOLLOW_ID_in_atom948);  
-					stream_ID.add(ID39);
-					dbg.location(63,8);
-					// /Users/moshi/compilation/src/Tiger.g:63:8: ( '(' ( expr ( ',' expr )* )? ')' )?
+					dbg.location(64,5);
+					ID41=(Token)match(input,ID,FOLLOW_ID_in_atom1097);  
+					stream_ID.add(ID41);
+					dbg.location(64,8);
+					// /Users/moshi/compilation/src/Tiger.g:64:8: ( '(' ( expr ( ',' expr )* )? ')' )?
 					int alt11=2;
 					try { dbg.enterSubRule(11);
 					try { dbg.enterDecision(11, decisionCanBacktrack[11]);
 
 					int LA11_0 = input.LA(1);
-					if ( (LA11_0==34) ) {
+					if ( (LA11_0==35) ) {
 						alt11=1;
 					}
 					} finally {dbg.exitDecision(11);}
@@ -1558,19 +1623,19 @@ public class TigerParser extends DebugParser {
 						case 1 :
 							dbg.enterAlt(1);
 
-							// /Users/moshi/compilation/src/Tiger.g:63:9: '(' ( expr ( ',' expr )* )? ')'
+							// /Users/moshi/compilation/src/Tiger.g:64:9: '(' ( expr ( ',' expr )* )? ')'
 							{
-							dbg.location(63,9);
-							char_literal40=(Token)match(input,34,FOLLOW_34_in_atom951);  
-							stream_34.add(char_literal40);
-							dbg.location(63,13);
-							// /Users/moshi/compilation/src/Tiger.g:63:13: ( expr ( ',' expr )* )?
+							dbg.location(64,9);
+							char_literal42=(Token)match(input,35,FOLLOW_35_in_atom1100);  
+							stream_35.add(char_literal42);
+							dbg.location(64,13);
+							// /Users/moshi/compilation/src/Tiger.g:64:13: ( expr ( ',' expr )* )?
 							int alt10=2;
 							try { dbg.enterSubRule(10);
 							try { dbg.enterDecision(10, decisionCanBacktrack[10]);
 
 							int LA10_0 = input.LA(1);
-							if ( (LA10_0==ID||LA10_0==INTEGER||LA10_0==STRING||LA10_0==34||LA10_0==39||LA10_0==59) ) {
+							if ( (LA10_0==ID||LA10_0==INTEGER||LA10_0==STRING||LA10_0==35||LA10_0==40||LA10_0==60) ) {
 								alt10=1;
 							}
 							} finally {dbg.exitDecision(10);}
@@ -1579,15 +1644,15 @@ public class TigerParser extends DebugParser {
 								case 1 :
 									dbg.enterAlt(1);
 
-									// /Users/moshi/compilation/src/Tiger.g:63:14: expr ( ',' expr )*
+									// /Users/moshi/compilation/src/Tiger.g:64:14: expr ( ',' expr )*
 									{
-									dbg.location(63,14);
-									pushFollow(FOLLOW_expr_in_atom954);
-									expr41=expr();
+									dbg.location(64,14);
+									pushFollow(FOLLOW_expr_in_atom1103);
+									expr43=expr();
 									state._fsp--;
 
-									stream_expr.add(expr41.getTree());dbg.location(63,19);
-									// /Users/moshi/compilation/src/Tiger.g:63:19: ( ',' expr )*
+									stream_expr.add(expr43.getTree());dbg.location(64,19);
+									// /Users/moshi/compilation/src/Tiger.g:64:19: ( ',' expr )*
 									try { dbg.enterSubRule(9);
 
 									loop9:
@@ -1596,7 +1661,7 @@ public class TigerParser extends DebugParser {
 										try { dbg.enterDecision(9, decisionCanBacktrack[9]);
 
 										int LA9_0 = input.LA(1);
-										if ( (LA9_0==38) ) {
+										if ( (LA9_0==39) ) {
 											alt9=1;
 										}
 
@@ -1606,17 +1671,17 @@ public class TigerParser extends DebugParser {
 										case 1 :
 											dbg.enterAlt(1);
 
-											// /Users/moshi/compilation/src/Tiger.g:63:20: ',' expr
+											// /Users/moshi/compilation/src/Tiger.g:64:20: ',' expr
 											{
-											dbg.location(63,20);
-											char_literal42=(Token)match(input,38,FOLLOW_38_in_atom957);  
-											stream_38.add(char_literal42);
-											dbg.location(63,24);
-											pushFollow(FOLLOW_expr_in_atom959);
-											expr43=expr();
+											dbg.location(64,20);
+											char_literal44=(Token)match(input,39,FOLLOW_39_in_atom1106);  
+											stream_39.add(char_literal44);
+											dbg.location(64,24);
+											pushFollow(FOLLOW_expr_in_atom1108);
+											expr45=expr();
 											state._fsp--;
 
-											stream_expr.add(expr43.getTree());
+											stream_expr.add(expr45.getTree());
 											}
 											break;
 
@@ -1631,9 +1696,9 @@ public class TigerParser extends DebugParser {
 
 							}
 							} finally {dbg.exitSubRule(10);}
-							dbg.location(63,33);
-							char_literal44=(Token)match(input,35,FOLLOW_35_in_atom965);  
-							stream_35.add(char_literal44);
+							dbg.location(64,33);
+							char_literal46=(Token)match(input,36,FOLLOW_36_in_atom1114);  
+							stream_36.add(char_literal46);
 
 							}
 							break;
@@ -1642,7 +1707,7 @@ public class TigerParser extends DebugParser {
 					} finally {dbg.exitSubRule(11);}
 
 					// AST REWRITE
-					// elements: expr, ID
+					// elements: ID, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -1652,27 +1717,27 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 63:81: -> ^( ID ( ^( ARGS ( expr )* ) )? )
+					// 64:81: -> ^( ID ( ^( ARGS ( expr )* ) )? )
 					{
-						dbg.location(63,84);
-						// /Users/moshi/compilation/src/Tiger.g:63:84: ^( ID ( ^( ARGS ( expr )* ) )? )
+						dbg.location(64,84);
+						// /Users/moshi/compilation/src/Tiger.g:64:84: ^( ID ( ^( ARGS ( expr )* ) )? )
 						{
 						Object root_1 = (Object)adaptor.nil();
-						dbg.location(63,86);
+						dbg.location(64,86);
 						root_1 = (Object)adaptor.becomeRoot(stream_ID.nextNode(), root_1);
-						dbg.location(63,89);
-						// /Users/moshi/compilation/src/Tiger.g:63:89: ( ^( ARGS ( expr )* ) )?
+						dbg.location(64,89);
+						// /Users/moshi/compilation/src/Tiger.g:64:89: ( ^( ARGS ( expr )* ) )?
 						if ( stream_expr.hasNext() ) {
-							dbg.location(63,89);
-							// /Users/moshi/compilation/src/Tiger.g:63:89: ^( ARGS ( expr )* )
+							dbg.location(64,89);
+							// /Users/moshi/compilation/src/Tiger.g:64:89: ^( ARGS ( expr )* )
 							{
 							Object root_2 = (Object)adaptor.nil();
-							dbg.location(63,91);
+							dbg.location(64,91);
 							root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(ARGS, "ARGS"), root_2);
-							dbg.location(63,96);
-							// /Users/moshi/compilation/src/Tiger.g:63:96: ( expr )*
+							dbg.location(64,96);
+							// /Users/moshi/compilation/src/Tiger.g:64:96: ( expr )*
 							while ( stream_expr.hasNext() ) {
-								dbg.location(63,96);
+								dbg.location(64,96);
 								adaptor.addChild(root_2, stream_expr.nextTree());
 							}
 							stream_expr.reset();
@@ -1696,18 +1761,18 @@ public class TigerParser extends DebugParser {
 				case 2 :
 					dbg.enterAlt(2);
 
-					// /Users/moshi/compilation/src/Tiger.g:65:5: '(' instruction ( ';' instruction )* ')'
+					// /Users/moshi/compilation/src/Tiger.g:66:5: '(' instruction ( ';' instruction )* ')'
 					{
-					dbg.location(65,5);
-					char_literal45=(Token)match(input,34,FOLLOW_34_in_atom1030);  
-					stream_34.add(char_literal45);
-					dbg.location(65,9);
-					pushFollow(FOLLOW_instruction_in_atom1032);
-					instruction46=instruction();
+					dbg.location(66,5);
+					char_literal47=(Token)match(input,35,FOLLOW_35_in_atom1179);  
+					stream_35.add(char_literal47);
+					dbg.location(66,9);
+					pushFollow(FOLLOW_instruction_in_atom1181);
+					instruction48=instruction();
 					state._fsp--;
 
-					stream_instruction.add(instruction46.getTree());dbg.location(65,21);
-					// /Users/moshi/compilation/src/Tiger.g:65:21: ( ';' instruction )*
+					stream_instruction.add(instruction48.getTree());dbg.location(66,21);
+					// /Users/moshi/compilation/src/Tiger.g:66:21: ( ';' instruction )*
 					try { dbg.enterSubRule(12);
 
 					loop12:
@@ -1716,7 +1781,7 @@ public class TigerParser extends DebugParser {
 						try { dbg.enterDecision(12, decisionCanBacktrack[12]);
 
 						int LA12_0 = input.LA(1);
-						if ( (LA12_0==43) ) {
+						if ( (LA12_0==44) ) {
 							alt12=1;
 						}
 
@@ -1726,17 +1791,17 @@ public class TigerParser extends DebugParser {
 						case 1 :
 							dbg.enterAlt(1);
 
-							// /Users/moshi/compilation/src/Tiger.g:65:22: ';' instruction
+							// /Users/moshi/compilation/src/Tiger.g:66:22: ';' instruction
 							{
-							dbg.location(65,22);
-							char_literal47=(Token)match(input,43,FOLLOW_43_in_atom1035);  
-							stream_43.add(char_literal47);
-							dbg.location(65,26);
-							pushFollow(FOLLOW_instruction_in_atom1037);
-							instruction48=instruction();
+							dbg.location(66,22);
+							char_literal49=(Token)match(input,44,FOLLOW_44_in_atom1184);  
+							stream_44.add(char_literal49);
+							dbg.location(66,26);
+							pushFollow(FOLLOW_instruction_in_atom1186);
+							instruction50=instruction();
 							state._fsp--;
 
-							stream_instruction.add(instruction48.getTree());
+							stream_instruction.add(instruction50.getTree());
 							}
 							break;
 
@@ -1745,9 +1810,9 @@ public class TigerParser extends DebugParser {
 						}
 					}
 					} finally {dbg.exitSubRule(12);}
-					dbg.location(65,40);
-					char_literal49=(Token)match(input,35,FOLLOW_35_in_atom1041);  
-					stream_35.add(char_literal49);
+					dbg.location(66,40);
+					char_literal51=(Token)match(input,36,FOLLOW_36_in_atom1190);  
+					stream_36.add(char_literal51);
 
 					// AST REWRITE
 					// elements: instruction
@@ -1760,14 +1825,14 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 65:81: -> ( instruction )+
+					// 66:81: -> ( instruction )+
 					{
-						dbg.location(65,84);
+						dbg.location(66,84);
 						if ( !(stream_instruction.hasNext()) ) {
 							throw new RewriteEarlyExitException();
 						}
 						while ( stream_instruction.hasNext() ) {
-							dbg.location(65,84);
+							dbg.location(66,84);
 							adaptor.addChild(root_0, stream_instruction.nextTree());
 						}
 						stream_instruction.reset();
@@ -1782,11 +1847,11 @@ public class TigerParser extends DebugParser {
 				case 3 :
 					dbg.enterAlt(3);
 
-					// /Users/moshi/compilation/src/Tiger.g:67:5: STRING
+					// /Users/moshi/compilation/src/Tiger.g:68:5: STRING
 					{
-					dbg.location(67,5);
-					STRING50=(Token)match(input,STRING,FOLLOW_STRING_in_atom1090);  
-					stream_STRING.add(STRING50);
+					dbg.location(68,5);
+					STRING52=(Token)match(input,STRING,FOLLOW_STRING_in_atom1239);  
+					stream_STRING.add(STRING52);
 
 					// AST REWRITE
 					// elements: STRING
@@ -1799,15 +1864,15 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 67:81: -> ^( STR STRING )
+					// 68:81: -> ^( STR STRING )
 					{
-						dbg.location(67,84);
-						// /Users/moshi/compilation/src/Tiger.g:67:84: ^( STR STRING )
+						dbg.location(68,84);
+						// /Users/moshi/compilation/src/Tiger.g:68:84: ^( STR STRING )
 						{
 						Object root_1 = (Object)adaptor.nil();
-						dbg.location(67,86);
+						dbg.location(68,86);
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(STR, "STR"), root_1);
-						dbg.location(67,90);
+						dbg.location(68,90);
 						adaptor.addChild(root_1, stream_STRING.nextNode());
 						adaptor.addChild(root_0, root_1);
 						}
@@ -1822,11 +1887,11 @@ public class TigerParser extends DebugParser {
 				case 4 :
 					dbg.enterAlt(4);
 
-					// /Users/moshi/compilation/src/Tiger.g:68:5: INTEGER
+					// /Users/moshi/compilation/src/Tiger.g:69:5: INTEGER
 					{
-					dbg.location(68,5);
-					INTEGER51=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1173);  
-					stream_INTEGER.add(INTEGER51);
+					dbg.location(69,5);
+					INTEGER53=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1322);  
+					stream_INTEGER.add(INTEGER53);
 
 					// AST REWRITE
 					// elements: INTEGER
@@ -1839,15 +1904,15 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 68:81: -> ^( INT INTEGER )
+					// 69:81: -> ^( INT INTEGER )
 					{
-						dbg.location(68,84);
-						// /Users/moshi/compilation/src/Tiger.g:68:84: ^( INT INTEGER )
+						dbg.location(69,84);
+						// /Users/moshi/compilation/src/Tiger.g:69:84: ^( INT INTEGER )
 						{
 						Object root_1 = (Object)adaptor.nil();
-						dbg.location(68,86);
+						dbg.location(69,86);
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(INT, "INT"), root_1);
-						dbg.location(68,90);
+						dbg.location(69,90);
 						adaptor.addChild(root_1, stream_INTEGER.nextNode());
 						adaptor.addChild(root_0, root_1);
 						}
@@ -1862,14 +1927,14 @@ public class TigerParser extends DebugParser {
 				case 5 :
 					dbg.enterAlt(5);
 
-					// /Users/moshi/compilation/src/Tiger.g:69:5: '-' INTEGER
+					// /Users/moshi/compilation/src/Tiger.g:70:5: '-' INTEGER
 					{
-					dbg.location(69,5);
-					char_literal52=(Token)match(input,39,FOLLOW_39_in_atom1255);  
-					stream_39.add(char_literal52);
-					dbg.location(69,9);
-					INTEGER53=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1257);  
-					stream_INTEGER.add(INTEGER53);
+					dbg.location(70,5);
+					char_literal54=(Token)match(input,40,FOLLOW_40_in_atom1404);  
+					stream_40.add(char_literal54);
+					dbg.location(70,9);
+					INTEGER55=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1406);  
+					stream_INTEGER.add(INTEGER55);
 
 					// AST REWRITE
 					// elements: INTEGER
@@ -1882,15 +1947,15 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 69:81: -> ^( NEG INTEGER )
+					// 70:81: -> ^( NEG INTEGER )
 					{
-						dbg.location(69,84);
-						// /Users/moshi/compilation/src/Tiger.g:69:84: ^( NEG INTEGER )
+						dbg.location(70,84);
+						// /Users/moshi/compilation/src/Tiger.g:70:84: ^( NEG INTEGER )
 						{
 						Object root_1 = (Object)adaptor.nil();
-						dbg.location(69,86);
+						dbg.location(70,86);
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(NEG, "NEG"), root_1);
-						dbg.location(69,90);
+						dbg.location(70,90);
 						adaptor.addChild(root_1, stream_INTEGER.nextNode());
 						adaptor.addChild(root_0, root_1);
 						}
@@ -1905,11 +1970,11 @@ public class TigerParser extends DebugParser {
 				case 6 :
 					dbg.enterAlt(6);
 
-					// /Users/moshi/compilation/src/Tiger.g:70:5: 'nil'
+					// /Users/moshi/compilation/src/Tiger.g:71:5: 'nil'
 					{
-					dbg.location(70,5);
-					string_literal54=(Token)match(input,59,FOLLOW_59_in_atom1335);  
-					stream_59.add(string_literal54);
+					dbg.location(71,5);
+					string_literal56=(Token)match(input,60,FOLLOW_60_in_atom1484);  
+					stream_60.add(string_literal56);
 
 					// AST REWRITE
 					// elements: 
@@ -1922,13 +1987,13 @@ public class TigerParser extends DebugParser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 70:81: -> ^( NIL )
+					// 71:81: -> ^( NIL )
 					{
-						dbg.location(70,84);
-						// /Users/moshi/compilation/src/Tiger.g:70:84: ^( NIL )
+						dbg.location(71,84);
+						// /Users/moshi/compilation/src/Tiger.g:71:84: ^( NIL )
 						{
 						Object root_1 = (Object)adaptor.nil();
-						dbg.location(70,86);
+						dbg.location(71,86);
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(NIL, "NIL"), root_1);
 						adaptor.addChild(root_0, root_1);
 						}
@@ -1956,7 +2021,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(71, 2);
+		dbg.location(72, 2);
 
 		}
 		finally {
@@ -1978,36 +2043,36 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "expr"
-	// /Users/moshi/compilation/src/Tiger.g:75:1: expr : assignExpr ;
+	// /Users/moshi/compilation/src/Tiger.g:76:1: expr : assignExpr ;
 	public final TigerParser.expr_return expr() throws RecognitionException {
 		TigerParser.expr_return retval = new TigerParser.expr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope assignExpr55 =null;
+		ParserRuleReturnScope assignExpr57 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "expr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(75, 0);
+		dbg.location(76, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:75:6: ( assignExpr )
+			// /Users/moshi/compilation/src/Tiger.g:76:6: ( assignExpr )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:75:8: assignExpr
+			// /Users/moshi/compilation/src/Tiger.g:76:8: assignExpr
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(75,8);
-			pushFollow(FOLLOW_assignExpr_in_expr1424);
-			assignExpr55=assignExpr();
+			dbg.location(76,8);
+			pushFollow(FOLLOW_assignExpr_in_expr1573);
+			assignExpr57=assignExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, assignExpr55.getTree());
+			adaptor.addChild(root_0, assignExpr57.getTree());
 
 			}
 
@@ -2025,7 +2090,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(75, 18);
+		dbg.location(76, 18);
 
 		}
 		finally {
@@ -2047,40 +2112,40 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "assignExpr"
-	// /Users/moshi/compilation/src/Tiger.g:77:1: assignExpr : logExpr ( assign ^ logExpr )* ;
+	// /Users/moshi/compilation/src/Tiger.g:78:1: assignExpr : logExpr ( assign ^ logExpr )* ;
 	public final TigerParser.assignExpr_return assignExpr() throws RecognitionException {
 		TigerParser.assignExpr_return retval = new TigerParser.assignExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope logExpr56 =null;
-		ParserRuleReturnScope assign57 =null;
 		ParserRuleReturnScope logExpr58 =null;
+		ParserRuleReturnScope assign59 =null;
+		ParserRuleReturnScope logExpr60 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "assignExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(77, 0);
+		dbg.location(78, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:77:13: ( logExpr ( assign ^ logExpr )* )
+			// /Users/moshi/compilation/src/Tiger.g:78:13: ( logExpr ( assign ^ logExpr )* )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:77:15: logExpr ( assign ^ logExpr )*
+			// /Users/moshi/compilation/src/Tiger.g:78:15: logExpr ( assign ^ logExpr )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(77,15);
-			pushFollow(FOLLOW_logExpr_in_assignExpr1434);
-			logExpr56=logExpr();
+			dbg.location(78,15);
+			pushFollow(FOLLOW_logExpr_in_assignExpr1583);
+			logExpr58=logExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, logExpr56.getTree());
-			dbg.location(77,27);
-			// /Users/moshi/compilation/src/Tiger.g:77:27: ( assign ^ logExpr )*
+			adaptor.addChild(root_0, logExpr58.getTree());
+			dbg.location(78,27);
+			// /Users/moshi/compilation/src/Tiger.g:78:27: ( assign ^ logExpr )*
 			try { dbg.enterSubRule(14);
 
 			loop14:
@@ -2089,7 +2154,7 @@ public class TigerParser extends DebugParser {
 				try { dbg.enterDecision(14, decisionCanBacktrack[14]);
 
 				int LA14_0 = input.LA(1);
-				if ( (LA14_0==42) ) {
+				if ( (LA14_0==43) ) {
 					alt14=1;
 				}
 
@@ -2099,19 +2164,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:77:30: assign ^ logExpr
+					// /Users/moshi/compilation/src/Tiger.g:78:30: assign ^ logExpr
 					{
-					dbg.location(77,36);
-					pushFollow(FOLLOW_assign_in_assignExpr1443);
-					assign57=assign();
+					dbg.location(78,36);
+					pushFollow(FOLLOW_assign_in_assignExpr1592);
+					assign59=assign();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(assign57.getTree(), root_0);dbg.location(77,42);
-					pushFollow(FOLLOW_logExpr_in_assignExpr1450);
-					logExpr58=logExpr();
+					root_0 = (Object)adaptor.becomeRoot(assign59.getTree(), root_0);dbg.location(78,42);
+					pushFollow(FOLLOW_logExpr_in_assignExpr1599);
+					logExpr60=logExpr();
 					state._fsp--;
 
-					adaptor.addChild(root_0, logExpr58.getTree());
+					adaptor.addChild(root_0, logExpr60.getTree());
 
 					}
 					break;
@@ -2138,7 +2203,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(77, 51);
+		dbg.location(78, 51);
 
 		}
 		finally {
@@ -2160,40 +2225,40 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "logExpr"
-	// /Users/moshi/compilation/src/Tiger.g:78:1: logExpr : andExpr ( or ^ andExpr )* ;
+	// /Users/moshi/compilation/src/Tiger.g:79:1: logExpr : andExpr ( or ^ andExpr )* ;
 	public final TigerParser.logExpr_return logExpr() throws RecognitionException {
 		TigerParser.logExpr_return retval = new TigerParser.logExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope andExpr59 =null;
-		ParserRuleReturnScope or60 =null;
 		ParserRuleReturnScope andExpr61 =null;
+		ParserRuleReturnScope or62 =null;
+		ParserRuleReturnScope andExpr63 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "logExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(78, 0);
+		dbg.location(79, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:78:13: ( andExpr ( or ^ andExpr )* )
+			// /Users/moshi/compilation/src/Tiger.g:79:13: ( andExpr ( or ^ andExpr )* )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:78:15: andExpr ( or ^ andExpr )*
+			// /Users/moshi/compilation/src/Tiger.g:79:15: andExpr ( or ^ andExpr )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(78,15);
-			pushFollow(FOLLOW_andExpr_in_logExpr1464);
-			andExpr59=andExpr();
+			dbg.location(79,15);
+			pushFollow(FOLLOW_andExpr_in_logExpr1613);
+			andExpr61=andExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, andExpr59.getTree());
-			dbg.location(78,27);
-			// /Users/moshi/compilation/src/Tiger.g:78:27: ( or ^ andExpr )*
+			adaptor.addChild(root_0, andExpr61.getTree());
+			dbg.location(79,27);
+			// /Users/moshi/compilation/src/Tiger.g:79:27: ( or ^ andExpr )*
 			try { dbg.enterSubRule(15);
 
 			loop15:
@@ -2202,7 +2267,7 @@ public class TigerParser extends DebugParser {
 				try { dbg.enterDecision(15, decisionCanBacktrack[15]);
 
 				int LA15_0 = input.LA(1);
-				if ( (LA15_0==64) ) {
+				if ( (LA15_0==66) ) {
 					alt15=1;
 				}
 
@@ -2212,19 +2277,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:78:34: or ^ andExpr
+					// /Users/moshi/compilation/src/Tiger.g:79:34: or ^ andExpr
 					{
-					dbg.location(78,36);
-					pushFollow(FOLLOW_or_in_logExpr1477);
-					or60=or();
+					dbg.location(79,36);
+					pushFollow(FOLLOW_or_in_logExpr1626);
+					or62=or();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(or60.getTree(), root_0);dbg.location(78,42);
-					pushFollow(FOLLOW_andExpr_in_logExpr1484);
-					andExpr61=andExpr();
+					root_0 = (Object)adaptor.becomeRoot(or62.getTree(), root_0);dbg.location(79,42);
+					pushFollow(FOLLOW_andExpr_in_logExpr1633);
+					andExpr63=andExpr();
 					state._fsp--;
 
-					adaptor.addChild(root_0, andExpr61.getTree());
+					adaptor.addChild(root_0, andExpr63.getTree());
 
 					}
 					break;
@@ -2251,7 +2316,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(78, 51);
+		dbg.location(79, 51);
 
 		}
 		finally {
@@ -2273,40 +2338,40 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "andExpr"
-	// /Users/moshi/compilation/src/Tiger.g:79:1: andExpr : compExpr ( and ^ compExpr )* ;
+	// /Users/moshi/compilation/src/Tiger.g:80:1: andExpr : compExpr ( and ^ compExpr )* ;
 	public final TigerParser.andExpr_return andExpr() throws RecognitionException {
 		TigerParser.andExpr_return retval = new TigerParser.andExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope compExpr62 =null;
-		ParserRuleReturnScope and63 =null;
 		ParserRuleReturnScope compExpr64 =null;
+		ParserRuleReturnScope and65 =null;
+		ParserRuleReturnScope compExpr66 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "andExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(79, 0);
+		dbg.location(80, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:79:13: ( compExpr ( and ^ compExpr )* )
+			// /Users/moshi/compilation/src/Tiger.g:80:13: ( compExpr ( and ^ compExpr )* )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:79:15: compExpr ( and ^ compExpr )*
+			// /Users/moshi/compilation/src/Tiger.g:80:15: compExpr ( and ^ compExpr )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(79,15);
-			pushFollow(FOLLOW_compExpr_in_andExpr1498);
-			compExpr62=compExpr();
+			dbg.location(80,15);
+			pushFollow(FOLLOW_compExpr_in_andExpr1647);
+			compExpr64=compExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, compExpr62.getTree());
-			dbg.location(79,27);
-			// /Users/moshi/compilation/src/Tiger.g:79:27: ( and ^ compExpr )*
+			adaptor.addChild(root_0, compExpr64.getTree());
+			dbg.location(80,27);
+			// /Users/moshi/compilation/src/Tiger.g:80:27: ( and ^ compExpr )*
 			try { dbg.enterSubRule(16);
 
 			loop16:
@@ -2315,7 +2380,7 @@ public class TigerParser extends DebugParser {
 				try { dbg.enterDecision(16, decisionCanBacktrack[16]);
 
 				int LA16_0 = input.LA(1);
-				if ( (LA16_0==33) ) {
+				if ( (LA16_0==34) ) {
 					alt16=1;
 				}
 
@@ -2325,19 +2390,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:79:33: and ^ compExpr
+					// /Users/moshi/compilation/src/Tiger.g:80:33: and ^ compExpr
 					{
-					dbg.location(79,36);
-					pushFollow(FOLLOW_and_in_andExpr1509);
-					and63=and();
+					dbg.location(80,36);
+					pushFollow(FOLLOW_and_in_andExpr1658);
+					and65=and();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(and63.getTree(), root_0);dbg.location(79,41);
-					pushFollow(FOLLOW_compExpr_in_andExpr1515);
-					compExpr64=compExpr();
+					root_0 = (Object)adaptor.becomeRoot(and65.getTree(), root_0);dbg.location(80,41);
+					pushFollow(FOLLOW_compExpr_in_andExpr1664);
+					compExpr66=compExpr();
 					state._fsp--;
 
-					adaptor.addChild(root_0, compExpr64.getTree());
+					adaptor.addChild(root_0, compExpr66.getTree());
 
 					}
 					break;
@@ -2364,7 +2429,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(79, 51);
+		dbg.location(80, 51);
 
 		}
 		finally {
@@ -2386,46 +2451,46 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "compExpr"
-	// /Users/moshi/compilation/src/Tiger.g:80:1: compExpr : addMinExpr ( comp ^ addMinExpr )? ;
+	// /Users/moshi/compilation/src/Tiger.g:81:1: compExpr : addMinExpr ( comp ^ addMinExpr )? ;
 	public final TigerParser.compExpr_return compExpr() throws RecognitionException {
 		TigerParser.compExpr_return retval = new TigerParser.compExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope addMinExpr65 =null;
-		ParserRuleReturnScope comp66 =null;
 		ParserRuleReturnScope addMinExpr67 =null;
+		ParserRuleReturnScope comp68 =null;
+		ParserRuleReturnScope addMinExpr69 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "compExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(80, 0);
+		dbg.location(81, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:80:13: ( addMinExpr ( comp ^ addMinExpr )? )
+			// /Users/moshi/compilation/src/Tiger.g:81:13: ( addMinExpr ( comp ^ addMinExpr )? )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:80:15: addMinExpr ( comp ^ addMinExpr )?
+			// /Users/moshi/compilation/src/Tiger.g:81:15: addMinExpr ( comp ^ addMinExpr )?
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(80,15);
-			pushFollow(FOLLOW_addMinExpr_in_compExpr1528);
-			addMinExpr65=addMinExpr();
+			dbg.location(81,15);
+			pushFollow(FOLLOW_addMinExpr_in_compExpr1677);
+			addMinExpr67=addMinExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, addMinExpr65.getTree());
-			dbg.location(80,27);
-			// /Users/moshi/compilation/src/Tiger.g:80:27: ( comp ^ addMinExpr )?
+			adaptor.addChild(root_0, addMinExpr67.getTree());
+			dbg.location(81,27);
+			// /Users/moshi/compilation/src/Tiger.g:81:27: ( comp ^ addMinExpr )?
 			int alt17=2;
 			try { dbg.enterSubRule(17);
 			try { dbg.enterDecision(17, decisionCanBacktrack[17]);
 
 			int LA17_0 = input.LA(1);
-			if ( ((LA17_0 >= 44 && LA17_0 <= 49)) ) {
+			if ( ((LA17_0 >= 45 && LA17_0 <= 50)) ) {
 				alt17=1;
 			}
 			} finally {dbg.exitDecision(17);}
@@ -2434,19 +2499,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:80:32: comp ^ addMinExpr
+					// /Users/moshi/compilation/src/Tiger.g:81:32: comp ^ addMinExpr
 					{
-					dbg.location(80,36);
-					pushFollow(FOLLOW_comp_in_compExpr1536);
-					comp66=comp();
+					dbg.location(81,36);
+					pushFollow(FOLLOW_comp_in_compExpr1685);
+					comp68=comp();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(comp66.getTree(), root_0);dbg.location(80,39);
-					pushFollow(FOLLOW_addMinExpr_in_compExpr1540);
-					addMinExpr67=addMinExpr();
+					root_0 = (Object)adaptor.becomeRoot(comp68.getTree(), root_0);dbg.location(81,39);
+					pushFollow(FOLLOW_addMinExpr_in_compExpr1689);
+					addMinExpr69=addMinExpr();
 					state._fsp--;
 
-					adaptor.addChild(root_0, addMinExpr67.getTree());
+					adaptor.addChild(root_0, addMinExpr69.getTree());
 
 					}
 					break;
@@ -2470,7 +2535,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(80, 51);
+		dbg.location(81, 51);
 
 		}
 		finally {
@@ -2492,40 +2557,40 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "addMinExpr"
-	// /Users/moshi/compilation/src/Tiger.g:81:1: addMinExpr : multDivExpr ( addMin ^ multDivExpr )* ;
+	// /Users/moshi/compilation/src/Tiger.g:82:1: addMinExpr : multDivExpr ( addMin ^ multDivExpr )* ;
 	public final TigerParser.addMinExpr_return addMinExpr() throws RecognitionException {
 		TigerParser.addMinExpr_return retval = new TigerParser.addMinExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope multDivExpr68 =null;
-		ParserRuleReturnScope addMin69 =null;
 		ParserRuleReturnScope multDivExpr70 =null;
+		ParserRuleReturnScope addMin71 =null;
+		ParserRuleReturnScope multDivExpr72 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "addMinExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(81, 0);
+		dbg.location(82, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:81:13: ( multDivExpr ( addMin ^ multDivExpr )* )
+			// /Users/moshi/compilation/src/Tiger.g:82:13: ( multDivExpr ( addMin ^ multDivExpr )* )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:81:15: multDivExpr ( addMin ^ multDivExpr )*
+			// /Users/moshi/compilation/src/Tiger.g:82:15: multDivExpr ( addMin ^ multDivExpr )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(81,15);
-			pushFollow(FOLLOW_multDivExpr_in_addMinExpr1551);
-			multDivExpr68=multDivExpr();
+			dbg.location(82,15);
+			pushFollow(FOLLOW_multDivExpr_in_addMinExpr1700);
+			multDivExpr70=multDivExpr();
 			state._fsp--;
 
-			adaptor.addChild(root_0, multDivExpr68.getTree());
-			dbg.location(81,27);
-			// /Users/moshi/compilation/src/Tiger.g:81:27: ( addMin ^ multDivExpr )*
+			adaptor.addChild(root_0, multDivExpr70.getTree());
+			dbg.location(82,27);
+			// /Users/moshi/compilation/src/Tiger.g:82:27: ( addMin ^ multDivExpr )*
 			try { dbg.enterSubRule(18);
 
 			loop18:
@@ -2534,7 +2599,7 @@ public class TigerParser extends DebugParser {
 				try { dbg.enterDecision(18, decisionCanBacktrack[18]);
 
 				int LA18_0 = input.LA(1);
-				if ( (LA18_0==37||LA18_0==39) ) {
+				if ( (LA18_0==38||LA18_0==40) ) {
 					alt18=1;
 				}
 
@@ -2544,19 +2609,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:81:30: addMin ^ multDivExpr
+					// /Users/moshi/compilation/src/Tiger.g:82:30: addMin ^ multDivExpr
 					{
-					dbg.location(81,36);
-					pushFollow(FOLLOW_addMin_in_addMinExpr1556);
-					addMin69=addMin();
+					dbg.location(82,36);
+					pushFollow(FOLLOW_addMin_in_addMinExpr1705);
+					addMin71=addMin();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(addMin69.getTree(), root_0);dbg.location(81,38);
-					pushFollow(FOLLOW_multDivExpr_in_addMinExpr1559);
-					multDivExpr70=multDivExpr();
+					root_0 = (Object)adaptor.becomeRoot(addMin71.getTree(), root_0);dbg.location(82,38);
+					pushFollow(FOLLOW_multDivExpr_in_addMinExpr1708);
+					multDivExpr72=multDivExpr();
 					state._fsp--;
 
-					adaptor.addChild(root_0, multDivExpr70.getTree());
+					adaptor.addChild(root_0, multDivExpr72.getTree());
 
 					}
 					break;
@@ -2583,7 +2648,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(81, 51);
+		dbg.location(82, 51);
 
 		}
 		finally {
@@ -2605,40 +2670,40 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "multDivExpr"
-	// /Users/moshi/compilation/src/Tiger.g:82:1: multDivExpr : atom ( multDiv ^ atom )* ;
+	// /Users/moshi/compilation/src/Tiger.g:83:1: multDivExpr : atom ( multDiv ^ atom )* ;
 	public final TigerParser.multDivExpr_return multDivExpr() throws RecognitionException {
 		TigerParser.multDivExpr_return retval = new TigerParser.multDivExpr_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		ParserRuleReturnScope atom71 =null;
-		ParserRuleReturnScope multDiv72 =null;
 		ParserRuleReturnScope atom73 =null;
+		ParserRuleReturnScope multDiv74 =null;
+		ParserRuleReturnScope atom75 =null;
 
 
 		try { dbg.enterRule(getGrammarFileName(), "multDivExpr");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(82, 0);
+		dbg.location(83, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:82:13: ( atom ( multDiv ^ atom )* )
+			// /Users/moshi/compilation/src/Tiger.g:83:13: ( atom ( multDiv ^ atom )* )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:82:15: atom ( multDiv ^ atom )*
+			// /Users/moshi/compilation/src/Tiger.g:83:15: atom ( multDiv ^ atom )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(82,15);
-			pushFollow(FOLLOW_atom_in_multDivExpr1569);
-			atom71=atom();
+			dbg.location(83,15);
+			pushFollow(FOLLOW_atom_in_multDivExpr1718);
+			atom73=atom();
 			state._fsp--;
 
-			adaptor.addChild(root_0, atom71.getTree());
-			dbg.location(82,27);
-			// /Users/moshi/compilation/src/Tiger.g:82:27: ( multDiv ^ atom )*
+			adaptor.addChild(root_0, atom73.getTree());
+			dbg.location(83,27);
+			// /Users/moshi/compilation/src/Tiger.g:83:27: ( multDiv ^ atom )*
 			try { dbg.enterSubRule(19);
 
 			loop19:
@@ -2647,7 +2712,7 @@ public class TigerParser extends DebugParser {
 				try { dbg.enterDecision(19, decisionCanBacktrack[19]);
 
 				int LA19_0 = input.LA(1);
-				if ( (LA19_0==36||LA19_0==40) ) {
+				if ( (LA19_0==37||LA19_0==41) ) {
 					alt19=1;
 				}
 
@@ -2657,19 +2722,19 @@ public class TigerParser extends DebugParser {
 				case 1 :
 					dbg.enterAlt(1);
 
-					// /Users/moshi/compilation/src/Tiger.g:82:29: multDiv ^ atom
+					// /Users/moshi/compilation/src/Tiger.g:83:29: multDiv ^ atom
 					{
-					dbg.location(82,36);
-					pushFollow(FOLLOW_multDiv_in_multDivExpr1580);
-					multDiv72=multDiv();
+					dbg.location(83,36);
+					pushFollow(FOLLOW_multDiv_in_multDivExpr1729);
+					multDiv74=multDiv();
 					state._fsp--;
 
-					root_0 = (Object)adaptor.becomeRoot(multDiv72.getTree(), root_0);dbg.location(82,45);
-					pushFollow(FOLLOW_atom_in_multDivExpr1590);
-					atom73=atom();
+					root_0 = (Object)adaptor.becomeRoot(multDiv74.getTree(), root_0);dbg.location(83,45);
+					pushFollow(FOLLOW_atom_in_multDivExpr1739);
+					atom75=atom();
 					state._fsp--;
 
-					adaptor.addChild(root_0, atom73.getTree());
+					adaptor.addChild(root_0, atom75.getTree());
 
 					}
 					break;
@@ -2696,7 +2761,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(82, 51);
+		dbg.location(83, 51);
 
 		}
 		finally {
@@ -2718,99 +2783,24 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "addMin"
-	// /Users/moshi/compilation/src/Tiger.g:85:2: addMin : ( '+' | '-' );
+	// /Users/moshi/compilation/src/Tiger.g:86:2: addMin : ( '+' | '-' );
 	public final TigerParser.addMin_return addMin() throws RecognitionException {
 		TigerParser.addMin_return retval = new TigerParser.addMin_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token set74=null;
+		Token set76=null;
 
-		Object set74_tree=null;
+		Object set76_tree=null;
 
 		try { dbg.enterRule(getGrammarFileName(), "addMin");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(85, 1);
+		dbg.location(86, 1);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:85:9: ( '+' | '-' )
-			dbg.enterAlt(1);
-
-			// /Users/moshi/compilation/src/Tiger.g:
-			{
-			root_0 = (Object)adaptor.nil();
-
-
-			dbg.location(85,9);
-			set74=input.LT(1);
-			if ( input.LA(1)==37||input.LA(1)==39 ) {
-				input.consume();
-				adaptor.addChild(root_0, (Object)adaptor.create(set74));
-				state.errorRecovery=false;
-			}
-			else {
-				MismatchedSetException mse = new MismatchedSetException(null,input);
-				dbg.recognitionException(mse);
-				throw mse;
-			}
-			}
-
-			retval.stop = input.LT(-1);
-
-			retval.tree = (Object)adaptor.rulePostProcessing(root_0);
-			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-			retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		dbg.location(85, 18);
-
-		}
-		finally {
-			dbg.exitRule(getGrammarFileName(), "addMin");
-			decRuleLevel();
-			if ( getRuleLevel()==0 ) {dbg.terminate();}
-		}
-
-		return retval;
-	}
-	// $ANTLR end "addMin"
-
-
-	public static class multDiv_return extends ParserRuleReturnScope {
-		Object tree;
-		@Override
-		public Object getTree() { return tree; }
-	};
-
-
-	// $ANTLR start "multDiv"
-	// /Users/moshi/compilation/src/Tiger.g:86:1: multDiv : ( '*' | '/' );
-	public final TigerParser.multDiv_return multDiv() throws RecognitionException {
-		TigerParser.multDiv_return retval = new TigerParser.multDiv_return();
-		retval.start = input.LT(1);
-
-		Object root_0 = null;
-
-		Token set75=null;
-
-		Object set75_tree=null;
-
-		try { dbg.enterRule(getGrammarFileName(), "multDiv");
-		if ( getRuleLevel()==0 ) {dbg.commence();}
-		incRuleLevel();
-		dbg.location(86, 0);
-
-		try {
-			// /Users/moshi/compilation/src/Tiger.g:86:9: ( '*' | '/' )
+			// /Users/moshi/compilation/src/Tiger.g:86:9: ( '+' | '-' )
 			dbg.enterAlt(1);
 
 			// /Users/moshi/compilation/src/Tiger.g:
@@ -2819,10 +2809,10 @@ public class TigerParser extends DebugParser {
 
 
 			dbg.location(86,9);
-			set75=input.LT(1);
-			if ( input.LA(1)==36||input.LA(1)==40 ) {
+			set76=input.LT(1);
+			if ( input.LA(1)==38||input.LA(1)==40 ) {
 				input.consume();
-				adaptor.addChild(root_0, (Object)adaptor.create(set75));
+				adaptor.addChild(root_0, (Object)adaptor.create(set76));
 				state.errorRecovery=false;
 			}
 			else {
@@ -2850,42 +2840,42 @@ public class TigerParser extends DebugParser {
 
 		}
 		finally {
-			dbg.exitRule(getGrammarFileName(), "multDiv");
+			dbg.exitRule(getGrammarFileName(), "addMin");
 			decRuleLevel();
 			if ( getRuleLevel()==0 ) {dbg.terminate();}
 		}
 
 		return retval;
 	}
-	// $ANTLR end "multDiv"
+	// $ANTLR end "addMin"
 
 
-	public static class comp_return extends ParserRuleReturnScope {
+	public static class multDiv_return extends ParserRuleReturnScope {
 		Object tree;
 		@Override
 		public Object getTree() { return tree; }
 	};
 
 
-	// $ANTLR start "comp"
-	// /Users/moshi/compilation/src/Tiger.g:87:4: comp : ( '<' | '>' | '<=' | '>=' | '=' | '<>' );
-	public final TigerParser.comp_return comp() throws RecognitionException {
-		TigerParser.comp_return retval = new TigerParser.comp_return();
+	// $ANTLR start "multDiv"
+	// /Users/moshi/compilation/src/Tiger.g:87:1: multDiv : ( '*' | '/' );
+	public final TigerParser.multDiv_return multDiv() throws RecognitionException {
+		TigerParser.multDiv_return retval = new TigerParser.multDiv_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token set76=null;
+		Token set77=null;
 
-		Object set76_tree=null;
+		Object set77_tree=null;
 
-		try { dbg.enterRule(getGrammarFileName(), "comp");
+		try { dbg.enterRule(getGrammarFileName(), "multDiv");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(87, 3);
+		dbg.location(87, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:87:9: ( '<' | '>' | '<=' | '>=' | '=' | '<>' )
+			// /Users/moshi/compilation/src/Tiger.g:87:9: ( '*' | '/' )
 			dbg.enterAlt(1);
 
 			// /Users/moshi/compilation/src/Tiger.g:
@@ -2894,10 +2884,10 @@ public class TigerParser extends DebugParser {
 
 
 			dbg.location(87,9);
-			set76=input.LT(1);
-			if ( (input.LA(1) >= 44 && input.LA(1) <= 49) ) {
+			set77=input.LT(1);
+			if ( input.LA(1)==37||input.LA(1)==41 ) {
 				input.consume();
-				adaptor.addChild(root_0, (Object)adaptor.create(set76));
+				adaptor.addChild(root_0, (Object)adaptor.create(set77));
 				state.errorRecovery=false;
 			}
 			else {
@@ -2921,7 +2911,82 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(87, 37);
+		dbg.location(87, 18);
+
+		}
+		finally {
+			dbg.exitRule(getGrammarFileName(), "multDiv");
+			decRuleLevel();
+			if ( getRuleLevel()==0 ) {dbg.terminate();}
+		}
+
+		return retval;
+	}
+	// $ANTLR end "multDiv"
+
+
+	public static class comp_return extends ParserRuleReturnScope {
+		Object tree;
+		@Override
+		public Object getTree() { return tree; }
+	};
+
+
+	// $ANTLR start "comp"
+	// /Users/moshi/compilation/src/Tiger.g:88:4: comp : ( '<' | '>' | '<=' | '>=' | '=' | '<>' );
+	public final TigerParser.comp_return comp() throws RecognitionException {
+		TigerParser.comp_return retval = new TigerParser.comp_return();
+		retval.start = input.LT(1);
+
+		Object root_0 = null;
+
+		Token set78=null;
+
+		Object set78_tree=null;
+
+		try { dbg.enterRule(getGrammarFileName(), "comp");
+		if ( getRuleLevel()==0 ) {dbg.commence();}
+		incRuleLevel();
+		dbg.location(88, 3);
+
+		try {
+			// /Users/moshi/compilation/src/Tiger.g:88:9: ( '<' | '>' | '<=' | '>=' | '=' | '<>' )
+			dbg.enterAlt(1);
+
+			// /Users/moshi/compilation/src/Tiger.g:
+			{
+			root_0 = (Object)adaptor.nil();
+
+
+			dbg.location(88,9);
+			set78=input.LT(1);
+			if ( (input.LA(1) >= 45 && input.LA(1) <= 50) ) {
+				input.consume();
+				adaptor.addChild(root_0, (Object)adaptor.create(set78));
+				state.errorRecovery=false;
+			}
+			else {
+				MismatchedSetException mse = new MismatchedSetException(null,input);
+				dbg.recognitionException(mse);
+				throw mse;
+			}
+			}
+
+			retval.stop = input.LT(-1);
+
+			retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+			retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		dbg.location(88, 37);
 
 		}
 		finally {
@@ -2943,103 +3008,35 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "and"
-	// /Users/moshi/compilation/src/Tiger.g:88:5: and : '&' ;
+	// /Users/moshi/compilation/src/Tiger.g:89:5: and : '&' ;
 	public final TigerParser.and_return and() throws RecognitionException {
 		TigerParser.and_return retval = new TigerParser.and_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token char_literal77=null;
+		Token char_literal79=null;
 
-		Object char_literal77_tree=null;
+		Object char_literal79_tree=null;
 
 		try { dbg.enterRule(getGrammarFileName(), "and");
-		if ( getRuleLevel()==0 ) {dbg.commence();}
-		incRuleLevel();
-		dbg.location(88, 4);
-
-		try {
-			// /Users/moshi/compilation/src/Tiger.g:88:9: ( '&' )
-			dbg.enterAlt(1);
-
-			// /Users/moshi/compilation/src/Tiger.g:88:11: '&'
-			{
-			root_0 = (Object)adaptor.nil();
-
-
-			dbg.location(88,11);
-			char_literal77=(Token)match(input,33,FOLLOW_33_in_and1648); 
-			char_literal77_tree = (Object)adaptor.create(char_literal77);
-			adaptor.addChild(root_0, char_literal77_tree);
-
-			}
-
-			retval.stop = input.LT(-1);
-
-			retval.tree = (Object)adaptor.rulePostProcessing(root_0);
-			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-			retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		dbg.location(88, 14);
-
-		}
-		finally {
-			dbg.exitRule(getGrammarFileName(), "and");
-			decRuleLevel();
-			if ( getRuleLevel()==0 ) {dbg.terminate();}
-		}
-
-		return retval;
-	}
-	// $ANTLR end "and"
-
-
-	public static class or_return extends ParserRuleReturnScope {
-		Object tree;
-		@Override
-		public Object getTree() { return tree; }
-	};
-
-
-	// $ANTLR start "or"
-	// /Users/moshi/compilation/src/Tiger.g:89:5: or : '|' ;
-	public final TigerParser.or_return or() throws RecognitionException {
-		TigerParser.or_return retval = new TigerParser.or_return();
-		retval.start = input.LT(1);
-
-		Object root_0 = null;
-
-		Token char_literal78=null;
-
-		Object char_literal78_tree=null;
-
-		try { dbg.enterRule(getGrammarFileName(), "or");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
 		dbg.location(89, 4);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:89:9: ( '|' )
+			// /Users/moshi/compilation/src/Tiger.g:89:9: ( '&' )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:89:11: '|'
+			// /Users/moshi/compilation/src/Tiger.g:89:11: '&'
 			{
 			root_0 = (Object)adaptor.nil();
 
 
 			dbg.location(89,11);
-			char_literal78=(Token)match(input,64,FOLLOW_64_in_or1661); 
-			char_literal78_tree = (Object)adaptor.create(char_literal78);
-			adaptor.addChild(root_0, char_literal78_tree);
+			char_literal79=(Token)match(input,34,FOLLOW_34_in_and1797); 
+			char_literal79_tree = (Object)adaptor.create(char_literal79);
+			adaptor.addChild(root_0, char_literal79_tree);
 
 			}
 
@@ -3061,6 +3058,74 @@ public class TigerParser extends DebugParser {
 
 		}
 		finally {
+			dbg.exitRule(getGrammarFileName(), "and");
+			decRuleLevel();
+			if ( getRuleLevel()==0 ) {dbg.terminate();}
+		}
+
+		return retval;
+	}
+	// $ANTLR end "and"
+
+
+	public static class or_return extends ParserRuleReturnScope {
+		Object tree;
+		@Override
+		public Object getTree() { return tree; }
+	};
+
+
+	// $ANTLR start "or"
+	// /Users/moshi/compilation/src/Tiger.g:90:5: or : '|' ;
+	public final TigerParser.or_return or() throws RecognitionException {
+		TigerParser.or_return retval = new TigerParser.or_return();
+		retval.start = input.LT(1);
+
+		Object root_0 = null;
+
+		Token char_literal80=null;
+
+		Object char_literal80_tree=null;
+
+		try { dbg.enterRule(getGrammarFileName(), "or");
+		if ( getRuleLevel()==0 ) {dbg.commence();}
+		incRuleLevel();
+		dbg.location(90, 4);
+
+		try {
+			// /Users/moshi/compilation/src/Tiger.g:90:9: ( '|' )
+			dbg.enterAlt(1);
+
+			// /Users/moshi/compilation/src/Tiger.g:90:11: '|'
+			{
+			root_0 = (Object)adaptor.nil();
+
+
+			dbg.location(90,11);
+			char_literal80=(Token)match(input,66,FOLLOW_66_in_or1810); 
+			char_literal80_tree = (Object)adaptor.create(char_literal80);
+			adaptor.addChild(root_0, char_literal80_tree);
+
+			}
+
+			retval.stop = input.LT(-1);
+
+			retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+			retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		dbg.location(90, 14);
+
+		}
+		finally {
 			dbg.exitRule(getGrammarFileName(), "or");
 			decRuleLevel();
 			if ( getRuleLevel()==0 ) {dbg.terminate();}
@@ -3079,35 +3144,35 @@ public class TigerParser extends DebugParser {
 
 
 	// $ANTLR start "assign"
-	// /Users/moshi/compilation/src/Tiger.g:90:1: assign : ':=' ;
+	// /Users/moshi/compilation/src/Tiger.g:91:1: assign : ':=' ;
 	public final TigerParser.assign_return assign() throws RecognitionException {
 		TigerParser.assign_return retval = new TigerParser.assign_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token string_literal79=null;
+		Token string_literal81=null;
 
-		Object string_literal79_tree=null;
+		Object string_literal81_tree=null;
 
 		try { dbg.enterRule(getGrammarFileName(), "assign");
 		if ( getRuleLevel()==0 ) {dbg.commence();}
 		incRuleLevel();
-		dbg.location(90, 0);
+		dbg.location(91, 0);
 
 		try {
-			// /Users/moshi/compilation/src/Tiger.g:90:9: ( ':=' )
+			// /Users/moshi/compilation/src/Tiger.g:91:9: ( ':=' )
 			dbg.enterAlt(1);
 
-			// /Users/moshi/compilation/src/Tiger.g:90:11: ':='
+			// /Users/moshi/compilation/src/Tiger.g:91:11: ':='
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			dbg.location(90,11);
-			string_literal79=(Token)match(input,42,FOLLOW_42_in_assign1670); 
-			string_literal79_tree = (Object)adaptor.create(string_literal79);
-			adaptor.addChild(root_0, string_literal79_tree);
+			dbg.location(91,11);
+			string_literal81=(Token)match(input,43,FOLLOW_43_in_assign1819); 
+			string_literal81_tree = (Object)adaptor.create(string_literal81);
+			adaptor.addChild(root_0, string_literal81_tree);
 
 			}
 
@@ -3125,7 +3190,7 @@ public class TigerParser extends DebugParser {
 		finally {
 			// do for sure before leaving
 		}
-		dbg.location(90, 15);
+		dbg.location(91, 15);
 
 		}
 		finally {
@@ -3142,90 +3207,92 @@ public class TigerParser extends DebugParser {
 
 
 
-	public static final BitSet FOLLOW_instructions_in_program249 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_instruction_in_instructions260 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_62_in_declaration347 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_declaration351 = new BitSet(new long[]{0x0000060000000000L});
-	public static final BitSet FOLLOW_41_in_declaration354 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_declaration358 = new BitSet(new long[]{0x0000040000000000L});
-	public static final BitSet FOLLOW_42_in_declaration362 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_declaration364 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_55_in_declaration422 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_declaration426 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_params_in_declaration428 = new BitSet(new long[]{0x0000820000000000L});
-	public static final BitSet FOLLOW_41_in_declaration431 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_declaration435 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_47_in_declaration439 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_declaration441 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_34_in_params486 = new BitSet(new long[]{0x0000000800004000L});
-	public static final BitSet FOLLOW_param_in_params490 = new BitSet(new long[]{0x0000004800000000L});
-	public static final BitSet FOLLOW_38_in_params493 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_param_in_params495 = new BitSet(new long[]{0x0000004800000000L});
-	public static final BitSet FOLLOW_35_in_params501 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_param569 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_41_in_param571 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_param575 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_58_in_instruction658 = new BitSet(new long[]{0x4080000000000000L});
-	public static final BitSet FOLLOW_declaration_in_instruction660 = new BitSet(new long[]{0x4280000000000000L});
-	public static final BitSet FOLLOW_57_in_instruction663 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_instruction665 = new BitSet(new long[]{0x0020000000000000L});
-	public static final BitSet FOLLOW_53_in_instruction667 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_expr_in_instruction722 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_56_in_instruction729 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_instruction731 = new BitSet(new long[]{0x1000000000000000L});
-	public static final BitSet FOLLOW_60_in_instruction733 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_instruction737 = new BitSet(new long[]{0x0010000000000002L});
-	public static final BitSet FOLLOW_52_in_instruction753 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_instruction757 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_63_in_instruction805 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_instruction807 = new BitSet(new long[]{0x0008000000000000L});
-	public static final BitSet FOLLOW_51_in_instruction809 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_instruction811 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_54_in_instruction872 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_ID_in_instruction874 = new BitSet(new long[]{0x0000040000000000L});
-	public static final BitSet FOLLOW_42_in_instruction876 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_instruction880 = new BitSet(new long[]{0x2000000000000000L});
-	public static final BitSet FOLLOW_61_in_instruction882 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_instruction886 = new BitSet(new long[]{0x0008000000000000L});
-	public static final BitSet FOLLOW_51_in_instruction888 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instructions_in_instruction890 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_50_in_instruction935 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_atom948 = new BitSet(new long[]{0x0000000400000002L});
-	public static final BitSet FOLLOW_34_in_atom951 = new BitSet(new long[]{0x0800008C10044000L});
-	public static final BitSet FOLLOW_expr_in_atom954 = new BitSet(new long[]{0x0000004800000000L});
-	public static final BitSet FOLLOW_38_in_atom957 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_expr_in_atom959 = new BitSet(new long[]{0x0000004800000000L});
-	public static final BitSet FOLLOW_35_in_atom965 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_34_in_atom1030 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instruction_in_atom1032 = new BitSet(new long[]{0x0000080800000000L});
-	public static final BitSet FOLLOW_43_in_atom1035 = new BitSet(new long[]{0x8D44008410044000L});
-	public static final BitSet FOLLOW_instruction_in_atom1037 = new BitSet(new long[]{0x0000080800000000L});
-	public static final BitSet FOLLOW_35_in_atom1041 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_STRING_in_atom1090 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_INTEGER_in_atom1173 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_39_in_atom1255 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_INTEGER_in_atom1257 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_59_in_atom1335 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_assignExpr_in_expr1424 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_logExpr_in_assignExpr1434 = new BitSet(new long[]{0x0000040000000002L});
-	public static final BitSet FOLLOW_assign_in_assignExpr1443 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_logExpr_in_assignExpr1450 = new BitSet(new long[]{0x0000040000000002L});
-	public static final BitSet FOLLOW_andExpr_in_logExpr1464 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000001L});
-	public static final BitSet FOLLOW_or_in_logExpr1477 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_andExpr_in_logExpr1484 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000001L});
-	public static final BitSet FOLLOW_compExpr_in_andExpr1498 = new BitSet(new long[]{0x0000000200000002L});
-	public static final BitSet FOLLOW_and_in_andExpr1509 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_compExpr_in_andExpr1515 = new BitSet(new long[]{0x0000000200000002L});
-	public static final BitSet FOLLOW_addMinExpr_in_compExpr1528 = new BitSet(new long[]{0x0003F00000000002L});
-	public static final BitSet FOLLOW_comp_in_compExpr1536 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_addMinExpr_in_compExpr1540 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multDivExpr_in_addMinExpr1551 = new BitSet(new long[]{0x000000A000000002L});
-	public static final BitSet FOLLOW_addMin_in_addMinExpr1556 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_multDivExpr_in_addMinExpr1559 = new BitSet(new long[]{0x000000A000000002L});
-	public static final BitSet FOLLOW_atom_in_multDivExpr1569 = new BitSet(new long[]{0x0000011000000002L});
-	public static final BitSet FOLLOW_multDiv_in_multDivExpr1580 = new BitSet(new long[]{0x0800008410044000L});
-	public static final BitSet FOLLOW_atom_in_multDivExpr1590 = new BitSet(new long[]{0x0000011000000002L});
-	public static final BitSet FOLLOW_33_in_and1648 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_64_in_or1661 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_42_in_assign1670 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_program252 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_instruction_in_instructions263 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_64_in_declaration350 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_declaration354 = new BitSet(new long[]{0x00000C0000000000L});
+	public static final BitSet FOLLOW_42_in_declaration357 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_declaration361 = new BitSet(new long[]{0x0000080000000000L});
+	public static final BitSet FOLLOW_43_in_declaration365 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_declaration367 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_56_in_declaration425 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_declaration429 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_params_in_declaration431 = new BitSet(new long[]{0x0001040000000000L});
+	public static final BitSet FOLLOW_42_in_declaration434 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_declaration438 = new BitSet(new long[]{0x0001000000000000L});
+	public static final BitSet FOLLOW_48_in_declaration442 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_declaration444 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_35_in_params485 = new BitSet(new long[]{0x0000001000008000L});
+	public static final BitSet FOLLOW_param_in_params489 = new BitSet(new long[]{0x0000009000000000L});
+	public static final BitSet FOLLOW_39_in_params492 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_param_in_params494 = new BitSet(new long[]{0x0000009000000000L});
+	public static final BitSet FOLLOW_36_in_params500 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_param568 = new BitSet(new long[]{0x0000040000000000L});
+	public static final BitSet FOLLOW_42_in_param570 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_param574 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_59_in_instruction657 = new BitSet(new long[]{0x0100000000000000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_declaration_in_instruction659 = new BitSet(new long[]{0x0500000000000000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_58_in_instruction662 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_instruction664 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_54_in_instruction666 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_expr_in_instruction721 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_57_in_instruction728 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_instruction730 = new BitSet(new long[]{0x4000000000000000L});
+	public static final BitSet FOLLOW_62_in_instruction732 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_instruction736 = new BitSet(new long[]{0x0020000000000002L});
+	public static final BitSet FOLLOW_53_in_instruction752 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_instruction756 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_65_in_instruction804 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_instruction806 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_instruction808 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_instruction810 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_55_in_instruction871 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_ID_in_instruction873 = new BitSet(new long[]{0x0000080000000000L});
+	public static final BitSet FOLLOW_43_in_instruction875 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_instruction879 = new BitSet(new long[]{0x8000000000000000L});
+	public static final BitSet FOLLOW_63_in_instruction881 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_instruction885 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_instruction887 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instructions_in_instruction889 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_51_in_instruction934 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_61_in_instruction1012 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_instruction1014 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_atom1097 = new BitSet(new long[]{0x0000000800000002L});
+	public static final BitSet FOLLOW_35_in_atom1100 = new BitSet(new long[]{0x1000011840088000L});
+	public static final BitSet FOLLOW_expr_in_atom1103 = new BitSet(new long[]{0x0000009000000000L});
+	public static final BitSet FOLLOW_39_in_atom1106 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_expr_in_atom1108 = new BitSet(new long[]{0x0000009000000000L});
+	public static final BitSet FOLLOW_36_in_atom1114 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_35_in_atom1179 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instruction_in_atom1181 = new BitSet(new long[]{0x0000101000000000L});
+	public static final BitSet FOLLOW_44_in_atom1184 = new BitSet(new long[]{0x3A88010840088000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_instruction_in_atom1186 = new BitSet(new long[]{0x0000101000000000L});
+	public static final BitSet FOLLOW_36_in_atom1190 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_STRING_in_atom1239 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_INTEGER_in_atom1322 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_40_in_atom1404 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_INTEGER_in_atom1406 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_60_in_atom1484 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_assignExpr_in_expr1573 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_logExpr_in_assignExpr1583 = new BitSet(new long[]{0x0000080000000002L});
+	public static final BitSet FOLLOW_assign_in_assignExpr1592 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_logExpr_in_assignExpr1599 = new BitSet(new long[]{0x0000080000000002L});
+	public static final BitSet FOLLOW_andExpr_in_logExpr1613 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000004L});
+	public static final BitSet FOLLOW_or_in_logExpr1626 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_andExpr_in_logExpr1633 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000004L});
+	public static final BitSet FOLLOW_compExpr_in_andExpr1647 = new BitSet(new long[]{0x0000000400000002L});
+	public static final BitSet FOLLOW_and_in_andExpr1658 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_compExpr_in_andExpr1664 = new BitSet(new long[]{0x0000000400000002L});
+	public static final BitSet FOLLOW_addMinExpr_in_compExpr1677 = new BitSet(new long[]{0x0007E00000000002L});
+	public static final BitSet FOLLOW_comp_in_compExpr1685 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_addMinExpr_in_compExpr1689 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multDivExpr_in_addMinExpr1700 = new BitSet(new long[]{0x0000014000000002L});
+	public static final BitSet FOLLOW_addMin_in_addMinExpr1705 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_multDivExpr_in_addMinExpr1708 = new BitSet(new long[]{0x0000014000000002L});
+	public static final BitSet FOLLOW_atom_in_multDivExpr1718 = new BitSet(new long[]{0x0000022000000002L});
+	public static final BitSet FOLLOW_multDiv_in_multDivExpr1729 = new BitSet(new long[]{0x1000010840088000L});
+	public static final BitSet FOLLOW_atom_in_multDivExpr1739 = new BitSet(new long[]{0x0000022000000002L});
+	public static final BitSet FOLLOW_34_in_and1797 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_66_in_or1810 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_43_in_assign1819 = new BitSet(new long[]{0x0000000000000002L});
 }

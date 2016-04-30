@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-04-29 12:25:19
+// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-04-30 10:38:38
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class TigerLexer extends Lexer {
 	public static final int EOF=-1;
-	public static final int T__33=33;
 	public static final int T__34=34;
 	public static final int T__35=35;
 	public static final int T__36=36;
@@ -40,35 +39,38 @@ public class TigerLexer extends Lexer {
 	public static final int T__62=62;
 	public static final int T__63=63;
 	public static final int T__64=64;
+	public static final int T__65=65;
+	public static final int T__66=66;
 	public static final int ADD=4;
 	public static final int AND=5;
 	public static final int ARGS=6;
 	public static final int ASSIGNE=7;
-	public static final int COMMENT=8;
-	public static final int COMP=9;
-	public static final int DECLARATIONS=10;
-	public static final int EXPR=11;
-	public static final int FOR=12;
-	public static final int FUNC_DECLARATION=13;
-	public static final int ID=14;
-	public static final int IF=15;
-	public static final int INSTRUCTIONS=16;
-	public static final int INT=17;
-	public static final int INTEGER=18;
-	public static final int LET=19;
-	public static final int LETTER=20;
-	public static final int MULT=21;
-	public static final int NEG=22;
-	public static final int NIL=23;
-	public static final int OR=24;
-	public static final int PARAM=25;
-	public static final int PARAMS=26;
-	public static final int STR=27;
-	public static final int STRING=28;
-	public static final int TYPE=29;
-	public static final int VAR_DECLARATION=30;
-	public static final int WHILE=31;
-	public static final int WHITESPACE=32;
+	public static final int BREAK=8;
+	public static final int COMMENT=9;
+	public static final int COMP=10;
+	public static final int DECLARATIONS=11;
+	public static final int EXPR=12;
+	public static final int FOR=13;
+	public static final int FUNC_DECLARATION=14;
+	public static final int ID=15;
+	public static final int IF=16;
+	public static final int INSTRUCTIONS=17;
+	public static final int INT=18;
+	public static final int INTEGER=19;
+	public static final int LET=20;
+	public static final int LETTER=21;
+	public static final int MULT=22;
+	public static final int NEG=23;
+	public static final int NIL=24;
+	public static final int OR=25;
+	public static final int PARAM=26;
+	public static final int PARAMS=27;
+	public static final int RETURN=28;
+	public static final int STR=29;
+	public static final int STRING=30;
+	public static final int VAR_DECLARATION=31;
+	public static final int WHILE=32;
+	public static final int WHITESPACE=33;
 
 	// delegates
 	// delegators
@@ -85,35 +87,15 @@ public class TigerLexer extends Lexer {
 	}
 	@Override public String getGrammarFileName() { return "/Users/moshi/compilation/src/Tiger.g"; }
 
-	// $ANTLR start "T__33"
-	public final void mT__33() throws RecognitionException {
-		try {
-			int _type = T__33;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:2:7: ( '&' )
-			// /Users/moshi/compilation/src/Tiger.g:2:9: '&'
-			{
-			match('&'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__33"
-
 	// $ANTLR start "T__34"
 	public final void mT__34() throws RecognitionException {
 		try {
 			int _type = T__34;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:3:7: ( '(' )
-			// /Users/moshi/compilation/src/Tiger.g:3:9: '('
+			// /Users/moshi/compilation/src/Tiger.g:2:7: ( '&' )
+			// /Users/moshi/compilation/src/Tiger.g:2:9: '&'
 			{
-			match('('); 
+			match('&'); 
 			}
 
 			state.type = _type;
@@ -130,10 +112,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__35;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:4:7: ( ')' )
-			// /Users/moshi/compilation/src/Tiger.g:4:9: ')'
+			// /Users/moshi/compilation/src/Tiger.g:3:7: ( '(' )
+			// /Users/moshi/compilation/src/Tiger.g:3:9: '('
 			{
-			match(')'); 
+			match('('); 
 			}
 
 			state.type = _type;
@@ -150,10 +132,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__36;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:5:7: ( '*' )
-			// /Users/moshi/compilation/src/Tiger.g:5:9: '*'
+			// /Users/moshi/compilation/src/Tiger.g:4:7: ( ')' )
+			// /Users/moshi/compilation/src/Tiger.g:4:9: ')'
 			{
-			match('*'); 
+			match(')'); 
 			}
 
 			state.type = _type;
@@ -170,10 +152,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__37;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:6:7: ( '+' )
-			// /Users/moshi/compilation/src/Tiger.g:6:9: '+'
+			// /Users/moshi/compilation/src/Tiger.g:5:7: ( '*' )
+			// /Users/moshi/compilation/src/Tiger.g:5:9: '*'
 			{
-			match('+'); 
+			match('*'); 
 			}
 
 			state.type = _type;
@@ -190,10 +172,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__38;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:7:7: ( ',' )
-			// /Users/moshi/compilation/src/Tiger.g:7:9: ','
+			// /Users/moshi/compilation/src/Tiger.g:6:7: ( '+' )
+			// /Users/moshi/compilation/src/Tiger.g:6:9: '+'
 			{
-			match(','); 
+			match('+'); 
 			}
 
 			state.type = _type;
@@ -210,10 +192,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__39;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:8:7: ( '-' )
-			// /Users/moshi/compilation/src/Tiger.g:8:9: '-'
+			// /Users/moshi/compilation/src/Tiger.g:7:7: ( ',' )
+			// /Users/moshi/compilation/src/Tiger.g:7:9: ','
 			{
-			match('-'); 
+			match(','); 
 			}
 
 			state.type = _type;
@@ -230,10 +212,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__40;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:9:7: ( '/' )
-			// /Users/moshi/compilation/src/Tiger.g:9:9: '/'
+			// /Users/moshi/compilation/src/Tiger.g:8:7: ( '-' )
+			// /Users/moshi/compilation/src/Tiger.g:8:9: '-'
 			{
-			match('/'); 
+			match('-'); 
 			}
 
 			state.type = _type;
@@ -250,10 +232,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__41;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:10:7: ( ':' )
-			// /Users/moshi/compilation/src/Tiger.g:10:9: ':'
+			// /Users/moshi/compilation/src/Tiger.g:9:7: ( '/' )
+			// /Users/moshi/compilation/src/Tiger.g:9:9: '/'
 			{
-			match(':'); 
+			match('/'); 
 			}
 
 			state.type = _type;
@@ -270,11 +252,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__42;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:11:7: ( ':=' )
-			// /Users/moshi/compilation/src/Tiger.g:11:9: ':='
+			// /Users/moshi/compilation/src/Tiger.g:10:7: ( ':' )
+			// /Users/moshi/compilation/src/Tiger.g:10:9: ':'
 			{
-			match(":="); 
-
+			match(':'); 
 			}
 
 			state.type = _type;
@@ -291,10 +272,11 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__43;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:12:7: ( ';' )
-			// /Users/moshi/compilation/src/Tiger.g:12:9: ';'
+			// /Users/moshi/compilation/src/Tiger.g:11:7: ( ':=' )
+			// /Users/moshi/compilation/src/Tiger.g:11:9: ':='
 			{
-			match(';'); 
+			match(":="); 
+
 			}
 
 			state.type = _type;
@@ -311,10 +293,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__44;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:13:7: ( '<' )
-			// /Users/moshi/compilation/src/Tiger.g:13:9: '<'
+			// /Users/moshi/compilation/src/Tiger.g:12:7: ( ';' )
+			// /Users/moshi/compilation/src/Tiger.g:12:9: ';'
 			{
-			match('<'); 
+			match(';'); 
 			}
 
 			state.type = _type;
@@ -331,11 +313,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__45;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:14:7: ( '<=' )
-			// /Users/moshi/compilation/src/Tiger.g:14:9: '<='
+			// /Users/moshi/compilation/src/Tiger.g:13:7: ( '<' )
+			// /Users/moshi/compilation/src/Tiger.g:13:9: '<'
 			{
-			match("<="); 
-
+			match('<'); 
 			}
 
 			state.type = _type;
@@ -352,10 +333,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__46;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:15:7: ( '<>' )
-			// /Users/moshi/compilation/src/Tiger.g:15:9: '<>'
+			// /Users/moshi/compilation/src/Tiger.g:14:7: ( '<=' )
+			// /Users/moshi/compilation/src/Tiger.g:14:9: '<='
 			{
-			match("<>"); 
+			match("<="); 
 
 			}
 
@@ -373,10 +354,11 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__47;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:16:7: ( '=' )
-			// /Users/moshi/compilation/src/Tiger.g:16:9: '='
+			// /Users/moshi/compilation/src/Tiger.g:15:7: ( '<>' )
+			// /Users/moshi/compilation/src/Tiger.g:15:9: '<>'
 			{
-			match('='); 
+			match("<>"); 
+
 			}
 
 			state.type = _type;
@@ -393,10 +375,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__48;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:17:7: ( '>' )
-			// /Users/moshi/compilation/src/Tiger.g:17:9: '>'
+			// /Users/moshi/compilation/src/Tiger.g:16:7: ( '=' )
+			// /Users/moshi/compilation/src/Tiger.g:16:9: '='
 			{
-			match('>'); 
+			match('='); 
 			}
 
 			state.type = _type;
@@ -413,11 +395,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__49;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:18:7: ( '>=' )
-			// /Users/moshi/compilation/src/Tiger.g:18:9: '>='
+			// /Users/moshi/compilation/src/Tiger.g:17:7: ( '>' )
+			// /Users/moshi/compilation/src/Tiger.g:17:9: '>'
 			{
-			match(">="); 
-
+			match('>'); 
 			}
 
 			state.type = _type;
@@ -434,10 +415,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__50;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:19:7: ( 'break' )
-			// /Users/moshi/compilation/src/Tiger.g:19:9: 'break'
+			// /Users/moshi/compilation/src/Tiger.g:18:7: ( '>=' )
+			// /Users/moshi/compilation/src/Tiger.g:18:9: '>='
 			{
-			match("break"); 
+			match(">="); 
 
 			}
 
@@ -455,10 +436,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__51;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:20:7: ( 'do' )
-			// /Users/moshi/compilation/src/Tiger.g:20:9: 'do'
+			// /Users/moshi/compilation/src/Tiger.g:19:7: ( 'break' )
+			// /Users/moshi/compilation/src/Tiger.g:19:9: 'break'
 			{
-			match("do"); 
+			match("break"); 
 
 			}
 
@@ -476,10 +457,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__52;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:21:7: ( 'else' )
-			// /Users/moshi/compilation/src/Tiger.g:21:9: 'else'
+			// /Users/moshi/compilation/src/Tiger.g:20:7: ( 'do' )
+			// /Users/moshi/compilation/src/Tiger.g:20:9: 'do'
 			{
-			match("else"); 
+			match("do"); 
 
 			}
 
@@ -497,10 +478,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__53;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:22:7: ( 'end' )
-			// /Users/moshi/compilation/src/Tiger.g:22:9: 'end'
+			// /Users/moshi/compilation/src/Tiger.g:21:7: ( 'else' )
+			// /Users/moshi/compilation/src/Tiger.g:21:9: 'else'
 			{
-			match("end"); 
+			match("else"); 
 
 			}
 
@@ -518,10 +499,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__54;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:23:7: ( 'for' )
-			// /Users/moshi/compilation/src/Tiger.g:23:9: 'for'
+			// /Users/moshi/compilation/src/Tiger.g:22:7: ( 'end' )
+			// /Users/moshi/compilation/src/Tiger.g:22:9: 'end'
 			{
-			match("for"); 
+			match("end"); 
 
 			}
 
@@ -539,10 +520,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__55;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:24:7: ( 'function' )
-			// /Users/moshi/compilation/src/Tiger.g:24:9: 'function'
+			// /Users/moshi/compilation/src/Tiger.g:23:7: ( 'for' )
+			// /Users/moshi/compilation/src/Tiger.g:23:9: 'for'
 			{
-			match("function"); 
+			match("for"); 
 
 			}
 
@@ -560,10 +541,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__56;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:25:7: ( 'if' )
-			// /Users/moshi/compilation/src/Tiger.g:25:9: 'if'
+			// /Users/moshi/compilation/src/Tiger.g:24:7: ( 'function' )
+			// /Users/moshi/compilation/src/Tiger.g:24:9: 'function'
 			{
-			match("if"); 
+			match("function"); 
 
 			}
 
@@ -581,10 +562,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__57;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:26:7: ( 'in' )
-			// /Users/moshi/compilation/src/Tiger.g:26:9: 'in'
+			// /Users/moshi/compilation/src/Tiger.g:25:7: ( 'if' )
+			// /Users/moshi/compilation/src/Tiger.g:25:9: 'if'
 			{
-			match("in"); 
+			match("if"); 
 
 			}
 
@@ -602,10 +583,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__58;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:27:7: ( 'let' )
-			// /Users/moshi/compilation/src/Tiger.g:27:9: 'let'
+			// /Users/moshi/compilation/src/Tiger.g:26:7: ( 'in' )
+			// /Users/moshi/compilation/src/Tiger.g:26:9: 'in'
 			{
-			match("let"); 
+			match("in"); 
 
 			}
 
@@ -623,10 +604,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__59;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:28:7: ( 'nil' )
-			// /Users/moshi/compilation/src/Tiger.g:28:9: 'nil'
+			// /Users/moshi/compilation/src/Tiger.g:27:7: ( 'let' )
+			// /Users/moshi/compilation/src/Tiger.g:27:9: 'let'
 			{
-			match("nil"); 
+			match("let"); 
 
 			}
 
@@ -644,10 +625,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__60;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:29:7: ( 'then' )
-			// /Users/moshi/compilation/src/Tiger.g:29:9: 'then'
+			// /Users/moshi/compilation/src/Tiger.g:28:7: ( 'nil' )
+			// /Users/moshi/compilation/src/Tiger.g:28:9: 'nil'
 			{
-			match("then"); 
+			match("nil"); 
 
 			}
 
@@ -665,10 +646,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__61;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:30:7: ( 'to' )
-			// /Users/moshi/compilation/src/Tiger.g:30:9: 'to'
+			// /Users/moshi/compilation/src/Tiger.g:29:7: ( 'return' )
+			// /Users/moshi/compilation/src/Tiger.g:29:9: 'return'
 			{
-			match("to"); 
+			match("return"); 
 
 			}
 
@@ -686,10 +667,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__62;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:31:7: ( 'var' )
-			// /Users/moshi/compilation/src/Tiger.g:31:9: 'var'
+			// /Users/moshi/compilation/src/Tiger.g:30:7: ( 'then' )
+			// /Users/moshi/compilation/src/Tiger.g:30:9: 'then'
 			{
-			match("var"); 
+			match("then"); 
 
 			}
 
@@ -707,10 +688,10 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__63;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:32:7: ( 'while' )
-			// /Users/moshi/compilation/src/Tiger.g:32:9: 'while'
+			// /Users/moshi/compilation/src/Tiger.g:31:7: ( 'to' )
+			// /Users/moshi/compilation/src/Tiger.g:31:9: 'to'
 			{
-			match("while"); 
+			match("to"); 
 
 			}
 
@@ -728,8 +709,50 @@ public class TigerLexer extends Lexer {
 		try {
 			int _type = T__64;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/moshi/compilation/src/Tiger.g:33:7: ( '|' )
-			// /Users/moshi/compilation/src/Tiger.g:33:9: '|'
+			// /Users/moshi/compilation/src/Tiger.g:32:7: ( 'var' )
+			// /Users/moshi/compilation/src/Tiger.g:32:9: 'var'
+			{
+			match("var"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "T__64"
+
+	// $ANTLR start "T__65"
+	public final void mT__65() throws RecognitionException {
+		try {
+			int _type = T__65;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/moshi/compilation/src/Tiger.g:33:7: ( 'while' )
+			// /Users/moshi/compilation/src/Tiger.g:33:9: 'while'
+			{
+			match("while"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "T__65"
+
+	// $ANTLR start "T__66"
+	public final void mT__66() throws RecognitionException {
+		try {
+			int _type = T__66;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/moshi/compilation/src/Tiger.g:34:7: ( '|' )
+			// /Users/moshi/compilation/src/Tiger.g:34:9: '|'
 			{
 			match('|'); 
 			}
@@ -741,7 +764,7 @@ public class TigerLexer extends Lexer {
 			// do for sure before leaving
 		}
 	}
-	// $ANTLR end "T__64"
+	// $ANTLR end "T__66"
 
 	// $ANTLR start "WHITESPACE"
 	public final void mWHITESPACE() throws RecognitionException {
@@ -1108,264 +1131,271 @@ public class TigerLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/moshi/compilation/src/Tiger.g:1:8: ( T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | WHITESPACE | COMMENT | ID | STRING | INTEGER )
-		int alt6=37;
+		// /Users/moshi/compilation/src/Tiger.g:1:8: ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | WHITESPACE | COMMENT | ID | STRING | INTEGER )
+		int alt6=38;
 		alt6 = dfa6.predict(input);
 		switch (alt6) {
 			case 1 :
-				// /Users/moshi/compilation/src/Tiger.g:1:10: T__33
-				{
-				mT__33(); 
-
-				}
-				break;
-			case 2 :
-				// /Users/moshi/compilation/src/Tiger.g:1:16: T__34
+				// /Users/moshi/compilation/src/Tiger.g:1:10: T__34
 				{
 				mT__34(); 
 
 				}
 				break;
-			case 3 :
-				// /Users/moshi/compilation/src/Tiger.g:1:22: T__35
+			case 2 :
+				// /Users/moshi/compilation/src/Tiger.g:1:16: T__35
 				{
 				mT__35(); 
 
 				}
 				break;
-			case 4 :
-				// /Users/moshi/compilation/src/Tiger.g:1:28: T__36
+			case 3 :
+				// /Users/moshi/compilation/src/Tiger.g:1:22: T__36
 				{
 				mT__36(); 
 
 				}
 				break;
-			case 5 :
-				// /Users/moshi/compilation/src/Tiger.g:1:34: T__37
+			case 4 :
+				// /Users/moshi/compilation/src/Tiger.g:1:28: T__37
 				{
 				mT__37(); 
 
 				}
 				break;
-			case 6 :
-				// /Users/moshi/compilation/src/Tiger.g:1:40: T__38
+			case 5 :
+				// /Users/moshi/compilation/src/Tiger.g:1:34: T__38
 				{
 				mT__38(); 
 
 				}
 				break;
-			case 7 :
-				// /Users/moshi/compilation/src/Tiger.g:1:46: T__39
+			case 6 :
+				// /Users/moshi/compilation/src/Tiger.g:1:40: T__39
 				{
 				mT__39(); 
 
 				}
 				break;
-			case 8 :
-				// /Users/moshi/compilation/src/Tiger.g:1:52: T__40
+			case 7 :
+				// /Users/moshi/compilation/src/Tiger.g:1:46: T__40
 				{
 				mT__40(); 
 
 				}
 				break;
-			case 9 :
-				// /Users/moshi/compilation/src/Tiger.g:1:58: T__41
+			case 8 :
+				// /Users/moshi/compilation/src/Tiger.g:1:52: T__41
 				{
 				mT__41(); 
 
 				}
 				break;
-			case 10 :
-				// /Users/moshi/compilation/src/Tiger.g:1:64: T__42
+			case 9 :
+				// /Users/moshi/compilation/src/Tiger.g:1:58: T__42
 				{
 				mT__42(); 
 
 				}
 				break;
-			case 11 :
-				// /Users/moshi/compilation/src/Tiger.g:1:70: T__43
+			case 10 :
+				// /Users/moshi/compilation/src/Tiger.g:1:64: T__43
 				{
 				mT__43(); 
 
 				}
 				break;
-			case 12 :
-				// /Users/moshi/compilation/src/Tiger.g:1:76: T__44
+			case 11 :
+				// /Users/moshi/compilation/src/Tiger.g:1:70: T__44
 				{
 				mT__44(); 
 
 				}
 				break;
-			case 13 :
-				// /Users/moshi/compilation/src/Tiger.g:1:82: T__45
+			case 12 :
+				// /Users/moshi/compilation/src/Tiger.g:1:76: T__45
 				{
 				mT__45(); 
 
 				}
 				break;
-			case 14 :
-				// /Users/moshi/compilation/src/Tiger.g:1:88: T__46
+			case 13 :
+				// /Users/moshi/compilation/src/Tiger.g:1:82: T__46
 				{
 				mT__46(); 
 
 				}
 				break;
-			case 15 :
-				// /Users/moshi/compilation/src/Tiger.g:1:94: T__47
+			case 14 :
+				// /Users/moshi/compilation/src/Tiger.g:1:88: T__47
 				{
 				mT__47(); 
 
 				}
 				break;
-			case 16 :
-				// /Users/moshi/compilation/src/Tiger.g:1:100: T__48
+			case 15 :
+				// /Users/moshi/compilation/src/Tiger.g:1:94: T__48
 				{
 				mT__48(); 
 
 				}
 				break;
-			case 17 :
-				// /Users/moshi/compilation/src/Tiger.g:1:106: T__49
+			case 16 :
+				// /Users/moshi/compilation/src/Tiger.g:1:100: T__49
 				{
 				mT__49(); 
 
 				}
 				break;
-			case 18 :
-				// /Users/moshi/compilation/src/Tiger.g:1:112: T__50
+			case 17 :
+				// /Users/moshi/compilation/src/Tiger.g:1:106: T__50
 				{
 				mT__50(); 
 
 				}
 				break;
-			case 19 :
-				// /Users/moshi/compilation/src/Tiger.g:1:118: T__51
+			case 18 :
+				// /Users/moshi/compilation/src/Tiger.g:1:112: T__51
 				{
 				mT__51(); 
 
 				}
 				break;
-			case 20 :
-				// /Users/moshi/compilation/src/Tiger.g:1:124: T__52
+			case 19 :
+				// /Users/moshi/compilation/src/Tiger.g:1:118: T__52
 				{
 				mT__52(); 
 
 				}
 				break;
-			case 21 :
-				// /Users/moshi/compilation/src/Tiger.g:1:130: T__53
+			case 20 :
+				// /Users/moshi/compilation/src/Tiger.g:1:124: T__53
 				{
 				mT__53(); 
 
 				}
 				break;
-			case 22 :
-				// /Users/moshi/compilation/src/Tiger.g:1:136: T__54
+			case 21 :
+				// /Users/moshi/compilation/src/Tiger.g:1:130: T__54
 				{
 				mT__54(); 
 
 				}
 				break;
-			case 23 :
-				// /Users/moshi/compilation/src/Tiger.g:1:142: T__55
+			case 22 :
+				// /Users/moshi/compilation/src/Tiger.g:1:136: T__55
 				{
 				mT__55(); 
 
 				}
 				break;
-			case 24 :
-				// /Users/moshi/compilation/src/Tiger.g:1:148: T__56
+			case 23 :
+				// /Users/moshi/compilation/src/Tiger.g:1:142: T__56
 				{
 				mT__56(); 
 
 				}
 				break;
-			case 25 :
-				// /Users/moshi/compilation/src/Tiger.g:1:154: T__57
+			case 24 :
+				// /Users/moshi/compilation/src/Tiger.g:1:148: T__57
 				{
 				mT__57(); 
 
 				}
 				break;
-			case 26 :
-				// /Users/moshi/compilation/src/Tiger.g:1:160: T__58
+			case 25 :
+				// /Users/moshi/compilation/src/Tiger.g:1:154: T__58
 				{
 				mT__58(); 
 
 				}
 				break;
-			case 27 :
-				// /Users/moshi/compilation/src/Tiger.g:1:166: T__59
+			case 26 :
+				// /Users/moshi/compilation/src/Tiger.g:1:160: T__59
 				{
 				mT__59(); 
 
 				}
 				break;
-			case 28 :
-				// /Users/moshi/compilation/src/Tiger.g:1:172: T__60
+			case 27 :
+				// /Users/moshi/compilation/src/Tiger.g:1:166: T__60
 				{
 				mT__60(); 
 
 				}
 				break;
-			case 29 :
-				// /Users/moshi/compilation/src/Tiger.g:1:178: T__61
+			case 28 :
+				// /Users/moshi/compilation/src/Tiger.g:1:172: T__61
 				{
 				mT__61(); 
 
 				}
 				break;
-			case 30 :
-				// /Users/moshi/compilation/src/Tiger.g:1:184: T__62
+			case 29 :
+				// /Users/moshi/compilation/src/Tiger.g:1:178: T__62
 				{
 				mT__62(); 
 
 				}
 				break;
-			case 31 :
-				// /Users/moshi/compilation/src/Tiger.g:1:190: T__63
+			case 30 :
+				// /Users/moshi/compilation/src/Tiger.g:1:184: T__63
 				{
 				mT__63(); 
 
 				}
 				break;
-			case 32 :
-				// /Users/moshi/compilation/src/Tiger.g:1:196: T__64
+			case 31 :
+				// /Users/moshi/compilation/src/Tiger.g:1:190: T__64
 				{
 				mT__64(); 
 
 				}
 				break;
+			case 32 :
+				// /Users/moshi/compilation/src/Tiger.g:1:196: T__65
+				{
+				mT__65(); 
+
+				}
+				break;
 			case 33 :
-				// /Users/moshi/compilation/src/Tiger.g:1:202: WHITESPACE
+				// /Users/moshi/compilation/src/Tiger.g:1:202: T__66
+				{
+				mT__66(); 
+
+				}
+				break;
+			case 34 :
+				// /Users/moshi/compilation/src/Tiger.g:1:208: WHITESPACE
 				{
 				mWHITESPACE(); 
 
 				}
 				break;
-			case 34 :
-				// /Users/moshi/compilation/src/Tiger.g:1:213: COMMENT
+			case 35 :
+				// /Users/moshi/compilation/src/Tiger.g:1:219: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
-			case 35 :
-				// /Users/moshi/compilation/src/Tiger.g:1:221: ID
+			case 36 :
+				// /Users/moshi/compilation/src/Tiger.g:1:227: ID
 				{
 				mID(); 
 
 				}
 				break;
-			case 36 :
-				// /Users/moshi/compilation/src/Tiger.g:1:224: STRING
+			case 37 :
+				// /Users/moshi/compilation/src/Tiger.g:1:230: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
-			case 37 :
-				// /Users/moshi/compilation/src/Tiger.g:1:231: INTEGER
+			case 38 :
+				// /Users/moshi/compilation/src/Tiger.g:1:237: INTEGER
 				{
 				mINTEGER(); 
 
@@ -1378,40 +1408,42 @@ public class TigerLexer extends Lexer {
 
 	protected DFA6 dfa6 = new DFA6(this);
 	static final String DFA6_eotS =
-		"\10\uffff\1\36\1\40\1\uffff\1\43\1\uffff\1\45\12\32\16\uffff\1\32\1\65"+
-		"\4\32\1\72\1\73\3\32\1\77\3\32\1\uffff\1\32\1\104\1\105\1\32\2\uffff\1"+
-		"\107\1\110\1\32\1\uffff\1\112\2\32\1\115\2\uffff\1\32\2\uffff\1\117\1"+
-		"\uffff\1\32\1\121\1\uffff\1\32\1\uffff\1\123\1\uffff\1\32\1\uffff\1\32"+
-		"\1\126\1\uffff";
+		"\10\uffff\1\37\1\41\1\uffff\1\44\1\uffff\1\46\13\33\16\uffff\1\33\1\67"+
+		"\4\33\1\74\1\75\4\33\1\102\3\33\1\uffff\1\33\1\107\1\110\1\33\2\uffff"+
+		"\1\112\1\113\2\33\1\uffff\1\116\2\33\1\121\2\uffff\1\33\2\uffff\1\33\1"+
+		"\124\1\uffff\1\33\1\126\1\uffff\2\33\1\uffff\1\131\1\uffff\1\33\1\133"+
+		"\1\uffff\1\33\1\uffff\1\135\1\uffff";
 	static final String DFA6_eofS =
-		"\127\uffff";
+		"\136\uffff";
 	static final String DFA6_minS =
 		"\1\11\7\uffff\1\52\1\75\1\uffff\1\75\1\uffff\1\75\1\162\1\157\1\154\1"+
-		"\157\1\146\1\145\1\151\1\150\1\141\1\150\16\uffff\1\145\1\60\1\163\1\144"+
-		"\1\162\1\156\2\60\1\164\1\154\1\145\1\60\1\162\1\151\1\141\1\uffff\1\145"+
-		"\2\60\1\143\2\uffff\2\60\1\156\1\uffff\1\60\1\154\1\153\1\60\2\uffff\1"+
-		"\164\2\uffff\1\60\1\uffff\1\145\1\60\1\uffff\1\151\1\uffff\1\60\1\uffff"+
-		"\1\157\1\uffff\1\156\1\60\1\uffff";
+		"\157\1\146\1\145\1\151\1\145\1\150\1\141\1\150\16\uffff\1\145\1\60\1\163"+
+		"\1\144\1\162\1\156\2\60\1\164\1\154\1\164\1\145\1\60\1\162\1\151\1\141"+
+		"\1\uffff\1\145\2\60\1\143\2\uffff\2\60\1\165\1\156\1\uffff\1\60\1\154"+
+		"\1\153\1\60\2\uffff\1\164\2\uffff\1\162\1\60\1\uffff\1\145\1\60\1\uffff"+
+		"\1\151\1\156\1\uffff\1\60\1\uffff\1\157\1\60\1\uffff\1\156\1\uffff\1\60"+
+		"\1\uffff";
 	static final String DFA6_maxS =
 		"\1\174\7\uffff\1\52\1\75\1\uffff\1\76\1\uffff\1\75\1\162\1\157\1\156\1"+
-		"\165\1\156\1\145\1\151\1\157\1\141\1\150\16\uffff\1\145\1\172\1\163\1"+
-		"\144\1\162\1\156\2\172\1\164\1\154\1\145\1\172\1\162\1\151\1\141\1\uffff"+
-		"\1\145\2\172\1\143\2\uffff\2\172\1\156\1\uffff\1\172\1\154\1\153\1\172"+
-		"\2\uffff\1\164\2\uffff\1\172\1\uffff\1\145\1\172\1\uffff\1\151\1\uffff"+
-		"\1\172\1\uffff\1\157\1\uffff\1\156\1\172\1\uffff";
+		"\165\1\156\1\145\1\151\1\145\1\157\1\141\1\150\16\uffff\1\145\1\172\1"+
+		"\163\1\144\1\162\1\156\2\172\1\164\1\154\1\164\1\145\1\172\1\162\1\151"+
+		"\1\141\1\uffff\1\145\2\172\1\143\2\uffff\2\172\1\165\1\156\1\uffff\1\172"+
+		"\1\154\1\153\1\172\2\uffff\1\164\2\uffff\1\162\1\172\1\uffff\1\145\1\172"+
+		"\1\uffff\1\151\1\156\1\uffff\1\172\1\uffff\1\157\1\172\1\uffff\1\156\1"+
+		"\uffff\1\172\1\uffff";
 	static final String DFA6_acceptS =
-		"\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\2\uffff\1\13\1\uffff\1\17\13\uffff"+
-		"\1\40\1\41\1\43\1\44\1\45\1\42\1\10\1\12\1\11\1\15\1\16\1\14\1\21\1\20"+
-		"\17\uffff\1\23\4\uffff\1\30\1\31\3\uffff\1\35\4\uffff\1\25\1\26\1\uffff"+
-		"\1\32\1\33\1\uffff\1\36\2\uffff\1\24\1\uffff\1\34\1\uffff\1\22\1\uffff"+
-		"\1\37\2\uffff\1\27";
+		"\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\2\uffff\1\13\1\uffff\1\17\14\uffff"+
+		"\1\41\1\42\1\44\1\45\1\46\1\43\1\10\1\12\1\11\1\15\1\16\1\14\1\21\1\20"+
+		"\20\uffff\1\23\4\uffff\1\30\1\31\4\uffff\1\36\4\uffff\1\25\1\26\1\uffff"+
+		"\1\32\1\33\2\uffff\1\37\2\uffff\1\24\2\uffff\1\35\1\uffff\1\22\2\uffff"+
+		"\1\40\1\uffff\1\34\1\uffff\1\27";
 	static final String DFA6_specialS =
-		"\127\uffff}>";
+		"\136\uffff}>";
 	static final String[] DFA6_transitionS = {
-			"\2\31\1\uffff\2\31\22\uffff\1\31\1\uffff\1\33\3\uffff\1\1\1\uffff\1\2"+
-			"\1\3\1\4\1\5\1\6\1\7\1\uffff\1\10\12\34\1\11\1\12\1\13\1\14\1\15\2\uffff"+
-			"\32\32\6\uffff\1\32\1\16\1\32\1\17\1\20\1\21\2\32\1\22\2\32\1\23\1\32"+
-			"\1\24\5\32\1\25\1\32\1\26\1\27\3\32\1\uffff\1\30",
+			"\2\32\1\uffff\2\32\22\uffff\1\32\1\uffff\1\34\3\uffff\1\1\1\uffff\1\2"+
+			"\1\3\1\4\1\5\1\6\1\7\1\uffff\1\10\12\35\1\11\1\12\1\13\1\14\1\15\2\uffff"+
+			"\32\33\6\uffff\1\33\1\16\1\33\1\17\1\20\1\21\2\33\1\22\2\33\1\23\1\33"+
+			"\1\24\3\33\1\25\1\33\1\26\1\33\1\27\1\30\3\33\1\uffff\1\31",
 			"",
 			"",
 			"",
@@ -1419,84 +1451,91 @@ public class TigerLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\1\35",
-			"\1\37",
+			"\1\36",
+			"\1\40",
 			"",
-			"\1\41\1\42",
+			"\1\42\1\43",
 			"",
-			"\1\44",
-			"\1\46",
+			"\1\45",
 			"\1\47",
-			"\1\50\1\uffff\1\51",
-			"\1\52\5\uffff\1\53",
-			"\1\54\7\uffff\1\55",
-			"\1\56",
+			"\1\50",
+			"\1\51\1\uffff\1\52",
+			"\1\53\5\uffff\1\54",
+			"\1\55\7\uffff\1\56",
 			"\1\57",
-			"\1\60\6\uffff\1\61",
-			"\1\62",
-			"\1\63",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
+			"\1\60",
+			"\1\61",
+			"\1\62\6\uffff\1\63",
 			"\1\64",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\65",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 			"\1\66",
-			"\1\67",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"\1\70",
 			"\1\71",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\74",
-			"\1\75",
+			"\1\72",
+			"\1\73",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"\1\76",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\77",
 			"\1\100",
 			"\1\101",
-			"\1\102",
-			"",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"\1\103",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\104",
+			"\1\105",
+			"",
 			"\1\106",
-			"",
-			"",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"\1\111",
 			"",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\113",
+			"",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"\1\114",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\115",
 			"",
-			"",
-			"\1\116",
-			"",
-			"",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"\1\117",
 			"\1\120",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"",
 			"",
 			"\1\122",
 			"",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"",
-			"\1\124",
+			"\1\123",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"",
 			"\1\125",
-			"\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"",
+			"\1\127",
+			"\1\130",
+			"",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"",
+			"\1\132",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+			"",
+			"\1\134",
+			"",
+			"\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			""
 	};
 
@@ -1531,7 +1570,7 @@ public class TigerLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | WHITESPACE | COMMENT | ID | STRING | INTEGER );";
+			return "1:1: Tokens : ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | WHITESPACE | COMMENT | ID | STRING | INTEGER );";
 		}
 	}
 

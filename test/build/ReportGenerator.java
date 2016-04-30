@@ -16,7 +16,6 @@ import org.antlr.stringtemplate.StringTemplate;
 public class ReportGenerator {
 
 	private static int testCounter = 0;
-	private static int errorCounter = 0;
 
 	public static void main(String[] args) throws IOException, RecognitionException {
 		try {
@@ -36,6 +35,8 @@ public class ReportGenerator {
 			firstLines.add("\\usepackage{float}");
 			firstLines.add("\\usepackage{moreverb}");
 			firstLines.add("\\usepackage[export]{adjustbox}");
+			firstLines.add("\\usepackage{listings}");
+			firstLines.add("\\usepackage[dvipsnames]{xcolor}");
 			firstLines.add("\\begin{document}");
 			firstLines.add("{\\thispagestyle{empty}}");
 			firstLines.add("\\begin{center}");
@@ -53,6 +54,7 @@ public class ReportGenerator {
 			for(String s : firstLines) {
 				bw.write(s+"\n");
 			}
+			bw.write(lstConfig());
 			File dataFolder = new File(dir+File.separator+"data");
 			File[] files = dataFolder.listFiles();
 			int l = files.length;
@@ -73,24 +75,24 @@ public class ReportGenerator {
 							br.reset();
 						}
 						if(((line = br.readLine()) != null) && !(line.startsWith("###"))) {
-							line = line.replace("/*", "");
-							line = line.replace("*/", "");
-							line = line.replace("<", "");
-							line = line.replace(">", "");
+							line = line.replaceAll("^(/\\*)+", "");
+							line = line.replaceAll("(\\*/)+$", "");
+							line = line.replace("<", "$ < $");
+							line = line.replace(">", "$ > $");
 							line = line.replace("&", "$ \\& $");
 							line = line.replace("|", "$ | $");
 							line = line.replace("_", "\\_");
 							line = line.trim();
 							bw.write("\\subsubsection{"+line+"}\n");
-							bw.write("\\begin{verbatimtab}");
+							bw.write("\\begin{lstlisting}");
 						}
 						String core = "";
 						while(((line = br.readLine()) != null) && !(line.startsWith("###"))) {
-							line = line.replace("\\t", "\\indent");
-							bw.write(line+"\n");
 							core += line+"\n";
+							bw.write(line+"\n");
 						}
-						bw.write("\\end{verbatimtab}\n");
+						bw.write("\\end{lstlisting}\n");
+						bw.write("\\newpage\n");
 						TigerLexer lexer = new TigerLexer(new ANTLRStringStream(core));
 						TigerParser parser = new TigerParser(new CommonTokenStream(lexer));	
 						CommonTree tree = (CommonTree) parser.program().getTree();
@@ -104,12 +106,14 @@ public class ReportGenerator {
 						File out = new File(dir+File.separator+suf);
 						graph.writeGraphToFile(graph.getGraph(graph.getDotSource(), "pdf", "dot"), out);
 						if(out.length() > 0) {
-							bw.write("\\begin{figure}[H]");
-							bw.write("\\centering");
-							bw.write("\\includegraphics[max width=\\textwidth]{"+suf+"}");
-							bw.write("\\end{figure}");
+							bw.write("\\begin{figure}[H]\n");
+							bw.write("\\centering\n");
+							bw.write("\\includegraphics[max width=\\textwidth]{"+suf+"}\n");
+							bw.write("\\end{figure}\n");
+							bw.write("\\newpage\n");
 						} else {
-							errorCounter++;
+							bw.write("{\\color{red}\\textbf{Pas d'AST, problème de syntaxe.}}\n");
+							bw.write("\\newpage\n");
 						}
 						br.mark(0);
 						testCounter++;
@@ -120,12 +124,45 @@ public class ReportGenerator {
 			}
 			bw.write(lastLine);
 			bw.close();
-			System.out.println("Report built with "+errorCounter+" error(s).");
-
+			System.out.println("Report built.");
 		} catch(IOException e) {
 			e.printStackTrace();
 		} catch(RecognitionException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static String lstConfig() {
+		ArrayList<String> lines = new ArrayList<String>();
+		lines.add("\\lstdefinelanguage{Tiger} {");
+		lines.add("morekeywords={var,function,let,in,end,if,then,else,while,do,for,to,break,return,nil},");
+		lines.add("sensitive=false,");
+		lines.add("morecomment=[s]{/*}{*/},");
+		lines.add("morestring=[b]");
+		lines.add("}");
+		lines.add("");
+		lines.add("\\lstset {");
+		lines.add("language={Tiger},");
+		lines.add("basicstyle=\\ttfamily,");
+		lines.add("captionpos=b,");
+		lines.add("extendedchars=true,");
+		lines.add("tabsize=2,");
+		lines.add("columns=fixed,");
+		lines.add("keepspaces=true,");
+		lines.add("showstringspaces=true,");
+		lines.add("breaklines=true,");
+		lines.add("frame=trbl");
+		lines.add("frameround=tttt,");
+		lines.add("framesep=4pt,");
+		lines.add("numbers=left,");
+		lines.add("numberstyle=\\tiny\\ttfamily,");
+		lines.add("commentstyle=\\color{ForestGreen},");
+		lines.add("keywordstyle=\\color{RedViolet},");
+		lines.add("stringstyle=\\color{blue}");
+		lines.add("}");
+		String line = "";
+		for(String s : lines)
+			line += s+"\n";
+		return line;
 	}
 }
