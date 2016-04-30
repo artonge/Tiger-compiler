@@ -1,7 +1,0 @@
-/* <break> comme condition dans <if> */
-
-let
-	function main() =
-		if break then
-			print("test")
-in main() end

@@ -1,9 +1,0 @@
-/* declarations d'entier avec types et reutilisation de 2 autres entiers */
-
-let
-	var j : int := 1
-	var k : int := 1
-	var i : int := j+k
-in
-	printi(i)
-end

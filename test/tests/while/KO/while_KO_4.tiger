@@ -1,9 +1,0 @@
-/* <while> avec oubli du <do> */
-
-let
-	var i := 0
-
-	function main() :
-		while i >= 0
-			print("test")
-in main() end

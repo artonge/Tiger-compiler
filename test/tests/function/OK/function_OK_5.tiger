@@ -1,5 +1,0 @@
-/* fonction avec 3 parametres entiers */
-
-let
-	function main(i: int, j: int, k: int) = printi(i+j+k)
-in main() end

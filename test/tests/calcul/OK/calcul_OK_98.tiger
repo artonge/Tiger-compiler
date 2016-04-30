@@ -1,3 +1,0 @@
-/* parenthesage de 3 instructions */
-
-let function main() = (printi(1); printi(2); printi(3)) in main() end

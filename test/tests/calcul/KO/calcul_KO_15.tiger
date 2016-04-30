@@ -1,3 +1,0 @@
-/* expression non parenthesee avec <;> en trop */
-
-let function main() = printi(1); in main() end

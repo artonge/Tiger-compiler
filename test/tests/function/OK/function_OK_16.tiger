@@ -1,8 +1,0 @@
-/* recursion finie */
-
-let
-	function main(n: int) =
-		if n > 1 then
-			n * main(n-1)
-		else 1
-in main(5) end

@@ -1,5 +1,0 @@
-/* oubli de <=> */
-
-let
-	function main() print("test")
-in main() end

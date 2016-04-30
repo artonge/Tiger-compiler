@@ -1,5 +1,0 @@
-/* division simple, a 2 termes */
-
-let
-	function main() = printi(2/1)
-in main() end

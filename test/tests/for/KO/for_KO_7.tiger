@@ -1,7 +1,0 @@
-/* <for> avec oubli de la borne maximale de l'iteration */
-
-let
-	function main() =
-		for i := 0 to do
-			print("test")
-in main() end

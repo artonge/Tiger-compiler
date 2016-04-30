@@ -30,7 +30,6 @@ PATH_EXTEND = -I /usr/local/include/ \
 							-l antlr3c
 OUTPUT = -o ./main.out
 
-
 ###########################
 ######## COMMANDES ########
 ###########################

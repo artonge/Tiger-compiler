@@ -1,7 +1,0 @@
-/* <while> avec affectation de chaine */
-
-let
-	function main()() =
-		while s := "toto" do
-			print("test")
-in main() end

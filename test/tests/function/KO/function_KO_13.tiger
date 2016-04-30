@@ -1,5 +1,0 @@
-/* <function> mal ecrit */
-
-let
-	functionn main() = print("test")
-in main() end

@@ -1,6 +1,0 @@
-/* comparaison simple de chaines avec <">"> */
-
-let
-	function main() =
-		if "b" > "a" then print("OK")
-in main() end

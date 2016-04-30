@@ -1,3 +1,0 @@
-/* parenthesage d'une instruction */
-
-let function main() = (printi(1)) in main() end

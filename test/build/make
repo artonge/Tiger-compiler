@@ -1,5 +1,0 @@
-#!/bin/bash
-
-pdflatex Report.tex
-pdflatex Report.tex
-open Report.pdf

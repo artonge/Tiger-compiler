@@ -1,3 +1,0 @@
-/* parenthesage sans contenu */
-
-let function main() = () in main() end

@@ -1,9 +1,0 @@
-/* soustraction de 2 divisions parenthesees, avec termes identifies par variables */
-
-let
-	var i := 1
-	var j := 2
-	var k := 4
-
-	function main() = printi((j/i)-(k/j))
-in main() end

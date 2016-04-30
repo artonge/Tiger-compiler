@@ -1,8 +1,0 @@
-/* condition avec 2 <&> */
-
-let
-	var v := 2
-
-	function main() =
-		if v > 0 & v < 3 & v/2 = 1 then print("OK")
-in main() end

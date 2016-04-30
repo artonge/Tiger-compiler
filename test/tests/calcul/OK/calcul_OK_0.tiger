@@ -1,5 +1,0 @@
-/* addition simple, a 2 termes */
-
-let
-	function main() = printi(1+2)
-in main() end

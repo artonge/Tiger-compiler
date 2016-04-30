@@ -1,7 +1,0 @@
-/* <for> avec oubli de la borne inferieure de l'iteration */
-
-let
-	function main() =
-		for i := to 3 do
-			print("test")
-in main() end

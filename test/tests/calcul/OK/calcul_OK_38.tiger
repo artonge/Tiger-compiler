@@ -1,8 +1,0 @@
-/* multiplication simple, a 2 termes, identifies par des variables, dont une ayant moins unaire */
-
-let
-	var i := 1
-	var j := 2
-
-	function main() = printi(-i*j)
-in main() end

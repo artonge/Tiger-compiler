@@ -1,3 +1,0 @@
-/* calcul a 2 termes avec oubli de parenthese droite */
-
-let function main() = printi((1+2) in main() end

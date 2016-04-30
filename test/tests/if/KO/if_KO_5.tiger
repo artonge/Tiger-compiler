@@ -1,7 +1,0 @@
-/* <if then> avec oubli de la condition */
-
-let
-	function main() =
-		if then
-			print("test")
-in main() end

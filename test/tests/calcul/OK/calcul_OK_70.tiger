@@ -1,3 +1,0 @@
-/* soustraction de 2 divisions parenthesees */
-
-let function main() = printi((2/1)-(4/2) in main() end
