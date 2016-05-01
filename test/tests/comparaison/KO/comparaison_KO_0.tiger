@@ -1,8 +1,0 @@
-/* comparaison avec oubli d'operande gauche */
-
-let
-	var i := 0
-
-	function main() =
-		if = 0 then print("OK")
-in main() end

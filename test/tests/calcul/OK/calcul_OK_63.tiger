@@ -1,3 +1,0 @@
-/* multiplication suivie de division, avec parenthesage des 2 termes a gauche */
-
-let function min() = printi((1*2)/3) in main() end

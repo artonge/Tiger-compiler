@@ -1,7 +1,0 @@
-/* affectation d'operation logique sur entiers */
-
-let
-	var i := 1 & 1
-in
-	printi(i)
-end

@@ -1,5 +1,0 @@
-/* addition a 3 termes */
-
-let
-	function main() = printi(1+2+3)
-in main() end

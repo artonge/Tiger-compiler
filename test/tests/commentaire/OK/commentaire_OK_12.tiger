@@ -1,7 +1,0 @@
-/* commentaire sans contenu sur 1 ligne */
-
-/* */
-
-let
-	function main() = print("test")
-in main() end

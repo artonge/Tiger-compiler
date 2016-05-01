@@ -1,7 +1,0 @@
-/* retour de fonction */
-
-let
-	function subFunction() = return (1)
-
-	function main() = return (subFunction())
-in main() end

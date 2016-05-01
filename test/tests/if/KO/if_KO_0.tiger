@@ -1,9 +1,0 @@
-/* incrementation dans la condition <if then> */
-
-let
-	var i := 0
-
-	function main() =
-		if i := i+1 then
-			print("test")
-in main() end

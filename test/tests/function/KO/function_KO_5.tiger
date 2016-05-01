@@ -1,5 +1,0 @@
-/* oubli de <:> pour parametre */
-
-let
-	function main(i int) = print("test")
-in main(0) end

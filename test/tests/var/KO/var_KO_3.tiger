@@ -1,7 +1,0 @@
-/* affectation d'entier sans declaration */
-
-let
-	i := 1
-in
-	printi(i)
-end

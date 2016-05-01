@@ -43,25 +43,6 @@ let
 			i := i-1)
 in main() end
 ###
-/* <while> sans instruction */
-
-let
-	var i := 0
-
-	function main() =
-		while i < 1 do
-in main() end
-###
-/* <while> avec ligne vide */
-
-let
-	var i := 0
-
-	function main() =
-		while i < 1 do
-
-in main() end
-###
 /* <while> avec condition entiere */
 
 let

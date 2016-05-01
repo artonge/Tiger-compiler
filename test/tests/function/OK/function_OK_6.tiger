@@ -1,6 +1,0 @@
-/* fonction avec 2 parametres entiers et 1 parametre de type <string> */
-
-let
-	function main(i: int, s: string, j: int) =
-		(printi(i+j); print(s))
-in main() end

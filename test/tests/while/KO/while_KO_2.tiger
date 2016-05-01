@@ -1,7 +1,0 @@
-/* <while> avec oubli du compteur */
-
-let
-	function main() =
-		while > 0 do
-			print("test")
-in main() end

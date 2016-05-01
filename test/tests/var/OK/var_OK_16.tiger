@@ -1,7 +1,0 @@
-/* lettre minuscule et <_> dans nom de variable */
-
-let
-	var v_ := 1
-
-	function main() = printi(v_)
-in main() end

@@ -1,9 +1,0 @@
-/* <let> avec 3 declarations de variable et 3 instructions */
-
-let
-	var i := 0
-	var j := 0
-	var k := 0
-in
-	(printi(i); printi(j); printi(k))
-end

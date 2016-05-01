@@ -1,8 +1,0 @@
-/* comparaison double de chaines */
-
-let
-	var s := "test"
-
-	function main() =
-		if s > "a" & s = "test" then print("OK")
-in main() end

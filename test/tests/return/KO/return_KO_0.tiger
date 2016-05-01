@@ -1,5 +1,0 @@
-/* <return> mal ecrit */
-
-let
-	function main() = returnn 1
-in main() end

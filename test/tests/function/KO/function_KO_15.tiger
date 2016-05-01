@@ -1,5 +1,0 @@
-/* fonction avec entier directement en parametre */
-
-let
-	function main(1) = printi(1)
-in main() end

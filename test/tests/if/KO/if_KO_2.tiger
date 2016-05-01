@@ -1,9 +1,0 @@
-/* affectation de chaine dans la condition <if then> */
-
-let
-	var s := "toto"
-
-	function main() =
-		if s := "toto" then
-			print("test")
-in main() end

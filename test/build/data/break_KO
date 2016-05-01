@@ -11,7 +11,7 @@ in main() end
 
 let
 	function main() =
-		while break then
+		while break do
 			print("test")
 in main() end
 ###
@@ -19,4 +19,10 @@ in main() end
 
 let
 	break
+in break end
+###
+/* appel de <break>, avec corps de programme ne contenant pas <break> */
+
+let
+	function main() = print("test")
 in break end

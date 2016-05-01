@@ -1,8 +1,0 @@
-/* comparaison triple d'entiers */
-
-let
-	var i := 1
-
-	function main() =
-		if i > 0 & i < 3 & i = 1 then print("OK")
-in main() end

@@ -1,3 +1,0 @@
-/* addition de 3 multiplications parenthesees */
-
-let function main() = printi((1*2)+(2*3)+(3*4)) in main() end

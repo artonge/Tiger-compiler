@@ -1,5 +1,0 @@
-/* retour d'expression */
-
-let
-	function main() = return (1+2+3)
-in main() end

@@ -1,5 +1,0 @@
-/* division simple, a 2 termes, dont un ayant moins unaire */
-
-let
-	function main() = printi(-2/1)
-in main() end

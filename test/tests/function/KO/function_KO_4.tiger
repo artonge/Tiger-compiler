@@ -1,5 +1,0 @@
-/* oubli d'identifiant de parametre */
-
-let
-	function main(: int) = print("test")
-in main(0) end

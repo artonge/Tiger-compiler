@@ -1,5 +1,0 @@
-/* retour de <nil> */
-
-let
-	function main() = return (nil)
-in main() end

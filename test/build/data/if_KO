@@ -1,4 +1,23 @@
 ###
+/* <if then> sans instruction */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+in main() end
+###
+/* <if then> avec ligne vide */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+
+in main() end
+###
 /* incrementation dans la condition <if then> */
 
 let
@@ -88,12 +107,4 @@ let
 			print("test")
 		else
 
-in main() end
-###
-/* <if then> avec condition entiere */
-
-let
-	function main()() =
-		if 1 then
-			print("test")
 in main() end

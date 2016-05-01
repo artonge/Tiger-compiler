@@ -1,9 +1,0 @@
-/* <if then> avec oubli du <if> */
-
-let
-	var i := 0
-
-	function main() =
-		i = 0 then
-			print("test")
-in main() end

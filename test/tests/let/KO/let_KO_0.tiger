@@ -1,6 +1,0 @@
-/* <let> sans declaration */
-
-let
-in
-	print("test")
-end

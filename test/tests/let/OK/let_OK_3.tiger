@@ -1,7 +1,0 @@
-/* <let> avec 1 declaration de variable et 1 instruction */
-
-let
-	var i := 0
-in
-	printi(i)
-end

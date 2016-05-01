@@ -1,9 +1,0 @@
-/* multiplication a 3 termes identifies par variables, avec parenthesage des 2 variables a droite */
-
-let
-	var i := 1
-	var j := 2
-	var k := 3
-
-	function main() = printi(i*(j*k))
-in main() end

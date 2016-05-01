@@ -1,3 +1,0 @@
-/* multiplication suivie d'addition, avec parenthesage des 2 termes a gauche */
-
-let function main() = printi((1*2)+3) in main() end

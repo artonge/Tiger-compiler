@@ -1,5 +1,0 @@
-/* fonction definissant un entier */
-
-let
-	function main() = 1
-in main() end

@@ -1,9 +1,0 @@
-/* <while> avec iteration sur une chaine */
-
-let
-	var s := "t"
-
-	function main() =
-		while s <> "ttt" do
-			s := s+"t"
-in main() end

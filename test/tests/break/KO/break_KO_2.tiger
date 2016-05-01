@@ -1,5 +1,0 @@
-/* appel de <break>, avec corps de programme contenant <break> */
-
-let
-	break
-in break end

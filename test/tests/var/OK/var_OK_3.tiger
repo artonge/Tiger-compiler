@@ -1,7 +1,0 @@
-/* declaration simple d'entier avec type */
-
-let
-	var i : int := 1
-in
-	printi(i)
-end

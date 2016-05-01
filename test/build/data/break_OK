@@ -21,12 +21,6 @@ let
 	function main() = break
 in main() end
 ###
-/* appel de <break>, avec corps de programme ne contenant pas <break> */
-
-let
-	function main() = print("test")
-in break end
-###
 /* <break> dans un <while>, apres instruction */
 
 let

@@ -1,5 +1,0 @@
-/* fonction executant seulement <break> */
-
-let
-	function main() = break
-in main() end

@@ -1,7 +1,0 @@
-/* affectation de caractere special */
-
-let
-	var i := \
-in
-	printi(i)
-end

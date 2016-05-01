@@ -1,5 +1,0 @@
-/* <return> sans valeur */
-
-let
-	function main() = return
-in main() end

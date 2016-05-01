@@ -1,7 +1,0 @@
-/* <break> comme condition dans <while> */
-
-let
-	function main() =
-		while break then
-			print("test")
-in main() end

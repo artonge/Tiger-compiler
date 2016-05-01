@@ -1,7 +1,0 @@
-/* affectation de <nil> */
-
-let
-	var n := nil
-in
-	print(n)
-end

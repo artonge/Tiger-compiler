@@ -1,5 +1,0 @@
-/* retour d'entier positif */
-
-let
-	function main() = return (1)
-in main() end

@@ -1,5 +1,0 @@
-/* addition suivie de soustraction */
-
-let
-	function main() = printi(1+2-3)
-in main() end

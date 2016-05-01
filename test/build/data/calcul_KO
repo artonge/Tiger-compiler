@@ -75,4 +75,24 @@ let function main() = printi(1); in main() end
 ###
 /* <;> sans instruction avant */
 
-let function main() = ;
+let function main() = ; in main() end
+###
+/* 2 instructions sans parentheses */
+
+let function main() = printi(1); printi(2) in main() end
+###
+/* 3 instructions sans parentheses */
+
+let function main() = printi(1); printi(2); printi(3) in main() end
+###
+/* concatenation d'entier et de chaine */
+
+let
+	function main() = print(1+"2")
+in main() end
+###
+/* concatenation de 2 chaines */
+
+let
+	function main() = print("1"+"2")
+in main() end

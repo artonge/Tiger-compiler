@@ -1,6 +1,0 @@
-/* parametres mal separes */
-
-let
-	function main(i: int s: string) =
-		(printi(i); print(s))
-in main(1, "test") end
