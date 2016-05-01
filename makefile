@@ -51,7 +51,7 @@ c : ## Compile all the sources into the executable
 
 exec : ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
-	./main.out ./Tests/test.tiger
+	./main.out ./test/test.tiger
 
 c_e : c exec ## Compile C files and launch executable
 
