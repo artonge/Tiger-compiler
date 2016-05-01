@@ -11,7 +11,7 @@ public class TestGenerator {
 	private static int testCounter = 0;
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		String dir = System.getProperty("user.dir");
+		String dir = System.getProperty("user.dir")+File.separator+"test"+File.separator+"build";
 		File targetFolder = new File(new File(dir).getParent()+File.separator+"tests");
 		if(!(targetFolder.exists())) {
 			targetFolder.mkdirs();

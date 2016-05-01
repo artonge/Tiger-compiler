@@ -19,7 +19,7 @@ public class ReportGenerator {
 
 	public static void main(String[] args) throws IOException, RecognitionException {
 		try {
-			String dir = System.getProperty("user.dir");
+			String dir = System.getProperty("user.dir")+File.separator+"test"+File.separator+"build";
 			String resultFilePath = dir+File.separator+"Report.tex";
 			File resultFile = new File(resultFilePath);
 			if(!resultFile.exists())
@@ -64,7 +64,7 @@ public class ReportGenerator {
 				String[] nameSplit = currentFile.getName().split("_");
 				String subSection = nameSplit[1];
 				if(subSection.equals("KO")) {
-					bw.write("\\section{"+nameSplit[0]+"}\n");	
+					bw.write("\\section{"+nameSplit[0]+"}\n");
 				}
 				bw.write("\\subsection{"+subSection+"}\n");
 				String line = "";
@@ -94,21 +94,21 @@ public class ReportGenerator {
 						bw.write("\\end{lstlisting}\n");
 						bw.write("\\newpage\n");
 						TigerLexer lexer = new TigerLexer(new ANTLRStringStream(core));
-						TigerParser parser = new TigerParser(new CommonTokenStream(lexer));	
+						TigerParser parser = new TigerParser(new CommonTokenStream(lexer));
 						CommonTree tree = (CommonTree) parser.program().getTree();
 						DOTTreeGenerator DOTGenerator = new DOTTreeGenerator();
 						StringTemplate st = DOTGenerator.toDOT(tree);
 						GraphViz graph = new GraphViz();
 						graph.add(st.toString());
 						String suf = "ast";
-						new File(suf).mkdir();
+						new File(dir+File.separator+suf).mkdir();
 						suf += File.separator+"ast_"+testCounter+".pdf";
 						File out = new File(dir+File.separator+suf);
 						graph.writeGraphToFile(graph.getGraph(graph.getDotSource(), "pdf", "dot"), out);
 						if(out.length() > 0) {
 							bw.write("\\begin{figure}[H]\n");
 							bw.write("\\centering\n");
-							bw.write("\\includegraphics[max width=\\textwidth]{"+suf+"}\n");
+							bw.write("\\includegraphics[max width=\\textwidth]{"+dir+File.separator+suf+"}\n");
 							bw.write("\\end{figure}\n");
 							bw.write("\\newpage\n");
 						} else {
@@ -131,7 +131,7 @@ public class ReportGenerator {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static String lstConfig() {
 		ArrayList<String> lines = new ArrayList<String>();
 		lines.add("\\lstdefinelanguage{Tiger} {");

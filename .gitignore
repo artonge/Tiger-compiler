@@ -2,6 +2,5 @@ main.out
 .DS_Store
 .classpath
 .project
-test/build/.DS
 test/build/ast
 test/tests
