@@ -1,7 +1,6 @@
 BUILDING:
 cd build
 javac -cp "jar/*" *.java
-java TestGenerator
 java -cp .:jar/*: ReportGenerator
 pdflatex Report.tex
 pdflatex Report.tex
