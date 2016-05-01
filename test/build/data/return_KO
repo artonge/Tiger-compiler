@@ -1,0 +1,24 @@
+###
+/* <return> mal ecrit */
+
+let
+	function main() = returnn 1
+in main() end
+###
+/* <return> sans valeur */
+
+let
+	function main() = return
+in main() end
+###
+/* <return> avec oubli de parentheses */
+
+let
+	function main() = return 1
+in main() end
+###
+/* 2 <return> */
+
+let
+	function main() = return (return (1))
+in main() end

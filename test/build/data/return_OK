@@ -1,0 +1,46 @@
+###
+/* retour d'entier positif */
+
+let
+	function main() = return (1)
+in main() end
+###
+/* retour d'entier negatif */
+
+let
+	function main() = return (-1)
+in main() end
+###
+/* retour de chaine */
+
+let
+	function main() = return ("test")
+in main() end
+###
+/* retour de <nil> */
+
+let
+	function main() = return (nil)
+in main() end
+###
+/* retour de variable */
+
+let
+	var i := 1
+
+	function main() = return (i)
+in main() end
+###
+/* retour de fonction */
+
+let
+	function subFunction() = return (1)
+
+	function main() = return (subFunction())
+in main() end
+###
+/* retour d'expression */
+
+let
+	function main() = return (1+2+3)
+in main() end

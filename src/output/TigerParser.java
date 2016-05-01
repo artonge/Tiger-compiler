@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-04-30 10:38:37
+// $ANTLR 3.5.1 /Users/moshi/compilation/src/Tiger.g 2016-05-01 10:49:39
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -96,10 +96,10 @@ public class TigerParser extends DebugParser {
 
 
 	public static final String[] ruleNames = new String[] {
-		"invalidRule", "logExpr", "addMinExpr", "declaration", "params", "multDiv", 
-		"comp", "compExpr", "assignExpr", "multDivExpr", "andExpr", "or", "param", 
-		"atom", "assign", "instructions", "program", "expr", "instruction", "and", 
-		"addMin"
+		"invalidRule", "multDiv", "logExpr", "params", "comp", "declaration", 
+		"andExpr", "param", "assignExpr", "and", "expr", "multDivExpr", "addMin", 
+		"compExpr", "addMinExpr", "or", "instructions", "atom", "program", "instruction", 
+		"assign"
 	};
 
 	public static final boolean[] decisionCanBacktrack = new boolean[] {
@@ -447,7 +447,7 @@ public class TigerParser extends DebugParser {
 
 					stream_expr.add(expr6.getTree());
 					// AST REWRITE
-					// elements: name, expr, type
+					// elements: expr, name, type
 					// token labels: name, type
 					// rule labels: retval
 					// token list labels: 
@@ -543,7 +543,7 @@ public class TigerParser extends DebugParser {
 
 					stream_instructions.add(instructions11.getTree());
 					// AST REWRITE
-					// elements: name, instructions, return_type, params
+					// elements: return_type, instructions, name, params
 					// token labels: return_type, name
 					// rule labels: retval
 					// token list labels: 
@@ -841,7 +841,7 @@ public class TigerParser extends DebugParser {
 			stream_ID.add(type);
 
 			// AST REWRITE
-			// elements: type, name
+			// elements: name, type
 			// token labels: name, type
 			// rule labels: retval
 			// token list labels: 
@@ -1101,7 +1101,7 @@ public class TigerParser extends DebugParser {
 					stream_54.add(string_literal22);
 
 					// AST REWRITE
-					// elements: declaration, instructions
+					// elements: instructions, declaration
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -1352,7 +1352,7 @@ public class TigerParser extends DebugParser {
 
 					stream_instructions.add(instructions37.getTree());
 					// AST REWRITE
-					// elements: v1, instructions, ID, v2
+					// elements: v2, v1, instructions, ID
 					// token labels: 
 					// rule labels: v1, v2, retval
 					// token list labels: 
@@ -1707,7 +1707,7 @@ public class TigerParser extends DebugParser {
 					} finally {dbg.exitSubRule(11);}
 
 					// AST REWRITE
-					// elements: ID, expr
+					// elements: expr, ID
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
