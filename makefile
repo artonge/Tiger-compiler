@@ -33,11 +33,19 @@ OUTPUT = -o ./main.out
 ###########################
 ######## COMMANDES ########
 ###########################
-all : clean grammar c exec ## clean grammar c exec
+all : grammar c exec ## grammar c exec
 
 clean : ## Clean the project
 	$(info ${\n} ${line} CLEAN ${line} ${\n})
-	rm -f m*.out
+	rm -f main.out
+	rm -f src/TigerLexer*
+	rm -f src/TigerParser*
+	rm -f Tiger.tokens
+
+	rm -f test/build/*.class test/build/*.tex *.log *.aux *.toc
+	rm -f test/build/Tiger*
+	rm -fd test/build/ast
+	rm -fd test/tests
 
 
 grammar : ## Compile the grammar using antlr3
