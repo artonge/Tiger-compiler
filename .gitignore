@@ -4,3 +4,4 @@ main.out
 .project
 test/build/.DS
 test/build/ast
+test/tests
