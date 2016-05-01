@@ -1,0 +1,5 @@
+/* fonction definissant une chaine */
+
+let
+	function main() = "test"
+in main() end

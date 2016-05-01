@@ -1,0 +1,5 @@
+/* multiplication a 3 termes, dont un ayant moins unaire */
+
+let
+	function main() = printi(-1*2*3)
+in main() end

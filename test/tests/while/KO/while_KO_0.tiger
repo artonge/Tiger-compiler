@@ -1,0 +1,7 @@
+/* <while> avec affectation d'entier */
+
+let
+	function main() =
+		while i := 1 do
+			print("test")
+in main() end

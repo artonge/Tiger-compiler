@@ -1,0 +1,6 @@
+/* fonction simple, avec instruction simple et instruction retournant un entier */
+
+let
+	function main() =
+		(print("test"); 1)
+in main() end

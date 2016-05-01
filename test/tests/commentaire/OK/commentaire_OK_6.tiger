@@ -1,0 +1,10 @@
+/* 2 commentaires, apres instructions, sur 1 ligne */
+
+let
+	function main() =
+		(print("test");
+		/* commentaire 1 */
+		print("test")
+		/* commentaire 2 */
+		)
+in main() end

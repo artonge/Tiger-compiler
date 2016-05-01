@@ -1,0 +1,7 @@
+/* <let> avec instruction vide */
+
+let
+	var i := 0
+in
+
+end

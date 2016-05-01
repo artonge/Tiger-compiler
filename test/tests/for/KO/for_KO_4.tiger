@@ -1,0 +1,7 @@
+/* <for> "express" */
+
+let
+	function main() =
+		for 3 to 5 do
+			print("test")
+in main() end

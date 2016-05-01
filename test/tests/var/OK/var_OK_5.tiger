@@ -1,0 +1,10 @@
+/* declarations d'entier avec types et reutilisation de 3 autres entiers */
+
+let
+	var j : int := 1
+	var k : int := 1
+	var l : int := 1
+	var i : int := j+k+l
+in
+	printi(i)
+end

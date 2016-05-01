@@ -1,0 +1,8 @@
+/* <let> avec 2 declarations de variable et 2 instructions */
+
+let
+	var i := 0
+	var j := 0
+in
+	(printi(i); printi(j))
+end

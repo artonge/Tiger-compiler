@@ -1,0 +1,3 @@
+/* parenthesage de 2 instructions */
+
+let function main() = (printi(1); printi(2)) in main() end

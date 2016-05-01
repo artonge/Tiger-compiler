@@ -1,0 +1,5 @@
+/* fonction avec identifiant seulement en parametre */
+
+let
+	function main(i) = printi(i)
+in main() end

@@ -1,0 +1,5 @@
+/* <let> avec 1 declaration de fonction et 1 appel de fonction */
+
+let
+	function main() = print("test")
+in main() end

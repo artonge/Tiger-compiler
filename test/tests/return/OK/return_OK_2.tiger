@@ -1,0 +1,5 @@
+/* retour de chaine */
+
+let
+	function main() = return ("test")
+in main() end

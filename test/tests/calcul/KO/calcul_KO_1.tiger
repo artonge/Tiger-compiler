@@ -1,0 +1,5 @@
+/* soustraction avec operateur mal ecrit */
+
+let
+	function main() = printi(2--1)
+in main() end

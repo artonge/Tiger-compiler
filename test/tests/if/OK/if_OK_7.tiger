@@ -1,0 +1,15 @@
+/* double-imbrication de <if then else> */
+
+let
+	var i := 0
+	var j := 0
+
+	function main() =
+		if i < 0 then
+			print("test")
+		else
+			if j < 0 then
+				print("test")
+			else
+				print("test")
+in main() end

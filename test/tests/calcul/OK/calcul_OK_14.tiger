@@ -1,0 +1,8 @@
+/* multiplication simple, a 2 termes, identifies par des variables */
+
+let
+	var i := 1
+	var j := 2
+
+	function main() = printi(i*j)
+in main() end

@@ -1,0 +1,6 @@
+/* 1 commentaire, apres instruction, sur 1 ligne */
+
+let
+	function main() = print("test")
+	/* commentaire */
+in main() end

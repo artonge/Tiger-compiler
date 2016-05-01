@@ -1,6 +1,7 @@
 BUILDING:
 cd build
 javac -cp "jar/*" *.java
+java TestGenerator
 java -cp .:jar/*: ReportGenerator
 pdflatex Report.tex
 pdflatex Report.tex
@@ -8,4 +9,3 @@ pdflatex Report.tex
 CLEANING:
 rm -f *.class *.aux *.log *.tex *.toc
 rm -rf ast
-rm -rf ../tests

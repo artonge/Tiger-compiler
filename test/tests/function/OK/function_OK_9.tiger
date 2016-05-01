@@ -1,0 +1,6 @@
+/* fonction simple, avec instruction simple et instruction retournant une chaine */
+
+let
+	function main() =
+		(print("test"); "test")
+in main() end

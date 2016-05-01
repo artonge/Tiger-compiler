@@ -1,0 +1,9 @@
+/* <while> avec ligne vide */
+
+let
+	var i := 0
+
+	function main() =
+		while i < 1 do
+
+in main() end

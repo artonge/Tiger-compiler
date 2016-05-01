@@ -1,0 +1,5 @@
+/* 2 <return> */
+
+let
+	function main() = return (return (1))
+in main() end

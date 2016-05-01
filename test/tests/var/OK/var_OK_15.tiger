@@ -1,0 +1,7 @@
+/* lettre majuscule et chiffre dans nom de variable */
+
+let
+	var V1 := 1
+
+	function main() = printi(V1)
+in main() end

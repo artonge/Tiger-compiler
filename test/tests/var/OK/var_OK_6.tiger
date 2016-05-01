@@ -1,0 +1,7 @@
+/* declaration de chaine simple */
+
+let
+	var s := "s"
+in
+	print(s)
+end

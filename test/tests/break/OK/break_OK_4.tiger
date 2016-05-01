@@ -1,0 +1,9 @@
+/* <break> dans un <while>, apres instruction */
+
+let
+	var i := 3
+
+	function main() =
+		while i > 0 do
+			(print("test"); break)
+in main() end

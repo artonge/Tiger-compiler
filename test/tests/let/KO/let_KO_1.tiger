@@ -1,0 +1,6 @@
+/* <let> sans instruction */
+
+let
+	var i := 0
+in
+end

@@ -1,0 +1,6 @@
+/* comparaison simple d'entiers avec <">"> */
+
+let
+	function main() =
+		if 2 > 1 then print("OK")
+in main() end

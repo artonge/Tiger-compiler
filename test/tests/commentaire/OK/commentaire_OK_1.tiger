@@ -1,0 +1,11 @@
+/* 1 commentaire, sans instruction avant, sur plusieurs lignes */
+
+/*
+1
+2
+3
+*/
+
+let
+	function main() = print("test")
+in main() end

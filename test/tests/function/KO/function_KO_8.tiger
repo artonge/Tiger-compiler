@@ -1,0 +1,5 @@
+/* oubli de <:> pour type de fonction */
+
+let
+	function main(i: int) int = i
+in main(0) end

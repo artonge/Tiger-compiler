@@ -1,0 +1,11 @@
+/* <if then> avec triple-condition */
+
+let
+	var i := 0
+	var j := 0
+	var k := 0
+
+	function main() =
+		if i < 3 & j < 2 & k < 1 then
+			print("test")
+in main() end

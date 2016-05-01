@@ -1,0 +1,10 @@
+/* <while> avec triple-condition */
+
+let
+	var i := 5
+
+	function main() =
+		while i >= 0 & i <= 5 & i < 6 do
+			(printi(i);
+			i := i-1)
+in main() end

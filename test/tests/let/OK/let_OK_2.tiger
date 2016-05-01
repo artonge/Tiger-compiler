@@ -1,0 +1,11 @@
+/* <let> avec 3 declarations de fonction et 3 appels de fonction */
+
+let
+	function test1() = print("test")
+
+	function test2() = test1()
+
+	function main() = test2()
+in
+	(test1(); test2(); main())
+end

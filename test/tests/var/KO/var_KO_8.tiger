@@ -1,0 +1,7 @@
+/* <var> mal ecrit */
+
+let
+	varr i := 1
+in
+	printi(i)
+end

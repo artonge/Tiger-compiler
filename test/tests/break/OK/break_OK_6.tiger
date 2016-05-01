@@ -1,0 +1,9 @@
+/* <break> dans un <if then>, apres instruction */
+
+let
+	var i := 3
+
+	function main() =
+		if i=3 then
+			(print("test"); break)
+in main() end

@@ -1,0 +1,12 @@
+/* triple-imbrication de fonction */
+
+let
+	function subFunction1(i: int, s: string) =
+		(print(s); i)
+
+	function subFunction2(s: string) = 1
+
+	function subFonction3() = "test"
+
+	function main() = subFunction1(subFonction2(subFonction3()), "test")
+in main() end

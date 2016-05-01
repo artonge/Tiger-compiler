@@ -1,0 +1,10 @@
+/* double-imbrication de fonction */
+
+let
+	function subFunction1(i: int, s: string) =
+		(print(s); i)
+
+	function subFunction2() = 1
+
+	function main() = subFunction1(subFunction2(), "test")
+in main() end

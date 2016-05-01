@@ -1,0 +1,5 @@
+/* fonction avec 1 parametre de type <string> */
+
+let
+	function main(s: string) = print(s)
+in main() end

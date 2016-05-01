@@ -1,0 +1,5 @@
+/* <return> avec oubli de parentheses */
+
+let
+	function main() = return 1
+in main() end

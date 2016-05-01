@@ -1,0 +1,7 @@
+/* declaration de chaine avec type */
+
+let
+	var s : string := "test"
+in
+	print(s)
+end

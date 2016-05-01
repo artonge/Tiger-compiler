@@ -1,0 +1,5 @@
+/* oubli de type de parametre */
+
+let
+	function main(i: ) = print("test")
+in main(0) end

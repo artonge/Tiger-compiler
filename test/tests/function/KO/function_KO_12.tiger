@@ -1,0 +1,5 @@
+/* fonction sans instruction */
+
+let
+	function main() =
+in main() end

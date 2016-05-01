@@ -1,0 +1,9 @@
+/* <if then> avec ligne vide */
+
+let
+	var i := 0
+
+	function main() =
+		if i < 3 then
+
+in main() end

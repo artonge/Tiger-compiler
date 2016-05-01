@@ -1,0 +1,7 @@
+/* declaration sans affectation */
+
+let
+	var i
+in
+	printi(i)
+end

@@ -1,0 +1,9 @@
+/* declarations de chaine avec reutilisation de 2 autres chaines */
+
+let
+	var t := "test"
+	var u := "test"
+	var s := t+u
+in
+	print(s)
+end

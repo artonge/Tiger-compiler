@@ -1,0 +1,6 @@
+/* fonction avec 3 parametres de type <string> */
+
+let
+	function main(s: string, t: string, u: string) =
+		(print(s); print(t); print(u))
+in main() end

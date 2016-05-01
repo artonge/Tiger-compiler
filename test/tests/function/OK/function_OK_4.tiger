@@ -1,0 +1,5 @@
+/* fonction avec 2 parametres entiers */
+
+let
+	function main(i: int, j: int) = printi(i+j)
+in main() end

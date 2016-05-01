@@ -1,0 +1,5 @@
+/* recursion infinie */
+
+let
+	function main(n: int) = main(n+1)
+in main(0) end
