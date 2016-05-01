@@ -4,3 +4,4 @@ main.out
 .project
 test/build/ast
 test/tests
+test/build/Report.pdf

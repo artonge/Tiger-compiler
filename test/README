@@ -1,0 +1,10 @@
+BUILDING:
+cd build
+javac -cp "jar/*" *.java
+java -cp .:jar/*: ReportGenerator
+pdflatex Report.tex
+pdflatex Report.tex
+
+CLEANING:
+rm -f *.class *.aux *.log *.tex *.toc
+rm -rf ast

@@ -1,4 +1,23 @@
 ###
+/* <while> sans instruction */
+
+let
+	var i := 0
+
+	function main() =
+		while i < 1 do
+in main() end
+###
+/* <while> avec ligne vide */
+
+let
+	var i := 0
+
+	function main() =
+		while i < 1 do
+
+in main() end
+###
 /* <while> avec affectation d'entier */
 
 let
