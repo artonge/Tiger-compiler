@@ -115,9 +115,25 @@ void checkReturn(ANTLR3_BASE_TREE *tree) {
 
 
 // Check that left operand is an ID and do not contain any children
-// Check that right operand do not contains any instructions beside an EXPR
+// Check that right operand is not an INSTRUCTIONS node
 void checkAssigne(ANTLR3_BASE_TREE *tree) {
+  ANTLR3_BASE_TREE * id   = tree->getChild(tree, 0);
+  ANTLR3_BASE_TREE * expr = tree->getChild(tree, 1);
 
+  pANTLR3_COMMON_TOKEN idToken   = tree->getToken(id);
+  pANTLR3_COMMON_TOKEN exprToken = tree->getToken(expr);
+
+  if (idToken != ID) {
+    printf("Left operand must be an identifiant in an assignement %d:%d\n",
+           tree->getLine(id),
+           tree->getCharPositionInLine(id));
+  }
+
+  if (exprToken != EXPR) {
+    printf("Right assignement can not contains an instruction %d:%d\n",
+           tree->getLine(expr),
+           tree->getCharPositionInLine(expr));
+  }
 }
 
 
