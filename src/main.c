@@ -57,8 +57,8 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 
 	langAST = psr->program(psr);
 
-
-	dispatch(langAST.tree);
+	// Check program's semantic
+	parse(langAST.tree);
 
 
 	psr    ->free (  psr  );     psr = NULL;
@@ -69,30 +69,23 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 	return 0;
 }
 
+// Dispatch each node to the correct function
 void dispatch(ANTLR3_BASE_TREE *tree) {
 
 	pANTLR3_COMMON_TOKEN token = tree->getToken(tree);
-
-	// pANTLR3_STRING string = tree->toString(tree);
-	// printf("%s\n", string->chars);
-
+	ANTLR3_UINT32        count = tree->getChildCount(tree);
 
 	switch (token->type) {
-		case INSTRUCTIONS:
-		case DECLARATIONS:
-		case LET:
-		case WHILE:
-		case FOR:
-		case IF:
-			parse(tree);
-			break;
 
 		case VAR_DECLARATION:
 			checkVarDeclaration(tree);
+			parse(tree->getChild(tree, count)); // parse expr
 			break;
 
 		case FUNC_DECLARATION:
 			checkFuncDeclaration(tree);
+			parse(tree->getChild(tree, 1));     // parse params
+			parse(tree->getChild(tree, count)); // parse expr
 			break;
 
 		case PARAM:
@@ -100,29 +93,78 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			break;
 
 
+		case LET:
+			parse(tree->getChild(tree, 0)); // parse declarations
+			parse(tree->getChild(tree, 1)); // parse instructions
+			break;
+
+		case IF:
+			parse(tree->getChild(tree, 0)); // parse expr
+			parse(tree->getChild(tree, 1)); // parse instructions1
+			if (count == 3) {
+				parse(tree->getChild(tree, 2)); // parse instructions2
+			}
+			break;
+
+		case WHILE:
+			parse(tree->getChild(tree, 0)); // parse expr
+			parse(tree->getChild(tree, 1)); // parse instructions
+			break;
+
+		case FOR:
+			parse(tree->getChild(tree, 1)); // parse expr1
+			parse(tree->getChild(tree, 2)); // parse expr2
+			parse(tree->getChild(tree, 3)); // parse instructions
+			break;
+
+		case BREAK:
+			checkBreak(tree);
+			break;
+
+		case RETURN:
+			checkReturn(tree);
+			parse(tree->getChild(tree, 0)); // parse expr
+			break;
+
+
 		case ASSIGNE:
 			checkAssigne(tree);
+			parse(tree->getChild(tree, 1)); // parse right operand
 			break;
 
 		case OR:
 			checkOr(tree);
+			parse(tree->getChild(tree, 0)); // parse left operand
+			parse(tree->getChild(tree, 1)); // parse right operand
+			break;
+
+		case COMP:
+			checkComp(tree);
+			parse(tree->getChild(tree, 0)); // parse left operand
+			parse(tree->getChild(tree, 1)); // parse right operand
 			break;
 
 		case AND:
 			checkAnd(tree);
+			parse(tree->getChild(tree, 0)); // parse left operand
+			parse(tree->getChild(tree, 1)); // parse right operand
 			break;
 
 		case ADD:
 			checkAdd(tree);
+			parse(tree->getChild(tree, 0)); // parse left operand
+			parse(tree->getChild(tree, 1)); // parse right operand
 			break;
 
 		case MULT:
 			checkMult(tree);
+			parse(tree->getChild(tree, 0)); // parse left operand
+			parse(tree->getChild(tree, 1)); // parse right operand
 			break;
 
 
-		case ARGS:
-			checkArgs(tree);
+		case ID:
+			if (count == 1) checkArgs(tree->getChild(tree, 0));
 			break;
 
 
@@ -132,6 +174,7 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 	}
 }
 
+// Loop over each children and send them to dispatch
 void parse(ANTLR3_BASE_TREE *tree) {
 
 	ANTLR3_UINT32 count = tree->getChildCount(tree);

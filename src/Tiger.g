@@ -17,7 +17,7 @@ WHITESPACE : (' '|'\n'|'\t'|'\r'|'\u000C')+ { $channel = HIDDEN; } ;
 COMMENT    : '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;} ;
 
 fragment
-LETTER     : 'A'..'Z'|'a'..'z';
+LETTER     : 'A'..'Z'|'a'..'z' ;
 
 ID         : LETTER (LETTER|INTEGER|'_')* ;
 
@@ -63,7 +63,7 @@ instruction
 atom
   : ID ('(' (expr (',' expr)*)? ')')?                                           -> ^(ID ^(ARGS expr*)?)
 
-  | '(' instruction (';' instruction)* ')'                                      -> instruction+
+  | '(' instruction (';' instruction)* ')'                                      -> ^(INSTRUCTIONS instruction+)
 
   | STRING                                                                      -> ^(STR STRING)
   | INTEGER                                                                     -> ^(INT INTEGER)

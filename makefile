@@ -73,10 +73,6 @@ test_report : ## Generate PDF files containing AST from tests files
 	java -cp test/build/jar/*:test/build ReportGenerator
 	pdflatex test/build/Report.tex
 
-	rm test/build/*.class test/build/*.tex *.log *.aux *.toc
-	rm test/build/Tiger*
-	rm -r test/build/ast
-	rm -r test/tests
 
 
 ###########################
