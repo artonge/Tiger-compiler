@@ -86,7 +86,6 @@ int findReturnInstruction(ANTLR3_BASE_TREE *tree) {
 // Check that type is 'int' or 'string' for each param
 void checkParam(ANTLR3_BASE_TREE *tree) {
 
-  NTLR3_BASE_TREE  *      param = tree->getChild(tree, i);;
   ANTLR3_BASE_TREE *   typeNode = tree->getChild(tree, 1);
   char             * typeString = (char *)tree->toString(typeNode)->chars;
 
@@ -123,13 +122,13 @@ void checkAssigne(ANTLR3_BASE_TREE *tree) {
   pANTLR3_COMMON_TOKEN idToken   = tree->getToken(id);
   pANTLR3_COMMON_TOKEN exprToken = tree->getToken(expr);
 
-  if (idToken != ID) {
+  if (idToken->type != ID) {
     printf("Left operand must be an identifiant in an assignement %d:%d\n",
            tree->getLine(id),
            tree->getCharPositionInLine(id));
   }
 
-  if (exprToken != EXPR) {
+  if (exprToken->type != EXPR) {
     printf("Right assignement can not contains an instruction %d:%d\n",
            tree->getLine(expr),
            tree->getCharPositionInLine(expr));
@@ -173,5 +172,11 @@ void checkMult(ANTLR3_BASE_TREE *tree) {
 
 // Check that ARGS are not an INSTRUCTIONS node
 void checkArgs(ANTLR3_BASE_TREE *tree) {
+
+}
+
+
+// Check that the atom is an ID or a function call
+void checkNeg(ANTLR3_BASE_TREE *tree) {
 
 }

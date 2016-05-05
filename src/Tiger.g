@@ -67,7 +67,7 @@ atom
 
   | STRING                                                                      -> ^(STR STRING)
   | INTEGER                                                                     -> ^(INT INTEGER)
-  | '-' INTEGER                                                                 -> ^(NEG INTEGER)
+  | '-' atom                                                                    -> ^(NEG atom)
   | 'nil'                                                                       -> ^(NIL)
   ;
 
@@ -87,5 +87,5 @@ multDivExpr : atom        ( multDiv^        atom)* ;
 multDiv : '*'|'/' ;
    comp : '<'|'>'|'<='|'>='|'='|'<>' ;
     and : '&' ;
-    or  : '|' ;
-assign  : ':=' ;
+     or : '|' ;
+ assign : ':=' ;
