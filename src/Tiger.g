@@ -3,13 +3,14 @@ grammar Tiger;
 options {
   k = 1;
   output = AST;
+  language = C;
 }
 
 tokens {
   INSTRUCTIONS; LET; WHILE; FOR; IF; BREAK; RETURN;
   DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM;
   EXPR; ASSIGNE; OR; AND; COMP; MULT; ADD;
-  ARGS; STR; INT; NEG; NIL;
+  FUNC_CALL; ARGS; STR; INT; NEG; NIL;
 }
 
 
@@ -61,7 +62,7 @@ instruction
   ;
 
 atom
-  : ID ('(' (expr (',' expr)*)? ')')?                                           -> ^(ID ^(ARGS expr*)?)
+  : ID (args^)?
 
   | '(' instruction (';' instruction)* ')'                                      -> ^(INSTRUCTIONS instruction+)
 
@@ -69,6 +70,11 @@ atom
   | INTEGER                                                                     -> ^(INT INTEGER)
   | '-' atom                                                                    -> ^(NEG atom)
   | 'nil'                                                                       -> ^(NIL)
+  ;
+
+
+args
+  : '(' (expr (',' expr)*)? ')'                                                 -> ^(FUNC_CALL ^(ARGS expr+))
   ;
 
 
