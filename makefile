@@ -50,11 +50,13 @@ clean : ## Clean the project
 
 grammar : ## Compile the grammar using antlr3
 	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
-	antlr3 ./src/Tiger.g -language C -make
+	$(info Make sure `language = C;` is uncommented in grammar options${\n})
+	antlr3 ./src/Tiger.g -make
 
 
 c : ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
+	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT)
 
 exec : ## Execute the program with ./Tests/test.tiger file as input
