@@ -79,13 +79,13 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 		case VAR_DECLARATION:
 			checkVarDeclaration(tree);
-			parse(tree->getChild(tree, count)); // parse expr
+			parse(tree->getChild(tree, count-1)); // parse expr
 			break;
 
 		case FUNC_DECLARATION:
 			checkFuncDeclaration(tree);
 			parse(tree->getChild(tree, 1));     // parse params
-			parse(tree->getChild(tree, count)); // parse expr
+			parse(tree->getChild(tree, count-1)); // parse expr
 			break;
 
 		case PARAM:
