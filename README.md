@@ -13,7 +13,7 @@ Un super projet de compilation pour telecom nancy
 [+] - `artonge` - `checkVarDeclaration(tree);` <br>
 [+] - `artonge` - `checkFuncDeclaration(tree);` <br>
 [+] - `artonge` - `checkParam(tree);` <br>
-[-] - `Yelen` - `checkBreak(tree);` <br>
+[-] - `Benoit` - `checkBreak(tree);` <br>
 [o] - `<nom>` - `checkReturn(tree);` <br>
 [-] - `artonge` - `checkAssigne(tree);` <br>
 [o] - `<nom>` - `checkOr(tree);` <br>
@@ -21,5 +21,5 @@ Un super projet de compilation pour telecom nancy
 [o] - `<nom>` - `checkComp(tree);` <br>
 [o] - `<nom>` - `checkAdd(tree);` <br>
 [o] - `<nom>` - `checkMult(tree);` <br>
-[o] - `<nom>` - `checkArgs(tree);` <br>
+[-] - `Yelen` - `checkArgs(tree);` <br>
 [o] - `<nom>` - `checkNeg(tree);` <br>
