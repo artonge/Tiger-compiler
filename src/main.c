@@ -8,8 +8,6 @@
 
 #include "main.h"
 
-void parse(ANTLR3_BASE_TREE *tree);
-void dispatch(ANTLR3_BASE_TREE *tree);
 
 int ANTLR3_CDECL main (int argc, char *argv[]) {
 
@@ -79,13 +77,13 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 		case VAR_DECLARATION:
 			checkVarDeclaration(tree);
-			parse(tree->getChild(tree, count-1)); // parse expr
+			dispatch(tree->getChild(tree, count-1)); // dispatch expr
 			break;
 
 		case FUNC_DECLARATION:
 			checkFuncDeclaration(tree);
-			parse(tree->getChild(tree, 1));     // parse params
-			parse(tree->getChild(tree, count-1)); // parse expr
+			dispatch(tree->getChild(tree, 1));       // dispatch params
+			dispatch(tree->getChild(tree, count-1)); // dispatch expr
 			break;
 
 		case PARAM:
@@ -94,27 +92,27 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 
 		case LET:
-			parse(tree->getChild(tree, 0)); // parse declarations
-			parse(tree->getChild(tree, 1)); // parse instructions
+			dispatch(tree->getChild(tree, 0)); // dispatch declarations
+			dispatch(tree->getChild(tree, 1)); // dispatch instructions
 			break;
 
 		case IF:
-			parse(tree->getChild(tree, 0)); // parse expr
-			parse(tree->getChild(tree, 1)); // parse instructions1
+			dispatch(tree->getChild(tree, 0)); // dispatch expr
+			dispatch(tree->getChild(tree, 1)); // dispatch instructions1
 			if (count == 3) {
-				parse(tree->getChild(tree, 2)); // parse instructions2
+				dispatch(tree->getChild(tree, 2)); // dispatch instructions2
 			}
 			break;
 
 		case WHILE:
-			parse(tree->getChild(tree, 0)); // parse expr
-			parse(tree->getChild(tree, 1)); // parse instructions
+			dispatch(tree->getChild(tree, 0)); // dispatch expr
+			dispatch(tree->getChild(tree, 1)); // dispatch instructions
 			break;
 
 		case FOR:
-			parse(tree->getChild(tree, 1)); // parse expr1
-			parse(tree->getChild(tree, 2)); // parse expr2
-			parse(tree->getChild(tree, 3)); // parse instructions
+			dispatch(tree->getChild(tree, 1)); // dispatch expr1
+			dispatch(tree->getChild(tree, 2)); // dispatch expr2
+			dispatch(tree->getChild(tree, 3)); // dispatch instructions
 			break;
 
 		case BREAK:
@@ -123,48 +121,53 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 		case RETURN:
 			checkReturn(tree);
-			parse(tree->getChild(tree, 0)); // parse expr
+			dispatch(tree->getChild(tree, 0)); // dispatch expr
 			break;
 
 
 		case ASSIGNE:
 			checkAssigne(tree);
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 		case OR:
 			checkOr(tree);
-			parse(tree->getChild(tree, 0)); // parse left operand
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 0)); // dispatch left operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 		case COMP:
 			checkComp(tree);
-			parse(tree->getChild(tree, 0)); // parse left operand
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 0)); // dispatch left operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 		case AND:
 			checkAnd(tree);
-			parse(tree->getChild(tree, 0)); // parse left operand
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 0)); // dispatch left operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 		case ADD:
 			checkAdd(tree);
-			parse(tree->getChild(tree, 0)); // parse left operand
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 0)); // dispatch left operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 		case MULT:
 			checkMult(tree);
-			parse(tree->getChild(tree, 0)); // parse left operand
-			parse(tree->getChild(tree, 1)); // parse right operand
+			dispatch(tree->getChild(tree, 0)); // dispatch left operand
+			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
 
-		case ID:
-			if (count == 1) checkArgs(tree->getChild(tree, 0));
+		case FUNC_CALL:
+			checkFuncCall(tree);
+			dispatch(tree->getChild(tree, 0)); // dispatch args
+			break;
+
+		case ARGS:
+			checkArgs(tree);
 			break;
 
 

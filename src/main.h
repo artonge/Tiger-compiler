@@ -14,4 +14,7 @@
 #include "TigerParser.h"
 #include "checkers.h"
 
+void parse(ANTLR3_BASE_TREE *tree);
+void dispatch(ANTLR3_BASE_TREE *tree);
+
 #endif /* main_h */
