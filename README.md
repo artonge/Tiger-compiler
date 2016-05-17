@@ -21,6 +21,6 @@ Un super projet de compilation pour telecom nancy
 [o] - `Lilian` - `checkComp(tree);` <br>
 [o] - `Lilian` - `checkAdd(tree);` <br>
 [o] - `Lilian` - `checkMult(tree);` <br>
-[o] - `yelen` - `checkArgs(tree);` <br>
 [o] - `yelen` - `checkNeg(tree);` <br>
 [o] - `yelen` - `checkFuncCall(tree);` <br>
+[o] - `yelen` - `checkArgs(tree);` <br>

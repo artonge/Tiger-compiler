@@ -167,23 +167,25 @@ void checkAdd(ANTLR3_BASE_TREE *tree) {
 // Check that both operands are not an INSTRUCTIONS node
 // Check that both operands are not NIL NODE
 // THINK - Can a STRING can be in an EXPR ?
-// TODO - check devision by 0 do not hapen
+// TODO - check that division by 0 do not hapen
 void checkMult(ANTLR3_BASE_TREE *tree) {
 
 }
 
-// Check that ARGS are not an INSTRUCTIONS node
-void checkArgs(ANTLR3_BASE_TREE *tree) {
 
-}
-
-
-// Check that the atom is an ID or a function call
+// Check that the atom is an ID or a FUNC_CALL
 void checkNeg(ANTLR3_BASE_TREE *tree) {
 
 }
 
+
 // Check that the number of parameters is the same as in the declaration
 void checkFuncCall(ANTLR3_BASE_TREE *tree) {
+
+}
+
+
+// Check that ARGS are not an INSTRUCTIONS node
+void checkArgs(ANTLR3_BASE_TREE *tree) {
 
 }
