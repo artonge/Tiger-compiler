@@ -23,6 +23,7 @@ void checkVarDeclaration(ANTLR3_BASE_TREE *tree) {
 
 // Check that return type is 'int' or 'string'
 // Check if a RETURN node exists when return type is set
+// TODO - check return type is same as returned var
 void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
 
   ANTLR3_UINT32 count = tree->getChildCount(tree);
@@ -166,6 +167,7 @@ void checkAdd(ANTLR3_BASE_TREE *tree) {
 // Check that both operands are not an INSTRUCTIONS node
 // Check that both operands are not NIL NODE
 // THINK - Can a STRING can be in an EXPR ?
+// TODO - check devision by 0 do not hapen
 void checkMult(ANTLR3_BASE_TREE *tree) {
 
 }
@@ -178,5 +180,10 @@ void checkArgs(ANTLR3_BASE_TREE *tree) {
 
 // Check that the atom is an ID or a function call
 void checkNeg(ANTLR3_BASE_TREE *tree) {
+
+}
+
+// Check that the number of parameters is the same as in the declaration
+void checkFuncCall(ANTLR3_BASE_TREE *tree) {
 
 }
