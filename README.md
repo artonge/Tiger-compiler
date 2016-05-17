@@ -13,7 +13,7 @@ Un super projet de compilation pour telecom nancy
 [+] - `artonge` - `checkVarDeclaration(tree);` <br>
 [+] - `artonge` - `checkFuncDeclaration(tree);` <br>
 [+] - `artonge` - `checkParam(tree);` <br>
-[o] - `<nom>` - `checkBreak(tree);` <br>
+[-] - `Yelen` - `checkBreak(tree);` <br>
 [o] - `<nom>` - `checkReturn(tree);` <br>
 [-] - `artonge` - `checkAssigne(tree);` <br>
 [o] - `<nom>` - `checkOr(tree);` <br>
