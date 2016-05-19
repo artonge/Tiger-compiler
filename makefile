@@ -18,6 +18,7 @@ CC = gcc
 
 SOURCES = ./src/main.c \
           ./src/checkers.c \
+          ./src/TDS.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
