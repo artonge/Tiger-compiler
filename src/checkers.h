@@ -15,5 +15,6 @@ void checkAnd(ANTLR3_BASE_TREE *tree);
 void checkComp(ANTLR3_BASE_TREE *tree);
 void checkAdd(ANTLR3_BASE_TREE *tree);
 void checkMult(ANTLR3_BASE_TREE *tree);
-void checkArgs(ANTLR3_BASE_TREE *tree);
 void checkNeg(ANTLR3_BASE_TREE *tree);
+void checkFuncCall(ANTLR3_BASE_TREE *tree);
+void checkArgs(ANTLR3_BASE_TREE *tree);
