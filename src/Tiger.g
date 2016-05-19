@@ -9,7 +9,22 @@ options {
 tokens {
   INSTRUCTIONS; LET; WHILE; FOR; IF; BREAK; RETURN;
   DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM;
-  EXPR; ASSIGNE; OR; AND; COMP; MULT; ADD;
+
+  EXPR;
+  PLUS='+';
+  MINUS='-';
+  MULT='*';
+  DIV='/';
+  SUP='>';
+  INF='<';
+  SUP_EQ='>=';
+  INF_EQ='<=';
+  EQ='=';
+  DIFF='<>';
+  AND='&';
+  OR='|';
+  ASSIGNE=':=';
+
   FUNC_CALL; ARGS; STR; INT; NEG; NIL;
 }
 
@@ -74,7 +89,7 @@ atom
 
 
 args
-  : '(' (expr (',' expr)*)? ')'                                                 -> ^(FUNC_CALL ^(ARGS expr+))
+  : '(' (expr (',' expr)*)? ')'                                                 -> ^(FUNC_CALL ^(ARGS expr*))
   ;
 
 
@@ -89,9 +104,9 @@ addMinExpr  : multDivExpr (  addMin^ multDivExpr)* ;
 multDivExpr : atom        ( multDiv^        atom)* ;
 
 
- addMin : '+'|'-' ;
-multDiv : '*'|'/' ;
-   comp : '<'|'>'|'<='|'>='|'='|'<>' ;
-    and : '&' ;
-     or : '|' ;
- assign : ':=' ;
+addMin  : PLUS|MINUS ;
+multDiv : MULT|DIV ;
+  comp  : SUP|INF|SUP_EQ|INF_EQ|EQ|DIFF ;
+   and  : AND ;
+    or  : OR ;
+assign  : ASSIGNE ;
