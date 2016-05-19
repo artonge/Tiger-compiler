@@ -70,6 +70,8 @@ exec : ## Execute the program with ./Tests/test.tiger file as input
 
 c_e : c exec ## Compile C files and launch executable
 
+c_e_ben : c_ben exec ## Compile C files and launch executable
+
 
 test_report : ## Generate PDF files containing AST from tests files
 	$(info ${\n} ${line} GENERATING PDF ${line} ${\n})
