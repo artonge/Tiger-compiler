@@ -136,7 +136,12 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
-		case COMP:
+		case SUP    :
+		case INF    :
+		case SUP_EQ :
+		case INF_EQ :
+		case EQ     :
+		case DIFF   :
 			checkComp(tree);
 			dispatch(tree->getChild(tree, 0)); // dispatch left operand
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
@@ -148,13 +153,15 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
-		case ADD:
+		case MINUS :
+		case PLUS  :
 			checkAdd(tree);
 			dispatch(tree->getChild(tree, 0)); // dispatch left operand
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
-		case MULT:
+		case DIV  :
+		case MULT :
 			checkMult(tree);
 			dispatch(tree->getChild(tree, 0)); // dispatch left operand
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
