@@ -60,6 +60,11 @@ c : ## Compile all the sources into the executable
 	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT)
 
+c_ben : ## Compile all the sources into the executable
+	$(info ${\n} ${line} COMPILE ${line} ${\n})
+	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
+	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT) -m32
+
 exec : ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
 	./main.out ./test/test.tiger
