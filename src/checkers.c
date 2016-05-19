@@ -1,7 +1,7 @@
 #include "checkers.h"
 
 int findReturnInstruction(ANTLR3_BASE_TREE *tree);
-
+int containsInstruction(ANTLR3_BASE_TREE *tree);
 
 // Check that type is 'int' or 'string'
 void checkVarDeclaration(ANTLR3_BASE_TREE *tree) {
@@ -129,11 +129,39 @@ void checkAssigne(ANTLR3_BASE_TREE *tree) {
            tree->getCharPositionInLine(id));
   }
 
-  if (exprToken->type != EXPR) {
+  if (containsInstruction(tree)) {
     printf("Right assignement can not contains an instruction %d:%d\n",
            tree->getLine(expr),
            tree->getCharPositionInLine(expr));
   }
+}
+
+// Parse all children's node looking for an instruction node
+int containsInstruction(ANTLR3_BASE_TREE *tree) {
+
+  pANTLR3_COMMON_TOKEN token = tree->getToken(tree);
+  ANTLR3_UINT32        count = tree->getChildCount(tree);
+
+  int i;
+
+  for (i = 0; i < count; i++) {
+    token = tree->getToken(tree->getChild(tree, i));
+
+    switch (token->type) {
+      case LET :
+      case IF :
+      case WHILE :
+      case FOR :
+      case BREAK :
+      case RETURN :
+        return 1;
+
+      default :
+        if (containsInstruction(tree->getChild(tree, i))) return 1;
+    }
+  }
+
+  return 0;
 }
 
 
