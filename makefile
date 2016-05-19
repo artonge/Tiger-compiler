@@ -18,7 +18,7 @@ CC = gcc
 
 SOURCES = ./src/main.c \
           ./src/checkers.c \
-          ./src/TDS.c \
+          ./src/tds.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
@@ -54,11 +54,16 @@ grammar : ## Compile the grammar using antlr3
 	$(info Make sure `language = C;` is uncommented in grammar options${\n})
 	antlr3 ./src/Tiger.g -make
 
-
+@
 c : ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
 	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT)
+
+c_ben : ## Compile all the sources into the executable
+	$(info ${\n} ${line} COMPILE ${line} ${\n})
+	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
+	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT) -m32
 
 exec : ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
