@@ -37,7 +37,7 @@ LETTER     : 'A'..'Z'|'a'..'z' ;
 
 ID         : LETTER (LETTER|INTEGER|'_')* ;
 
-STRING     :  '"' LETTER* '"' ;
+STRING     :  '"' (LETTER|' ')* '"' ;
 INTEGER    : '0'..'9'+ ;
 
 

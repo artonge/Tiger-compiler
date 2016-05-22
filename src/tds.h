@@ -1,33 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef tds_h
+#define tds_h
 
-typedef enum {
-  VAR,
-  FUNC
-} entity_type;
-
-
-typedef struct entity {
-  char *name;
-  entity_type type;
-  int deplacement;
-
-  struct entity *brother;
-} entity;
-
-
-typedef struct node {
-  struct node *father;
-  struct node *brother;
-  struct node *children;
-  entity *entities;
-} node;
+#include "tds_globals.h"
+#include "tds_helpers.h"
 
 
 void newTDS();
+
 void enterScope();
 void leaveScope();
-void addEntity(char *name, entity_type type, int deplacement);
-int searchEntity(char *name, entity_type type);
-void printTDS(node *tds);
+
+void addEntity(ANTLR3_BASE_TREE *node);
+
+void printTDS(node *TDS);
+
+entity *searchVar(char *name);
+entity *searchFunc(char *name);
+
+#endif /* tds_h */

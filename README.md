@@ -2,6 +2,9 @@
 Un super projet de compilation pour telecom nancy
 
 
+Set DEBUG to 1 in helpers.h to display debuging infos
+
+
 `make` pour afficher les options de compilations
 
 [DOC](http://www.antlr3.org/api/C/main.html)

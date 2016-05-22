@@ -1,14 +1,18 @@
 /* <break> dans un <while>, apres instruction */
 
 let
+	var str := "te t"
+
+	var i := 87
+
 	function main(test:int, ok :string, deux: char) : int = (
-    while i <> a+a do print("test", a, 2);
+    while i <> a+b do print("test", a, 2);
 
     if i < 4 then
       print("ok")
     else (
       print("ok");
-			x := -1+aze()+1-1;
+			x := -1+aze()+a-1;
 			return x
 		);
 

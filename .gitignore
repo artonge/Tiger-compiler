@@ -13,3 +13,5 @@ src/TigerParser.*
 src/output
 
 main.out
+
+.gcc-flags.json

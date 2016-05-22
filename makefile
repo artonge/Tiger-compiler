@@ -17,8 +17,10 @@ endef
 CC = gcc
 
 SOURCES = ./src/main.c \
+					./src/tds.c \
+					./src/tds_helpers.c \
           ./src/checkers.c \
-          ./src/tds.c \
+          ./src/helpers.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
