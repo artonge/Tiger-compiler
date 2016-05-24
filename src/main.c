@@ -203,6 +203,10 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			checkArgs(tree);
 			break;
 
+		case NEG:
+			checkNeg(tree);
+			break;
+
 
 		default:
 			// Dispatch all children
