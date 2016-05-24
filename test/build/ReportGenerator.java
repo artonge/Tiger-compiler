@@ -17,10 +17,11 @@ public class ReportGenerator {
 
 	private static int testCounter = 0;
 
-	public static void main(String[] args) throws IOException, RecognitionException {
+	public static void main(String[] args) {
 		try {
-			String dir = System.getProperty("user.dir")+File.separator+"test"+File.separator+"build";
-			String resultFilePath = dir+File.separator+"Report.tex";
+			String dir = System.getProperty("user.dir");
+			String resultFilePath = dir+File.separator+File.separator+"Report.tex";
+			System.out.println(resultFilePath);
 			File resultFile = new File(resultFilePath);
 			if(!resultFile.exists())
 				resultFile.createNewFile();
@@ -55,7 +56,7 @@ public class ReportGenerator {
 				bw.write(s+"\n");
 			}
 			bw.write(lstConfig());
-			File dataFolder = new File(dir+File.separator+"data");
+			File dataFolder = new File(dir+File.separator+"test"+File.separator+"build"+File.separator+"data"); // old : dir+File.separator+File.separator+"data"
 			File[] files = dataFolder.listFiles();
 			int l = files.length;
 			for(int i=0; i<l; i++) {

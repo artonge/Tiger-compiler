@@ -44,11 +44,13 @@ clean : ## Clean the project
 	rm -f src/TigerLexer*
 	rm -f src/TigerParser*
 	rm -f Tiger.tokens
+	rm -f Report.Tex
 
 	rm -f test/build/*.class test/build/*.tex *.log *.aux *.toc
 	rm -f test/build/Tiger*
-	rm -fd test/build/ast
-	rm -fd test/tests
+	rm -fdr test/build/ast
+	rm -fdr ast
+	rm -fdr test/tests
 
 
 grammar : ## Compile the grammar using antlr3
@@ -78,13 +80,11 @@ c_e_ben : c_ben exec ## Compile C files and launch executable
 test_report : ## Generate PDF files containing AST from tests files
 	$(info ${\n} ${line} GENERATING PDF ${line} ${\n})
 	antlr3 ./src/Tiger.g -language Java -make -fo test/build
-
 	javac -cp "test/build/jar/*" test/build/*.java
 	java -cp test/build/jar/*:test/build TestGenerator
 	java -cp test/build/jar/*:test/build ReportGenerator
-	pdflatex test/build/Report.tex
-
-
+	pdflatex Report.tex
+	pdflatex Report.tex
 
 ###########################
 ########### HELP ##########
