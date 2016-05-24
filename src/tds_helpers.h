@@ -6,6 +6,8 @@
 
 
 node *newNode();
+void freeEntity(entity *e);
+void freeScope(node *scope);
 entity *buildVarEntity(ANTLR3_BASE_TREE *node);
 entity *buildFuncEntity(ANTLR3_BASE_TREE *node);
 int getDeplacement(int size);

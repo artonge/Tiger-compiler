@@ -1,28 +1,5 @@
 #include "tds.h"
 
-
-void freeEntity(entity *e) {
-  if (e == NULL) return;
-
-  debug(DEBUG_TDS, "\033[01;36mfreeEntity\033[0m");
-
-  freeEntity(e->brother);
-  free(e);
-}
-
-void freeScope(node *scope) {
-  if (scope == NULL) return;
-
-  debug(DEBUG_TDS, "\033[01;36mfreeScope\033[0m");
-
-  freeScope(scope->children);
-  freeScope(scope->brother);
-
-  freeEntity(scope->entities);
-
-  free(scope);
-}
-
 void freeTDS() {
   debug(DEBUG_TDS, "\033[01;36mfreeTDS\033[0m");
 

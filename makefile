@@ -31,7 +31,7 @@ FLAGS =	-pedantic \
 PATH_EXTEND = -I /usr/local/include/ \
 							-L /usr/local/opt/libantlr3c/lib \
 							-l antlr3c
-OUTPUT = -o ./main.out
+OUTPUT = -o ./tigerc
 
 ###########################
 ######## COMMANDES ########
@@ -40,7 +40,7 @@ all : grammar c exec ## grammar c exec
 
 clean : ## Clean the project
 	$(info ${\n} ${line} CLEAN ${line} ${\n})
-	rm -f main.out
+	rm -f tigerc
 	rm -f src/TigerLexer*
 	rm -f src/TigerParser*
 	rm -f Tiger.tokens
@@ -70,7 +70,7 @@ c_ben : ## Compile all the sources into the executable
 
 exec : ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
-	./main.out ./test/test.tiger
+	./tigerc ./test/test.tiger
 
 c_e : c exec ## Compile C files and launch executable
 
