@@ -23,9 +23,9 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 
 
 	if (argc < 2 || argv[1] == NULL) {
-		fName =(pANTLR3_UINT8)argv[1]; // Note in VS2005 debug, working directory must be configured
+		error("No input file.");
+		return 1;
 	} else {
-		// TODO - handle no file passed
 		fName = (pANTLR3_UINT8)argv[1];
 	}
 
@@ -65,8 +65,7 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 	// Display TDS
 	printTDS(TDS);
 
-
-	// TODO - free TDS memory
+	freeTDS();
 	psr    ->free (  psr  );     psr = NULL;
 	tstream->free (tstream); tstream = NULL;
 	lxr    ->free (  lxr  );     lxr = NULL;

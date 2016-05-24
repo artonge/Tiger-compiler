@@ -6,6 +6,7 @@
 
 
 void newTDS();
+void freeTDS();
 
 void enterScope();
 void leaveScope();
