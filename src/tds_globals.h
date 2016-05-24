@@ -24,7 +24,7 @@
 
 typedef struct entity {
   char *name;
-  int type; // var type or return type for function
+  int type; // var type or return type for function, -1 if nothing
   int classe; // VAR_DECLARATION or FUNC_DECLARATION
   int deplacement; // position in memory
   int infos; // nb of args

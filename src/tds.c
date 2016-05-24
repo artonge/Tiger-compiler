@@ -74,8 +74,9 @@ entity *searchFunc(char *name) {
 
 
 void printTDS(node *TDS) {
-  debug(DEBUG_TDS, "\033[01;36mprintTDS\033[0m");
   if (TDS == NULL) return;
+
+  debug(DEBUG_TDS, "\033[01;36mprintTDS\033[0m");
 
   printEntities(TDS->entities);
 

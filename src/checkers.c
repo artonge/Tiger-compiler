@@ -115,37 +115,49 @@ void checkAssigne(ANTLR3_BASE_TREE *tree) {
 }
 
 
-// Check that both operands are not an INSTRUCTIONS node
-// THINK - Can a STRING can be in an EXPR ?
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
 void checkOr(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
-// Check that both operands are not an INSTRUCTIONS node
-// THINK - Can a STRING can be in an EXPR ?
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
 void checkAnd(ANTLR3_BASE_TREE *tree) {
 
 }
 
-// Check that both operands are not an INSTRUCTIONS node
-// THINK - Can a STRING can be in an EXPR ?
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
+// - a NIL NODE
 void checkComp(ANTLR3_BASE_TREE *tree) {
 
 }
 
-// Check that both operands are not an INSTRUCTIONS node
-// Check that both operands are not NIL NODE
-// THINK - Can a STRING can be in an EXPR ?
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
+// - a NIL NODE
 void checkAdd(ANTLR3_BASE_TREE *tree) {
 
 }
 
 
-// Check that both operands are not an INSTRUCTIONS node
-// Check that both operands are not NIL NODE
-// THINK - Can a STRING can be in an EXPR ?
-// TODO - check that division by 0 do not hapen
+
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
+// - a NIL NODE
+// Check that division by 0 do not happen
 void checkMult(ANTLR3_BASE_TREE *tree) {
 
 }

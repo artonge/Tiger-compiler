@@ -1,5 +1,5 @@
-/* <break> dans un <while>, apres instruction */
-
+("test";
+();
 let
 	var str := "te t"
 
@@ -22,7 +22,6 @@ let
   var a : int := 1+4*56/9*(3+a)+34
 
 in
-
-for i:=0 to func(89) do main(test, 2+1, "ok")
-
+	for i:=0 to func(89) do main(test, 2+1, "ok")
 end
+)

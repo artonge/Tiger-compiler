@@ -7,6 +7,7 @@ node *newNode() {
   TDS->father   = NULL;
   TDS->brother  = NULL;
   TDS->children = NULL;
+  TDS->entities = NULL;
 
   return TDS;
 }
