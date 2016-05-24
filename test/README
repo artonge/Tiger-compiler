@@ -1,0 +1,6 @@
+Installer le compilateur pdflatex :
+1. Sur Mac : https://tug.org/mactex/mactex-download.html
+2. Sur Linux : paquet texlive-full
+
+Installer GraphViz :
+http://www.graphviz.org/Download.php
