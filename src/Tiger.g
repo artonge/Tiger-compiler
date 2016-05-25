@@ -81,8 +81,8 @@ atom
 
   | '(' ( instruction (';' instruction)* )? ')'                                 -> ^(INSTRUCTIONS instruction*)
 
-  | STRING                                                                      -> ^(STR STRING)
-  | INTEGER                                                                     -> ^(INT INTEGER)
+  | STRING
+  | INTEGER
   | '-' atom                                                                    -> ^(NEG atom)
   | 'nil'                                                                       -> ^(NIL)
   ;

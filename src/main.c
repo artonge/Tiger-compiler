@@ -78,13 +78,13 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 // Dispatch each node to the correct function
 void dispatch(ANTLR3_BASE_TREE *tree) {
 
-	pANTLR3_COMMON_TOKEN token = tree->getToken(tree);
-	ANTLR3_UINT32        count = tree->getChildCount(tree);
-	int i;
+	ANTLR3_UINT32 type  = tree->getType(tree);
+	ANTLR3_UINT32 count = tree->getChildCount(tree);
+	int i = 0;
 
 	debug(DEBUG_MAIN, "\033[22;32mdispatch\033[0m %s", (char *)tree->toString(tree)->chars);
 
-	switch (token->type) {
+	switch (type) {
 
 		case VAR_DECLARATION:
 			checkVarDeclaration(tree);
@@ -99,12 +99,11 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 			addEntity(tree);
 
-			enterScope();
+			while (i < tree->getChildCount(tree->getChild(tree, 1)))
+				addEntity(tree->getChild(tree->getChild(tree, 1), i++));
 
 			dispatch(tree->getChild(tree, 1));       // dispatch params
 			dispatch(tree->getChild(tree, count-1)); // dispatch expr
-
-			leaveScope();
 			break;
 
 		case PARAM:

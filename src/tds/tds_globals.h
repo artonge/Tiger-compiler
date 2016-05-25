@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "TigerParser.h"
-#include "helpers.h"
+#include "../TigerParser.h"
+#include "../helpers.h"
 
 
 #define DEBUG_TDS 1

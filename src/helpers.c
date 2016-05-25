@@ -37,20 +37,30 @@ void warning(char *template, ...) {
 
 
 
-// Given 'string' or 'int', the function return STRING or INT
+// Given 'string' or 'int', the function return STRING or INTEGER
 // If note 'string' or 'int', return -1
 int typeToInt(char *type) {
-
 	if (strcmp(type, "string"))
 		return STRING;
 
 	else if (strcmp(type, "int"))
-		return INT;
+		return INTEGER;
 
 	else
 		return -1;
 }
 
+// Given INTEGER or STRING, the function return 'int' or 'string'
+// If note 'string' or 'int', return 'error'
+char *typeToString(int type) {
+  debug(DEBUG_HELPERS, "typeToString");
+	
+  switch (type) {
+    case INTEGER : return "int";
+    case STRING  : return "string";
+    default : return "error";
+  }
+}
 
 // Return the return type of a function declaration
 // Return -1 is the function does not have a return type

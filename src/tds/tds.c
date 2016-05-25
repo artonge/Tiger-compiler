@@ -40,7 +40,7 @@ void leaveScope() {
 }
 
 
-/* Add an entity (var or func) to the current scope
+/* Add an entity (var, param or func) to the current scope
  */
 void addEntity(ANTLR3_BASE_TREE *node) {
   entity *e;
@@ -51,8 +51,9 @@ void addEntity(ANTLR3_BASE_TREE *node) {
     node->toString(node->getChild(node, 0))->chars
   );
 
-  switch (node->getToken(node)->type) {
+  switch (node->getType(node)) {
     case VAR_DECLARATION:
+    case PARAM:
       e = buildVarEntity(node);
       break;
     case FUNC_DECLARATION:
@@ -100,20 +101,22 @@ void printTDS(node *TDS) {
 // then the type of the associated expr
 int getType(ANTLR3_BASE_TREE *tree) {
 
-	int token = tree->getToken(tree)->type;
-
-	if (token == VAR_DECLARATION) {
-		if (tree->getChildCount(tree) == 3)
-			return typeToInt((char*)tree->toString(tree->getChild(tree, 1)));
-		else
-			return getType(tree->getChild(tree, 1));
-  }
+	int token = tree->getType(tree);
 
   debug(DEBUG_TDS, "\033[01;36mgettype\033[0m %d", token);
 
+	if (token == VAR_DECLARATION) {
+		if (tree->getChildCount(tree) == 3)
+			return typeToInt((char*)tree->toString(tree->getChild(tree, 1))->chars);
+		else
+			return getType(tree->getChild(tree, 1));
+  } else if (token == PARAM) {
+    return typeToInt((char*)tree->toString(tree->getChild(tree, 1))->chars);
+  }
+
 	switch (token) {
-		case INT:
-		case STRING:
+		case INTEGER :
+		case STRING  :
 			return token;
 
 		case FUNC_CALL:

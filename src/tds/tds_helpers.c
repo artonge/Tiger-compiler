@@ -35,28 +35,15 @@ void freeScope(node *scope) {
 }
 
 entity *buildVarEntity(ANTLR3_BASE_TREE *node) {
-  char *string;
-
   entity *e = malloc(sizeof(entity));
 
-
-  e->name   = (char *)node->toString(node->getChild(node, 0))->chars;
-  e->classe = VAR_DECLARATION;
-  e->type   = getType(node);
-
-  switch (e->type) {
-    case INT:
-      e->deplacement = getDeplacement(1);
-      break;
-    case STRING:
-      string = (char *)node->toString(node->getChild(node, 0))->chars;
-      e->deplacement = getDeplacement(strlen(string)+1);
-      break;
-  }
+  e->name        = (char *)node->toString(node->getChild(node, 0))->chars;
+  e->classe      = node->getType(node);
+  e->type        = getType(node);
+  e->deplacement = getDeplacement(e->classe);
 
   return e;
 }
-
 
 entity *buildFuncEntity(ANTLR3_BASE_TREE *node) {
   char *string;
@@ -64,9 +51,8 @@ entity *buildFuncEntity(ANTLR3_BASE_TREE *node) {
   entity *e = malloc(sizeof(entity));
 
   e->name        = (char *)node->toString(node->getChild(node, 0))->chars;
-  e->type        = getReturnType(node);
   e->classe      = FUNC_DECLARATION;
-  e->deplacement = -1;
+  e->type        = getReturnType(node);
 
   return e;
 }
@@ -75,18 +61,23 @@ entity *buildFuncEntity(ANTLR3_BASE_TREE *node) {
 /* Compute the entity relative memory position depending on the entity size
  * and last entity's siblings deplacement
  */
-int getDeplacement(int size) {
+int getDeplacement(int type) {
+
   entity *current_entity = TDS->entities;
-  int deplacement = size;
+  int deplacement = 0;
 
-  while (current_entity != NULL) {
-    if (current_entity->classe != VAR_DECLARATION) {
-      deplacement += current_entity->deplacement;
-      break;
-    }
 
+  while (current_entity != NULL && current_entity->classe != type)
     current_entity = current_entity->brother;
-  }
+
+  if (current_entity != NULL)
+    deplacement = current_entity->deplacement;
+
+
+  if (type == PARAM) // If params, deplacement is negatif
+    deplacement--;
+  else // If var declaration, deplacement is positif
+    deplacement++;
 
   debug(DEBUG_TDS, "\033[01;36mdeplacement\033[0m %d", deplacement);
   return deplacement;
@@ -124,20 +115,11 @@ void printEntities(entity *e) {
 }
 
 
-char *typeToString(int type) {
-  debug(DEBUG_TDS, "\033[01;36mtypeToString\033[0m");
-  switch (type) {
-    case INT  : return "int";
-    case STRING : return "string";
-    default : return "error";
-  }
-}
-
-
 char *classeToString(int type) {
   debug(DEBUG_TDS, "\033[01;36mclasseToString\033[0m");
   switch (type) {
     case VAR_DECLARATION  : return "var";
+    case PARAM            : return "param";
     case FUNC_DECLARATION : return "func";
     default : return "error";
   }
