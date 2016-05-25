@@ -40,10 +40,10 @@ void warning(char *template, ...) {
 // Given 'string' or 'int', the function return STRING or INTEGER
 // If note 'string' or 'int', return -1
 int typeToInt(char *type) {
-	if (strcmp(type, "string"))
+	if (strcmp(type, "string") == 0)
 		return STRING;
 
-	else if (strcmp(type, "int"))
+	else if (strcmp(type, "int") == 0)
 		return INTEGER;
 
 	else
@@ -54,7 +54,7 @@ int typeToInt(char *type) {
 // If note 'string' or 'int', return 'error'
 char *typeToString(int type) {
   debug(DEBUG_HELPERS, "typeToString");
-	
+
   switch (type) {
     case INTEGER : return "int";
     case STRING  : return "string";

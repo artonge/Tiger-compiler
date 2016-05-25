@@ -61,6 +61,12 @@ void addEntity(ANTLR3_BASE_TREE *node) {
       break;
   }
 
+  if (isDuplicate(e->name)) {
+    error("An entity with the name %s allready exists", e->name);
+    free(e);
+    return;
+  };
+
   e->brother = NULL;
 
   if (TDS->entities != NULL)

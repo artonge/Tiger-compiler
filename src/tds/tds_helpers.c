@@ -57,6 +57,18 @@ entity *buildFuncEntity(ANTLR3_BASE_TREE *node) {
   return e;
 }
 
+int isDuplicate(char *name) {
+  entity *current_entity = TDS->entities;
+
+  while (current_entity != NULL) {
+    if (strcmp(current_entity->name, name) == 0)
+      return 1;
+
+    current_entity = current_entity->brother;
+  }
+
+  return 0;
+}
 
 /* Compute the entity relative memory position depending on the entity size
  * and last entity's siblings deplacement
