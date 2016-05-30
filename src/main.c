@@ -99,15 +99,17 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 			addEntity(tree);
 
-			while (i < tree->getChildCount(tree->getChild(tree, 1)))
-				addEntity(tree->getChild(tree->getChild(tree, 1), i++));
+			enterScope();
 
 			dispatch(tree->getChild(tree, 1));       // dispatch params
 			dispatch(tree->getChild(tree, count-1)); // dispatch expr
+
+			leaveScope();
 			break;
 
 		case PARAM:
 			checkParam(tree);
+			addEntity(tree);
 			break;
 
 

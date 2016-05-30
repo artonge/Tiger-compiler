@@ -4,7 +4,7 @@
 
 test/build/ast
 test/tests
-test/build/Report.pdf
+Report.pdf
 
 Tiger.tokens
 
@@ -12,6 +12,6 @@ src/TigerLexer.*
 src/TigerParser.*
 src/output
 
-main.out
+tigerc
 
 .gcc-flags.json
