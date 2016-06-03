@@ -59,13 +59,20 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 	// Init new global TDS
 	newTDS();
 
+
 	// Check program's semantic
 	dispatch(langAST.tree);
+
 
 	// Display TDS
 	printTDS(TDS);
 
+
+	generateASM(langAST.tree);
+
+
 	freeTDS();
+
 	psr    ->free (  psr  );     psr = NULL;
 	tstream->free (tstream); tstream = NULL;
 	lxr    ->free (  lxr  );     lxr = NULL;
@@ -210,7 +217,8 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 		default:
 			// Dispatch all children
-			for (i = 0; i < count; i++) dispatch(tree->getChild(tree, i));
+			for (i = 0; i < count; i++)
+				dispatch(tree->getChild(tree, i));
 			break;
 	}
 

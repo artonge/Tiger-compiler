@@ -6,11 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../TigerParser.h"
-#include "../helpers.h"
+#include "TigerParser.h"
+#include "helpers.h"
 
 
-#define DEBUG_TDS 1
+#define DEBUG_TDS 0
 
 
 /* Scope's entities point to last entity

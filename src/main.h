@@ -9,8 +9,9 @@
 
 #include "TigerParser.h"
 #include "TigerLexer.h"
-#include "tds/tds.h"
+#include "tds.h"
 #include "checkers.h"
 #include "helpers.h"
+#include "generation.h"
 
 #endif /* main_h */

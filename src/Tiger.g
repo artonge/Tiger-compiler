@@ -79,7 +79,7 @@ instruction
 atom
   : ID (args^)?
 
-  | '(' ( instruction (';' instruction)* )? ')'                                 -> ^(INSTRUCTIONS instruction*)
+  | '(' ( instruction (';' instruction)* )? ')'                                 -> instruction*
 
   | STRING
   | INTEGER

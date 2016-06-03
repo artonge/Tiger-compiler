@@ -1,5 +1,5 @@
 ("test";
-();
+(kikoo());
 let
 	var str := "te t"
 
@@ -15,6 +15,12 @@ let
 			x := -1+aze()+a-1;
 			return x
 		);
+
+		let
+			var in_scope_2 : int := 3
+		in
+			prout()
+		end;
 
 		return x
   )

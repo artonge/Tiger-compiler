@@ -36,11 +36,21 @@ void freeScope(node *scope) {
 
 entity *buildVarEntity(ANTLR3_BASE_TREE *node) {
   entity *e = malloc(sizeof(entity));
+  int size = 1;
+  char *string;
+
 
   e->name        = (char *)node->toString(node->getChild(node, 0))->chars;
   e->classe      = node->getType(node);
   e->type        = getType(node);
-  e->deplacement = getDeplacement(e->classe);
+
+  // TODO handle expression on string declaration
+  if (e->type == STRING) {
+    string = (char *)node->toString(node->getChild(node, 0))->chars;
+    size = strlen(string) + 1;
+  }
+
+  e->deplacement = getDeplacement(e->classe, size);
 
   return e;
 }
@@ -73,7 +83,7 @@ int isDuplicate(char *name) {
 /* Compute the entity relative memory position depending on the entity size
  * and last entity's siblings deplacement
  */
-int getDeplacement(int type) {
+int getDeplacement(int type, int size) {
 
   entity *current_entity = TDS->entities;
   int deplacement = 0;
@@ -89,7 +99,7 @@ int getDeplacement(int type) {
   if (type == PARAM) // If params, deplacement is negatif
     deplacement--;
   else // If var declaration, deplacement is positif
-    deplacement++;
+    deplacement += size;
 
   debug(DEBUG_TDS, "\033[01;36mdeplacement\033[0m %d", deplacement);
   return deplacement;
@@ -97,9 +107,9 @@ int getDeplacement(int type) {
 
 entity *search_helper(node *scope, char *name, int type) {
   debug(DEBUG_TDS, "\033[01;36msearch_helper\033[0m");
-  entity *current_entity = scope->entities;
-
   if (scope == NULL) return NULL;
+
+  entity *current_entity = scope->entities;
 
   while (current_entity != NULL) {
     if (strcmp(current_entity->name, name) == 0
@@ -112,16 +122,33 @@ entity *search_helper(node *scope, char *name, int type) {
   return search_helper(scope->father, name, type);
 }
 
+
+int getScope() {
+  node *current_scope = TDS;
+  int i = 0;
+
+  while (current_scope != NULL) {
+    current_scope = current_scope->father;
+    i++;
+  }
+
+  return i;
+}
+
+
 void printEntities(entity *e) {
   debug(DEBUG_TDS, "\033[01;36mprintEntities\033[0m");
 
   if (e == NULL) return;
 
-  debug(DEBUG_TDS, "%s : %s - %s (%d)",
+  int scope = getScope();
+
+  debug(DEBUG_TDS, "%s : %s - %s (%d) [%d]",
         classeToString(e->classe),
         typeToString(e->type),
         e->name,
-        e->deplacement);
+        e->deplacement,
+        scope);
 
   printEntities(e->brother);
 }

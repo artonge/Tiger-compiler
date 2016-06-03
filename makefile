@@ -17,20 +17,27 @@ endef
 CC = gcc
 
 SOURCES = ./src/main.c \
-					./src/tds/tds.c \
-					./src/tds/tds_helpers.c \
+          ./src/tds/tds.c \
+          ./src/tds/tds_helpers.c \
           ./src/checkers.c \
+          ./src/generation/generation.c \
+          ./src/generation/generation_helpers.c \
           ./src/helpers.c \
           ./src/TigerLexer.c \
           ./src/TigerParser.c
 
 FLAGS =	-pedantic \
         -pedantic-errors \
-				-w
+        -w \
+				-g
 
-PATH_EXTEND = -I /usr/local/include/ \
-							-L /usr/local/opt/libantlr3c/lib \
-							-l antlr3c
+PATH_EXTEND = -I ./src/tds \
+              -I ./src/ \
+              -I ./src/generation \
+              -I /usr/local/include/ \
+              -L /usr/local/opt/libantlr3c/lib \
+              -l antlr3c
+
 OUTPUT = -o ./tigerc
 
 ###########################
@@ -76,7 +83,6 @@ c_e : c exec ## Compile C files and launch executable
 
 c_e_ben : c_ben exec ## Compile C files and launch executable
 
-
 test_report : ## Generate PDF files containing AST from tests files
 	$(info ${\n} ${line} GENERATING PDF ${line} ${\n})
 	antlr3 ./src/Tiger.g -language Java -make -fo test/build
@@ -85,6 +91,11 @@ test_report : ## Generate PDF files containing AST from tests files
 	java -cp test/build/jar/*:test/build ReportGenerator
 	pdflatex Report.tex
 	pdflatex Report.tex
+
+sim : ## compile asm file into .iup and launch simulator
+	java -jar microPIUPK.jar -ass test.asm
+	java -jar microPIUPK.jar -sim &
+
 
 ###########################
 ########### HELP ##########

@@ -14,4 +14,8 @@ src/output
 
 tigerc
 
+a.asm
+
 .gcc-flags.json
+
+microPIUPK.jar
