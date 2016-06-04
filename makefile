@@ -52,6 +52,7 @@ clean : ## Clean the project
 	rm -f Tiger.tokens
 	rm -f *.asm
 	rm -f Report.Tex
+	sudo rm -fr src/output
 
 	rm -f test/build/*.class test/build/*.tex *.log *.aux *.toc
 	rm -f test/build/Tiger*
