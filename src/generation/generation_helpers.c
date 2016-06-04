@@ -136,6 +136,7 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
 
   entity *e;
 
+
   switch (tree->getType(tree)) {
     case INTEGER :
       c->registre = getRegister();
