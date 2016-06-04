@@ -9,11 +9,12 @@ void newTDS();
 void freeTDS();
 
 void enterScope();
+void enterScopeN(int n);
 void leaveScope();
 
-void addEntity(ANTLR3_BASE_TREE *node);
+void addEntity(ANTLR3_BASE_TREE *scope);
 
-void printTDS(node *TDS);
+void printTDS(scope *TDS);
 
 entity *searchVar(char *name);
 entity *searchFunc(char *name);

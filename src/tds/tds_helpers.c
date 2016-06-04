@@ -1,8 +1,8 @@
 #include "tds_helpers.h"
 
-node *newNode() {
+scope *newScope() {
   debug(DEBUG_TDS, "\033[01;36mnewNode\033[0m");
-  node *TDS = malloc(sizeof(node));
+  scope *TDS = malloc(sizeof(scope));
 
   TDS->father   = NULL;
   TDS->brother  = NULL;
@@ -21,7 +21,7 @@ void freeEntity(entity *e) {
   free(e);
 }
 
-void freeScope(node *scope) {
+void freeScope(scope *scope) {
   if (scope == NULL) return;
 
   debug(DEBUG_TDS, "\033[01;36mfreeScope\033[0m");
@@ -34,35 +34,32 @@ void freeScope(node *scope) {
   free(scope);
 }
 
-entity *buildVarEntity(ANTLR3_BASE_TREE *node) {
+entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
   entity *e = malloc(sizeof(entity));
-  int size = 1;
   char *string;
 
 
-  e->name        = (char *)node->toString(node->getChild(node, 0))->chars;
-  e->classe      = node->getType(node);
-  e->type        = getType(node);
+  e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
+  e->classe      = scope->getType(scope);
+  e->type        = getType(scope);
 
   // TODO handle expression on string declaration
-  if (e->type == STRING) {
-    string = (char *)node->toString(node->getChild(node, 0))->chars;
-    size = strlen(string) + 1;
-  }
+  if (e->type == STRING)
+    string = (char *)scope->toString(scope->getChild(scope, 0))->chars;
 
-  e->deplacement = getDeplacement(e->classe, size);
+  e->deplacement = getDeplacement(e->classe);
 
   return e;
 }
 
-entity *buildFuncEntity(ANTLR3_BASE_TREE *node) {
+entity *buildFuncEntity(ANTLR3_BASE_TREE *scope) {
   char *string;
 
   entity *e = malloc(sizeof(entity));
 
-  e->name        = (char *)node->toString(node->getChild(node, 0))->chars;
+  e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
   e->classe      = FUNC_DECLARATION;
-  e->type        = getReturnType(node);
+  e->type        = getReturnType(scope);
 
   return e;
 }
@@ -83,7 +80,7 @@ int isDuplicate(char *name) {
 /* Compute the entity relative memory position depending on the entity size
  * and last entity's siblings deplacement
  */
-int getDeplacement(int type, int size) {
+int getDeplacement(int type) {
 
   entity *current_entity = TDS->entities;
   int deplacement = 0;
@@ -99,13 +96,13 @@ int getDeplacement(int type, int size) {
   if (type == PARAM) // If params, deplacement is negatif
     deplacement--;
   else // If var declaration, deplacement is positif
-    deplacement += size;
+    deplacement++;
 
   debug(DEBUG_TDS, "\033[01;36mdeplacement\033[0m %d", deplacement);
   return deplacement;
 }
 
-entity *search_helper(node *scope, char *name, int type) {
+entity *search_helper(scope *scope, char *name, int classe) {
   debug(DEBUG_TDS, "\033[01;36msearch_helper\033[0m");
   if (scope == NULL) return NULL;
 
@@ -113,26 +110,13 @@ entity *search_helper(node *scope, char *name, int type) {
 
   while (current_entity != NULL) {
     if (strcmp(current_entity->name, name) == 0
-        && current_entity->type == type)
+        && current_entity->classe == classe)
       return current_entity;
 
     current_entity = current_entity->brother;
   }
 
-  return search_helper(scope->father, name, type);
-}
-
-
-int getScope() {
-  node *current_scope = TDS;
-  int i = 0;
-
-  while (current_scope != NULL) {
-    current_scope = current_scope->father;
-    i++;
-  }
-
-  return i;
+  return search_helper(scope->father, name, classe);
 }
 
 
@@ -141,14 +125,12 @@ void printEntities(entity *e) {
 
   if (e == NULL) return;
 
-  int scope = getScope();
-
-  debug(DEBUG_TDS, "%s : %s - %s (%d) [%d]",
+  debug(1, "%s : %s - %s (%d) [%d]",
         classeToString(e->classe),
         typeToString(e->type),
         e->name,
         e->deplacement,
-        scope);
+        e->scope->depth);
 
   printEntities(e->brother);
 }

@@ -1,20 +1,23 @@
 #include "generation.h"
 
 
-chunk *computeInstruction(ANTLR3_BASE_TREE *tree);
-chunk *computeExpr(ANTLR3_BASE_TREE *tree);
+chunk *computeInstruction(ANTLR3_BASE_TREE *node);
+chunk *computeExpr(ANTLR3_BASE_TREE *node);
 chunk *computeIf(ANTLR3_BASE_TREE *node);
 chunk *computeWhile(ANTLR3_BASE_TREE *node);
 chunk *computeFor(ANTLR3_BASE_TREE *node);
+chunk *computeLet(ANTLR3_BASE_TREE *node);
 chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node);
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node);
 
-void generateASM(ANTLR3_BASE_TREE *tree) {
+
+// TODO - build DISPLAY, link it in R14
+void generateASM(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mGenerate ASM\033[0m");
   initRegisters();
 
   program = initChunk();
-  chunk *instructionASM = computeInstruction(tree);
+  chunk *instructionASM = computeInstruction(node);
 
   addInstruction(program, "STACK EQU 0x1000");
   addInstruction(program, "SP EQU R15");
@@ -36,16 +39,16 @@ void generateASM(ANTLR3_BASE_TREE *tree) {
 }
 
 
-chunk *computeInstruction(ANTLR3_BASE_TREE *tree) {
+chunk *computeInstruction(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute instruction\033[0m");
 
   chunk *chunk, *tmp_chunk;
-  int i;
+  int i, scope_tmp;
 
-  switch (tree->getType(tree)) {
-    case IF:
-      return computeIf(tree);
+  static int scope = 0;
 
+
+  switch (node->getType(node)) {
 
     case INTEGER :
     case STRING :
@@ -65,25 +68,52 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *tree) {
     case MULT :
     case NEG :
     case ASSIGNE :
-      return computeExpr(tree);
+      return computeExpr(node);
+
+
+    case IF:
+      return computeIf(node);
+
+    case WHILE :
+      return computeWhile(node);
+
+    case FOR :
+      return computeFor(node);
 
 
     case VAR_DECLARATION :
-      return computeVarDeclaration(tree);
+      return computeVarDeclaration(node);
 
-    case WHILE :
-      return computeWhile(tree);
+    case FUNC_DECLARATION :
+    case LET :
+      enterScopeN(scope);
 
-    case FOR :
-      return computeFor(tree);
+      scope_tmp = scope;
+      scope = 0;
+
+      switch (node->getType(node)) {
+        case LET:
+          chunk = computeLet(node);
+          break;
+        case FUNC_DECLARATION:
+          chunk = computeFuncDeclaration(node);
+          break;
+      }
+
+      scope = scope_tmp;
+      scope++;
+
+      leaveScope();
+
+      return chunk;
 
 
     default:
       chunk = initChunk();
 
       // Compute all children
-      for (i = 0; i < tree->getChildCount(tree); i++) {
-        tmp_chunk = computeInstruction(tree->getChild(tree, i));
+      for (i = 0; i < node->getChildCount(node); i++) {
+        tmp_chunk = computeInstruction(node->getChild(node, i));
         appendChunks(chunk, tmp_chunk);
         freeChunk(tmp_chunk);
       }
@@ -93,15 +123,15 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *tree) {
 }
 
 
-chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
+chunk *computeExpr(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION,
         "\033[22;93mCompute expression [%s] (%d:%d)\033[0m",
-        (char *)tree->toString(tree)->chars,
-        tree->getLine(tree),
-        tree->getCharPositionInLine(tree));
+        (char *)node->toString(node)->chars,
+        node->getLine(node),
+        node->getCharPositionInLine(node));
 
   chunk *chunk, *chunk_left, *chunk_right;
-  int type = tree->getType(tree);
+  int type = node->getType(node);
 
   char *template;
 
@@ -112,18 +142,18 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
       type == STRING ||
       type == ID ||
       type == FUNC_CALL) {
-    loadAtom(tree, chunk);
+    loadAtom(node, chunk);
     return chunk;
   }
 
   // Else get both operand chunk
   // unless it's a NEG node, because NEG only has one child
   // Append chunks
-  chunk_left  = computeExpr(tree->getChild(tree, 0));
+  chunk_left  = computeExpr(node->getChild(node, 0));
   appendChunks(chunk, chunk_left);
 
   if (type != NEG) {
-    chunk_right = computeExpr(tree->getChild(tree, 1));
+    chunk_right = computeExpr(node->getChild(node, 1));
     appendChunks(chunk, chunk_right);
   }
 
@@ -143,8 +173,8 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
                     chunk_left->registre,
                     chunk_right->registre,
                     chunk->registre,
-                    tree->getLine(tree),
-                    tree->getCharPositionInLine(tree));
+                    node->getLine(node),
+                    node->getCharPositionInLine(node));
 
       jumpTo(chunk, type, 2);
 
@@ -183,8 +213,8 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
                     chunk_left->registre,
                     chunk_right->registre,
                     chunk->registre,
-                    tree->getLine(tree),
-                    tree->getCharPositionInLine(tree));
+                    node->getLine(node),
+                    node->getCharPositionInLine(node));
       break;
 
 
@@ -272,6 +302,7 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
 
 
 chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
+  debug(DEBUG_GENERATION, "\033[22;93mCompute var declaration\033[0m");
 
   chunk *chunk, *chunk_expr;
   int count = node->getChildCount(node);
@@ -301,7 +332,19 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
 
 
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
-  return initChunk();
+  debug(DEBUG_GENERATION, "\033[22;93mCompute func declaration\033[0m");
+
+  chunk *chunk, *chunk_instr;
+
+  int count = node->getChildCount(node);
+
+  chunk = initChunk();
+
+  chunk_instr = computeInstruction(node->getChild(node, count-1));
+  appendChunks(chunk, chunk_instr);
+  freeChunk(chunk_instr);
+
+  return chunk;
 }
 
 
@@ -317,6 +360,8 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   // |   <-------------------
   // |
   //  -->  END
+
+  debug(DEBUG_GENERATION, "\033[22;93mCompute while\033[0m");
 
   chunk *chunk, *chunk_cond, *chunk_instr;
   // Set chunks
@@ -364,6 +409,8 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   // |
   //  -->  END
 
+  debug(DEBUG_GENERATION, "\033[22;93mCompute for\033[0m");
+
   chunk *chunk, *chunk_init, *chunk_cond, *chunk_instr;
 
   // Set chunks
@@ -400,4 +447,24 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   freeChunk(chunk_cond);
   freeChunk(chunk_instr);
 
-  return chunk;}
+  return chunk;
+}
+
+
+chunk *computeLet(ANTLR3_BASE_TREE *node) {
+  debug(DEBUG_GENERATION, "\033[22;93mCompute let\033[0m");
+
+  chunk *chunk, *chunk_decl, *chunk_instr;
+
+  chunk = initChunk();
+  chunk_decl  = computeInstruction(node->getChild(node, 0));
+  chunk_instr = computeInstruction(node->getChild(node, 1));
+
+  appendChunks(chunk, chunk_decl);
+  appendChunks(chunk, chunk_instr);
+
+  freeChunk(chunk_decl);
+  freeChunk(chunk_instr);
+
+  return chunk;
+}

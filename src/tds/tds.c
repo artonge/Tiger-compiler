@@ -10,7 +10,8 @@ void freeTDS() {
 void newTDS() {
   debug(DEBUG_TDS, "\033[01;36mnewTDS\033[0m");
   freeTDS();
-  TDS = newNode();
+  TDS = newScope();
+  TDS->depth = 0;
 }
 
 
@@ -19,16 +20,39 @@ void newTDS() {
  */
 void enterScope() {
   debug(DEBUG_TDS, "\033[01;36menterScope\033[0m");
-  node *scope = newNode();
+  scope *scope = newScope();
 
   if (TDS->children != NULL)
     scope->brother = TDS->children;
 
   scope->father = TDS;
+  scope->depth = TDS->depth+1;
 
   TDS->children = scope;
 
   TDS = scope;
+}
+
+
+void enterScopeN(int n) {
+  scope *current_scope = TDS->children;
+
+  int total_scopes = 0;
+
+  while (current_scope != NULL) {
+    current_scope = current_scope->brother;
+    total_scopes++;
+  }
+
+  n = total_scopes - n - 1;
+
+  current_scope = TDS->children;
+  while (n > 0) {
+    current_scope = current_scope->brother;
+    n--;
+  }
+
+  TDS = current_scope;
 }
 
 
@@ -42,22 +66,22 @@ void leaveScope() {
 
 /* Add an entity (var, param or func) to the current scope
  */
-void addEntity(ANTLR3_BASE_TREE *node) {
+void addEntity(ANTLR3_BASE_TREE *scope) {
   entity *e;
 
   debug(
     DEBUG_TDS,
     "\033[01;36mentity\033[0m %s",
-    node->toString(node->getChild(node, 0))->chars
+    scope->toString(scope->getChild(scope, 0))->chars
   );
 
-  switch (node->getType(node)) {
+  switch (scope->getType(scope)) {
     case VAR_DECLARATION:
     case PARAM:
-      e = buildVarEntity(node);
+      e = buildVarEntity(scope);
       break;
     case FUNC_DECLARATION:
-      e = buildFuncEntity(node);
+      e = buildFuncEntity(scope);
       break;
   }
 
@@ -71,6 +95,8 @@ void addEntity(ANTLR3_BASE_TREE *node) {
 
   if (TDS->entities != NULL)
     e->brother = TDS->entities;
+
+  e->scope = TDS;
 
   TDS->entities = e;
 }
@@ -87,7 +113,7 @@ entity *searchFunc(char *name) {
 }
 
 
-void printTDS(node *TDS) {
+void printTDS(scope *TDS) {
   if (TDS == NULL) return;
 
   debug(DEBUG_TDS, "\033[01;36mprintTDS\033[0m");
@@ -99,7 +125,7 @@ void printTDS(node *TDS) {
 }
 
 
-// Return the global type of a expression node
+// Return the global type of a expression scope
 // Usefull to know the type of : 1+a+f()
 // It parse the tree until it gets to the extrem left bottom
 // 1 in our example

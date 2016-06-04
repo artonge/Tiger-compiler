@@ -22,6 +22,10 @@
  *  entity <- entity <- entity
  */
 
+struct scope;
+
+
+
 typedef struct entity {
   char *name;
   int type; // var type or return type for function, -1 if nothing
@@ -29,18 +33,20 @@ typedef struct entity {
   int deplacement; // position in memory
   int infos; // nb of args
   struct entity *brother;
+  struct scope *scope;
 } entity;
 
 
-typedef struct node {
-  struct node *father;
-  struct node *brother;
-  struct node *children;
+typedef struct scope {
+  struct scope *father;
+  struct scope *brother;
+  struct scope *children;
+  int depth;
   entity *entities;
-} node;
+} scope;
 
 
-node *TDS;
+scope *TDS;
 
 
 int getType(ANTLR3_BASE_TREE *tree);

@@ -56,6 +56,7 @@ chunk *appendChunks(chunk *c1, chunk *c2) {
 
   c1->length += c2->length;
 
+
   c1->string = realloc(c1->string, c1->length * sizeof(char) + 1);
   strcat(c1->string, c2->string);
 
@@ -124,7 +125,7 @@ char *addStringToProgram(chunk *c, char *string) {
 
 
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
-  debug(DEBUG_GENERATION, "\033[22;93mGet address var\033[0m");
+  debug(DEBUG_GENERATION, "\033[22;93mLoad atom\033[0m");
 
   if (tree == NULL) {
     c->registre =  getRegister();
@@ -134,7 +135,6 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
   char *string = (char *)tree->toString(tree)->chars;
 
   entity *e;
-
 
   switch (tree->getType(tree)) {
     case INTEGER :
@@ -150,9 +150,9 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
 
     case ID :
       c->registre = getRegister();
-      addInstruction(c, "LDW R%d, #%d", c->registre, getScope()*2);
-      addInstruction(c, "ADD R14, R%d, R%d", getScope()*2, c->registre, c->registre);
       e = searchVar(string);
+      addInstruction(c, "LDW R%d, #%d", c->registre, e->scope->depth*2);
+      addInstruction(c, "ADD R14, R%d, R%d", e->scope->depth*2, c->registre, c->registre);
       addInstruction(c, "LDW R%d, (R%d)%d",
                      c->registre,
                      c->registre,
