@@ -19,7 +19,7 @@ CC = gcc
 SOURCES = ./src/main.c \
           ./src/tds/tds.c \
           ./src/tds/tds_helpers.c \
-          ./src/checkers.c \
+          ./src/checkers/checkers.c \
           ./src/generation/generation.c \
           ./src/generation/generation_helpers.c \
           ./src/helpers.c \
@@ -30,9 +30,10 @@ FLAGS =	-pedantic \
         -pedantic-errors \
         -w
 
-PATH_EXTEND = -I ./src/tds \
-              -I ./src/ \
+PATH_EXTEND = -I ./src/ \
+              -I ./src/tds \
               -I ./src/generation \
+              -I ./src/checkers \
               -I /usr/local/include/ \
               -L /usr/local/opt/libantlr3c/lib \
               -l antlr3c
