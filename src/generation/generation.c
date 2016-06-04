@@ -27,7 +27,8 @@ void generateASM(ANTLR3_BASE_TREE *tree) {
   FILE *file = fopen("a.asm", "w");
   fprintf(file, program->string);
   fclose(file);
-  printf("%s\n", program->string);
+
+  printChunk(program);
 
   freeChunk(instructionASM);
   freeChunk(program);
@@ -69,6 +70,12 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *tree) {
     case VAR_DECLARATION :
       return computeVarDeclaration(tree);
 
+    case WHILE :
+      return computeWhile(tree);
+
+    case FOR :
+      return computeFor(tree);
+
 
     default:
       chunk = initChunk();
@@ -87,8 +94,10 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *tree) {
 
 chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
   debug(DEBUG_GENERATION,
-        "\033[22;93mCompute expression %s\033[0m",
-        (char *)tree->toString(tree)->chars);
+        "\033[22;93mCompute expression [%s] (%d:%d)\033[0m",
+        (char *)tree->toString(tree)->chars,
+        tree->getLine(tree),
+        tree->getCharPositionInLine(tree));
 
   chunk *chunk, *chunk_left, *chunk_right;
   int type = tree->getType(tree);
@@ -200,54 +209,40 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
 
 
 chunk *computeIf(ANTLR3_BASE_TREE *node) {
-  //    EXPR left and right COMPUTING
-  //
-  //    SUB left with right
-  //
-  // <- JUMP TO AFTER IF INSTRUCTIONS
-  // |
-  // |  IF INSTRUCTION
-  // |
-  // -> (
-  // <- JUMP TO AFTER ELSE INSTRUCTION
-  // |
-  // |  ELSE INSTRUCTION
-  // |
-  // | )
-  // -> END
-  //
+  //         CONDITION COMPUTING
+  //         |
+  //     <-- JUMP TO AFTER IF INSTRUCTIONS IF RESULT == 0
+  //    |    |
+  //    |    IF INSTRUCTION
+  //    |    |
+  //  <-|--- JUMP TO AFTER ELSE INSTRUCTION
+  // |  |
+  // |   -->
+  // |       |
+  // |       ELSE INSTRUCTION
+  // |       |
+  //  -----> END
+
   debug(DEBUG_GENERATION, "\033[22;93mCompute if\033[0m");
 
   ANTLR3_BASE_TREE *expr;
-  chunk *chunk, *chunk_expr_left, *chunk_expr_right, *chunk_if, *chunk_else;
+  chunk *chunk, *chunk_expr, *chunk_if, *chunk_else;
 
   chunk = initChunk();
 
 
-  // Get expression operands chunks
-  expr = node->getChild(node, 0);
-  chunk_expr_left  = computeExpr(expr->getChild(expr, 0));
-  chunk_expr_right = computeExpr(expr->getChild(expr, 1));
+  // Get expression chunks
+  chunk_expr = computeExpr(node->getChild(node, 0));
+  // Merge chunk_expr into chunk
+  appendChunks(chunk, chunk_expr);
+
 
   // Get if chunks
   chunk_if = computeInstruction(node->getChild(node, 1));
 
 
-  // Merge chunk_expr into chunk
-  appendChunks(chunk, chunk_expr_left);
-  appendChunks(chunk, chunk_expr_right);
-
-
-  // Substract right operand with left
-  addInstruction(chunk, "SUB %s, %s, %s // %d:%d",
-                chunk_expr_right->address,
-                chunk_expr_left->address,
-                chunk->address,
-                node->getLine(node),
-                node->getCharPositionInLine(node));
-
   // Jump to after the if expression and the jump at the end of the if
-  jumpTo(chunk, expr->getType(expr), chunk_if->nb_instructions*2 + 2);
+  jumpTo(chunk, EQ, chunk_if->nb_instructions*2 + 2);
 
 
   // Merge if's chunk into chunk
@@ -265,8 +260,7 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   }
 
   // Free chunks, because now useless
-  freeChunk(chunk_expr_left);
-  freeChunk(chunk_expr_right);
+  freeChunk(chunk_expr);
   freeChunk(chunk_if);
   freeChunk(chunk_else);
 
@@ -278,19 +272,131 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
 
 chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
 
+  chunk *chunk, *chunk_expr;
+  int count = node->getChildCount(node);
+
+  chunk      = initChunk();
+  chunk_expr = computeExpr(node->getChild(node, count-1));
+
+
+  addInstruction(chunk, "// VAR_DECLARATION (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
+  appendChunks(chunk, chunk_expr);
+
+  getAddress(node->getChild(node, 0), chunk);
+
+  addInstruction(chunk,
+                "STW %s, %s",
+                chunk_expr->address,
+                chunk->address);
+
+  freeChunk(chunk_expr);
+
+  return chunk;
 }
 
 
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
-
+  return initChunk();
 }
 
 
 chunk *computeWhile(ANTLR3_BASE_TREE *node) {
+  //     -->
+  //    |   |
+  //    |  CONDITION COMPUTING
+  //    |   |
+  //  <-|- JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
+  // |  |   |
+  // |  |  INSTRUCTIONS...-->
+  // |  |                    |
+  // |   <-------------------
+  // |
+  //  -->  END
 
+  chunk *chunk, *chunk_cond, *chunk_instr;
+  // Set chunks
+  chunk       = initChunk();
+  chunk_cond  = computeExpr(node->getChild(node, 0));
+  chunk_instr = computeInstruction(node->getChild(node, 1));
+
+
+  addInstruction(chunk, "// WHILE (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
+  appendChunks(chunk, chunk_cond);
+
+  jumpTo(chunk, EQ, chunk_instr->nb_instructions*2 + 2);
+
+  appendChunks(chunk, chunk_instr);
+
+  // Jump to before the condition computation
+  jumpTo(chunk, 0,
+        chunk_cond->nb_instructions*2 + chunk_instr->nb_instructions*2 + 4);
+
+  // Free chunks
+  freeChunk(chunk_cond);
+  freeChunk(chunk_instr);
+
+  return chunk;
 }
 
 
 chunk *computeFor(ANTLR3_BASE_TREE *node) {
+  //       INITIALISATION (for ...)
+  //     -->
+  //    |   |
+  //    |  CONDITION COMPUTING (to ...)
+  //    |   |
+  //  <-|- JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
+  // |  |   |
+  // |  |  INSTRUCTIONS (do ...) -->
+  // |  |                           |
+  // |  |                LOOP INSTRUCTION (var init ++)
+  // |  |                           |
+  // |   <--------------------------
+  // |
+  //  -->  END
 
-}
+  chunk *chunk, *chunk_init, *chunk_cond, *chunk_instr;
+
+  // Set chunks
+  chunk       = initChunk();
+  chunk_init  = computeExpr(node->getChild(node, 0));
+  chunk_cond  = computeExpr(node->getChild(node, 1));
+  chunk_instr = computeInstruction(node->getChild(node, 2));
+
+
+  addInstruction(chunk, "// FOR (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
+  appendChunks(chunk, chunk_init);
+
+  appendChunks(chunk, chunk_cond);
+
+  getAddress(NULL, chunk);
+
+  addInstruction(chunk, "SUB %s, %s, %s",
+                chunk_init->address, chunk_cond->address, chunk->address);
+
+  jumpTo(chunk, SUP_EQ, chunk_instr->nb_instructions*2 + 2);
+
+  appendChunks(chunk, chunk_instr);
+
+  // Jump to before the condition computation
+  jumpTo(chunk, 0,
+        chunk_cond->nb_instructions*2 + chunk_instr->nb_instructions*2 + 6);
+
+  // Free chunks
+  freeChunk(chunk_init);
+  freeChunk(chunk_cond);
+  freeChunk(chunk_instr);
+
+  return chunk;}

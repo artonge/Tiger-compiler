@@ -143,9 +143,9 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			break;
 
 		case FOR:
-			dispatch(tree->getChild(tree, 1)); // dispatch expr1
-			dispatch(tree->getChild(tree, 2)); // dispatch expr2
-			dispatch(tree->getChild(tree, 3)); // dispatch instructions
+			dispatch(tree->getChild(tree, 0)); // dispatch expr1
+			dispatch(tree->getChild(tree, 1)); // dispatch expr2
+			dispatch(tree->getChild(tree, 2)); // dispatch instructions
 			break;
 
 		case BREAK:

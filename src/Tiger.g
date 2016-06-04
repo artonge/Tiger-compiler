@@ -71,7 +71,7 @@ instruction
   | 'if' expr 'then' i1=instructions
     (options {greedy=true;} : 'else' i2=instructions)?                          -> ^(IF expr $i1 $i2?)
   | 'while' expr 'do' instructions                                              -> ^(WHILE expr instructions)
-  | 'for' ID ':=' v1=expr 'to' v2=expr 'do' instructions                        -> ^(FOR ID $v1 $v2 instructions)
+  | 'for' v1=expr 'to' v2=expr 'do' instructions                                -> ^(FOR $v1 $v2 instructions)
   | 'break'                                                                     -> BREAK
   | 'return' expr                                                               -> ^(RETURN expr)
   ;

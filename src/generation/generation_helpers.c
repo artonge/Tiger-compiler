@@ -106,7 +106,6 @@ void addInstruction(chunk *c, char *template, ...) {
   c->string[c->length] = '\0';
 
   free(inst);
-  printChunk(c);
 
   c->nb_instructions++;
 }
