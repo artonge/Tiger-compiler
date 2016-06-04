@@ -15,7 +15,7 @@ chunk *appendChunks(chunk *c1, chunk *c2);
 void freeChunk(chunk *c);
 
 void addInstruction(chunk *c, char *template, ...);
-void getAddress(ANTLR3_BASE_TREE *tree, chunk *c);
+void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c);
 
 void jumpTo(chunk *c, int type, int gap);
 

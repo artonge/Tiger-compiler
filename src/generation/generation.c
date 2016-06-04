@@ -16,11 +16,12 @@ void generateASM(ANTLR3_BASE_TREE *tree) {
   program = initChunk();
   chunk *instructionASM = computeInstruction(tree);
 
-  addInstruction(program, "STACK_A EQU 0x1000");
+  addInstruction(program, "STACK EQU 0x1000");
   addInstruction(program, "SP EQU R15");
-  addInstruction(program, "MAIN_A	EQU 0xFF10");
+  addInstruction(program, "MAIN EQU 0xFF10");
   addInstruction(program, "ORG MAIN");
   addInstruction(program, "START MAIN");
+  addInstruction(program, "// PRGM");
 
   appendChunks(program, instructionASM);
 
@@ -111,7 +112,7 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
       type == STRING ||
       type == ID ||
       type == FUNC_CALL) {
-    getAddress(tree, chunk);
+    loadAtom(tree, chunk);
     return chunk;
   }
 
@@ -127,7 +128,7 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
   }
 
   // Get free register to host result
-  getAddress(NULL, chunk);
+  loadAtom(NULL, chunk);
 
 
   // Do operation with chunk's register
@@ -138,18 +139,18 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
     case INF_EQ :
     case EQ :
     case DIFF :
-      addInstruction(chunk, "SUB %s, %s, %s // %d:%d",
-                    chunk_left->address,
-                    chunk_right->address,
-                    chunk->address,
+      addInstruction(chunk, "SUB R%d, R%d, R%d // %d:%d",
+                    chunk_left->registre,
+                    chunk_right->registre,
+                    chunk->registre,
                     tree->getLine(tree),
                     tree->getCharPositionInLine(tree));
 
       jumpTo(chunk, type, 2);
 
-      addInstruction(chunk, "STW #0 %s", chunk->address);
+      addInstruction(chunk, "STW R%d, #0", chunk->registre);
       jumpTo(chunk, 0, 2);
-      addInstruction(chunk, "STW #1 %s", chunk->address);
+      addInstruction(chunk, "STW R%d, #1", chunk->registre);
 
       break;
 
@@ -162,37 +163,37 @@ chunk *computeExpr(ANTLR3_BASE_TREE *tree) {
     case MULT :
       switch (type) {
         case OR :
-          template = "OR %s, %s, %s // %d:%d";
+          template = "OR R%d, R%d, R%d // %d:%d";
           break;
         case MINUS :
-          template = "SUB %s, %s, %s // %d:%d";
+          template = "SUB R%d, R%d, R%d // %d:%d";
           break;
         case PLUS :
-          template = "ADD %s, %s, %s // %d:%d";
+          template = "ADD R%d, R%d, R%d // %d:%d";
           break;
         case DIV :
-          template = "DIV %s, %s, %s // %d:%d";
+          template = "DIV R%d, R%d, R%d // %d:%d";
           break;
         case MULT :
-          template = "ADD %s, %s, %s // %d:%d";
+          template = "ADD R%d, R%d, R%d // %d:%d";
           break;
       }
 
       addInstruction(chunk, template,
-                    chunk_left->address,
-                    chunk_right->address,
-                    chunk->address,
+                    chunk_left->registre,
+                    chunk_right->registre,
+                    chunk->registre,
                     tree->getLine(tree),
                     tree->getCharPositionInLine(tree));
       break;
 
 
     case NEG :
-      addInstruction(chunk, "NEG %s, %s", chunk_left->address, chunk->address);
+      addInstruction(chunk, "NEG R%d, R%d", chunk_left->registre, chunk->registre);
       break;
 
     case ASSIGNE :
-      addInstruction(chunk, "STW %s, %s", chunk_right->address, chunk_left->address);
+      addInstruction(chunk, "STW R%d, R%d", chunk_right->registre, chunk_left->registre);
       break;
 
     default:
@@ -286,12 +287,12 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
 
   appendChunks(chunk, chunk_expr);
 
-  getAddress(node->getChild(node, 0), chunk);
+  loadAtom(node->getChild(node, 0), chunk);
 
   addInstruction(chunk,
-                "STW %s, %s",
-                chunk_expr->address,
-                chunk->address);
+                "STW R%d, R%d",
+                chunk_expr->registre,
+                chunk->registre);
 
   freeChunk(chunk_expr);
 
@@ -381,10 +382,10 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
 
   appendChunks(chunk, chunk_cond);
 
-  getAddress(NULL, chunk);
+  loadAtom(NULL, chunk);
 
-  addInstruction(chunk, "SUB %s, %s, %s",
-                chunk_init->address, chunk_cond->address, chunk->address);
+  addInstruction(chunk, "SUB R%d, R%d, R%d",
+                chunk_init->registre, chunk_cond->registre, chunk->registre);
 
   jumpTo(chunk, SUP_EQ, chunk_instr->nb_instructions*2 + 2);
 
