@@ -28,8 +28,7 @@ SOURCES = ./src/main.c \
 
 FLAGS =	-pedantic \
         -pedantic-errors \
-        -w \
-				-g
+        -w
 
 PATH_EXTEND = -I ./src/tds \
               -I ./src/ \
@@ -51,6 +50,7 @@ clean : ## Clean the project
 	rm -f src/TigerLexer*
 	rm -f src/TigerParser*
 	rm -f Tiger.tokens
+	rm -f *.asm
 	rm -f Report.Tex
 
 	rm -f test/build/*.class test/build/*.tex *.log *.aux *.toc
