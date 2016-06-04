@@ -51,6 +51,7 @@ clean : ## Clean the project
 	rm -f src/TigerLexer*
 	rm -f src/TigerParser*
 	rm -f Tiger.tokens
+	rm -f *.asm
 	rm -f Report.Tex
 
 	rm -f test/build/*.class test/build/*.tex *.log *.aux *.toc
