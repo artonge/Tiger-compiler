@@ -15,7 +15,6 @@ struct chunk {
   char *string;
   int length;
   int nb_instructions;
-  char *address;
   int registre;
 } typedef chunk;
 

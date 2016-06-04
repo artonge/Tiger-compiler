@@ -39,7 +39,6 @@ chunk* initChunk() {
   c->string[0] = '\0';
   c->length = 0;
   c->nb_instructions = 0;
-  c->address = malloc(sizeof(char) * 10);
   c->registre = -1;
 
   return c;
@@ -62,7 +61,9 @@ chunk *appendChunks(chunk *c1, chunk *c2) {
 
   c1->nb_instructions += c2->nb_instructions;
 
-  strcpy(c1->address, c2->address);
+  c1->registre = c2->registre;
+
+  freeRegister(c1->registre);
 
   return c1;
 }
@@ -72,8 +73,6 @@ void freeChunk(chunk *c) {
   freeRegister(c->registre);
 
   free(c->string);
-
-  free(c->address);
 
   free(c);
 }
@@ -111,57 +110,57 @@ void addInstruction(chunk *c, char *template, ...) {
 }
 
 
-char *addStringToProgram(char *string) {
+char *addStringToProgram(chunk *c, char *string) {
   static int compteur = 0;
 
   char *s_name = malloc(sizeof(char) * 5);
 
   sprintf(s_name, "S_%d", compteur++);
 
-  addInstruction(program, "%s string %s", s_name, string);
+  addInstruction(c, "%s STRING %s", s_name, string);
 
   return s_name;
 }
 
 
-void getAddress(ANTLR3_BASE_TREE *tree, chunk *c) {
+void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
   debug(DEBUG_GENERATION, "\033[22;93mGet address var\033[0m");
 
   if (tree == NULL) {
-    c->registre = getRegister();
-
-    sprintf(c->address, "R%d", c->registre);
-
+    c->registre =  getRegister();
     return;
   }
-
 
   char *string = (char *)tree->toString(tree)->chars;
 
   entity *e;
 
+
   switch (tree->getType(tree)) {
     case INTEGER :
-      sprintf(c->address, "#%s", string);
+      c->registre = getRegister();
+      addInstruction(c, "LDW R%d, #%s", c->registre, string);
       break;
 
     case STRING :
-      c->address = addStringToProgram(string);
+      string = addStringToProgram(c, string);
+      c->registre = getRegister();
+      addInstruction(c, "LDW R%d, #%s", c->registre, string);
       break;
 
     case ID :
       c->registre = getRegister();
-
-      addInstruction(c, "ADD R14, #%d, R%d", getScope()*2, c->registre);
+      addInstruction(c, "LDW R%d, #%d", c->registre, getScope()*2);
+      addInstruction(c, "ADD R14, R%d, R%d", getScope()*2, c->registre, c->registre);
       e = searchVar(string);
-      sprintf(c->address,
-              "(R%d)%d",
-              c->registre,
-              e == NULL ? 0 : e->deplacement*2);
+      addInstruction(c, "LDW R%d, (R%d)%d",
+                     c->registre,
+                     c->registre,
+                     e == NULL ? 0 : e->deplacement*2);
       break;
 
     case FUNC_CALL :
-      sprintf(c->address, "TODO");
+      c->registre = -1;
       // TODO - handle function calls
       // save registers
       // save display
@@ -177,25 +176,25 @@ void getAddress(ANTLR3_BASE_TREE *tree, chunk *c) {
 void jumpTo(chunk *c, int type, int gap) {
   switch (type) {
     case SUP :
-      addInstruction(c, "JGT %d", gap);
+      addInstruction(c, "JGT #%d", gap);
       break;
     case INF :
-      addInstruction(c, "JLW %d", gap);
+      addInstruction(c, "JLW #%d", gap);
       break;
     case SUP_EQ :
-      addInstruction(c, "JGE %d", gap);
+      addInstruction(c, "JGE #%d", gap);
       break;
     case INF_EQ :
-      addInstruction(c, "JLE %d", gap);
+      addInstruction(c, "JLE #%d", gap);
       break;
     case EQ :
-      addInstruction(c, "JEQ %d", gap);
+      addInstruction(c, "JEQ #%d", gap);
       break;
     case DIFF :
-      addInstruction(c, "JNE %d", gap);
+      addInstruction(c, "JNE #%d", gap);
       break;
     default :
-      addInstruction(c, "JMP %d", gap);
+      addInstruction(c, "JMP #%d", gap);
       break;
   }
 }
