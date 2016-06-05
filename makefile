@@ -95,7 +95,7 @@ iup : exec ## compile asm file into .iup and launch simulator
 	java -jar microPIUPK.jar -ass a.asm
 	java -jar microPIUPK.jar -batch a.iup
 
-sim : iup
+sim :
 	java -jar microPIUPK.jar -sim
 
 
