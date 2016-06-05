@@ -91,9 +91,12 @@ test_report : ## Generate PDF files containing AST from tests files
 	pdflatex Report.tex
 	pdflatex Report.tex
 
-sim : exec ## compile asm file into .iup and launch simulator
+iup : exec ## compile asm file into .iup and launch simulator
 	java -jar microPIUPK.jar -ass a.asm
 	java -jar microPIUPK.jar -batch a.iup
+
+sim : iup
+	java -jar microPIUPK.jar -sim
 
 
 ###########################
