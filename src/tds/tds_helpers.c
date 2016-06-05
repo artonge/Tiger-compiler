@@ -36,17 +36,10 @@ void freeScope(scope *scope) {
 
 entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
   entity *e = malloc(sizeof(entity));
-  char *string;
-
 
   e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
   e->classe      = scope->getType(scope);
   e->type        = getType(scope);
-
-  // TODO handle expression on string declaration
-  if (e->type == STRING)
-    string = (char *)scope->toString(scope->getChild(scope, 0))->chars;
-
   e->deplacement = getDeplacement(e->classe);
 
   return e;
