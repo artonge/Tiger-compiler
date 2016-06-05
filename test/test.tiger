@@ -1,5 +1,5 @@
 let
-	var a : int := 1
+	var a : int := 1 | (if 1 then 2 else 3)
 in
 	a := 2
 end

@@ -21,8 +21,6 @@ void checkVarDeclaration(ANTLR3_BASE_TREE *tree) {
 }
 
 // Check that return type is 'int' or 'string'
-// Check if a RETURN node exists when return type is set
-// TODO - check return type is same as returned var
 void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
   debug(DEBUG_CHECKERS, "\033[22;35mcheckFuncDeclaration\033[0m");
 
@@ -39,22 +37,14 @@ void checkFuncDeclaration(ANTLR3_BASE_TREE *tree) {
 
   if (count == 4) {
 
-      if (strcmp(returnTypeString, "int") &&
-          strcmp(returnTypeString, "string") ) {
+    if (strcmp(returnTypeString, "int") &&
+        strcmp(returnTypeString, "string") ) {
 
-        error("Unknown return type (%s) at line %d:%d",
-               returnTypeString,
-               tree->getLine(returnTypeNode),
-               tree->getCharPositionInLine(returnTypeNode));
-      }
-
-
-      if (!findReturnInstruction(instructionsNode)) {
-        warning("Reached end of non void function (%s) at line %d:%d",
-               nameString,
-               tree->getLine(instructionsNode),
-               tree->getCharPositionInLine(instructionsNode));
-      }
+      error("Unknown return type (%s) at line %d:%d",
+             returnTypeString,
+             tree->getLine(returnTypeNode),
+             tree->getCharPositionInLine(returnTypeNode));
+    }
   }
 }
 
@@ -80,12 +70,6 @@ void checkParam(ANTLR3_BASE_TREE *tree) {
 // Check that one of the parent node is a loop
 // THINK - Until where is it smart to climb the tree ?
 void checkBreak(ANTLR3_BASE_TREE *tree) {
-
-}
-
-// Check that one of the parent node is a function with a return type specified
-// THINK - Until where is it smart to climb the tree ?
-void checkReturn(ANTLR3_BASE_TREE *tree) {
 
 }
 
@@ -121,13 +105,13 @@ void checkAssigne(ANTLR3_BASE_TREE *tree) {
 // - a procedure call
 void checkOr(ANTLR3_BASE_TREE *tree) {
 	debug(DEBUG_CHECKERS, "\033[22;35mcheckOr\033[0m");
-	
+
 	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
 	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
-	
+
 	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
 	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
-	
+
 	if(Token1->type == NIL){
 		error("The left operand should not be 'NIL' %d:%d",
 			tree->getLine(Operand1),
@@ -137,22 +121,22 @@ void checkOr(ANTLR3_BASE_TREE *tree) {
 			tree->getLine(Operand2),
 			tree->getCharPositionInLine(Operand2));
 	}
-	
-	if(Token1->type == INSTRUCTIONS){
+
+	if(containsInstruction(Operand1)){
 		error("The left operand should not be an instruction %d:%d",
 			tree->getLine(Operand1),
 			tree->getCharPositionInLine(Operand1));
-	}else if(Token2->type == INSTRUCTIONS){
+	}else if(containsInstruction(Operand2)){
 		error("The right operand should not be an instruction %d:%d",
 			tree->getLine(Operand2),
 			tree->getCharPositionInLine(Operand2));
 	}
-	
+
 	if(Token1->type == FUNC_CALL){
 		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
 		char * FuncName = (char *)tree->toString(Func)->chars;
 		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){	
+		if(ent->type == -1){
 			error("The left operand should not be a procedure (function should return a value) %d:%d",
 				tree->getLine(Operand1),
 				tree->getCharPositionInLine(Operand1));
@@ -161,11 +145,12 @@ void checkOr(ANTLR3_BASE_TREE *tree) {
 		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
 		char * FuncName = (char *)tree->toString(Func)->chars;
 		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){	
+		if(ent->type == -1){
 			error("The right operand should not be a procedure (function should return a value) %d:%d",
 				tree->getLine(Operand2),
 				tree->getCharPositionInLine(Operand2));
-	}
+  	}
+  }
 }
 
 
@@ -175,13 +160,13 @@ void checkOr(ANTLR3_BASE_TREE *tree) {
 // - a procedure call
 void checkAnd(ANTLR3_BASE_TREE *tree) {
 	debug(DEBUG_CHECKERS, "\033[22;35mcheckAnd\033[0m");
-	
+
 	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
 	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
-	
+
 	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
 	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
-	
+
 	if(Token1->type == NIL){
 		error("The left operand should not be 'NIL' %d:%d",
 			tree->getLine(Operand1),
@@ -191,22 +176,22 @@ void checkAnd(ANTLR3_BASE_TREE *tree) {
 			tree->getLine(Operand2),
 			tree->getCharPositionInLine(Operand2));
 	}
-	
-	if(Token1->type == INSTRUCTIONS){
+
+	if(containsInstruction(Operand1)){
 		error("The left operand should not be an instruction %d:%d",
 			tree->getLine(Operand1),
 			tree->getCharPositionInLine(Operand1));
-	}else if(Token2->type == INSTRUCTIONS){
+	}else if(containsInstruction(Operand2)){
 		error("The right operand should not be an instruction %d:%d",
 			tree->getLine(Operand2),
 			tree->getCharPositionInLine(Operand2));
 	}
-	
+
 	if(Token1->type == FUNC_CALL){
 		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
 		char * FuncName = (char *)tree->toString(Func)->chars;
 		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){	
+		if(ent->type == -1){
 			error("The left operand should not be a procedure (function should return a value) %d:%d",
 				tree->getLine(Operand1),
 				tree->getCharPositionInLine(Operand1));
@@ -215,11 +200,12 @@ void checkAnd(ANTLR3_BASE_TREE *tree) {
 		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
 		char * FuncName = (char *)tree->toString(Func)->chars;
 		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){	
+		if(ent->type == -1){
 			error("The right operand should not be a procedure (function should return a value) %d:%d",
 				tree->getLine(Operand2),
 				tree->getCharPositionInLine(Operand2));
-	}
+  	}
+  }
 }
 
 // Check that both operands are not :

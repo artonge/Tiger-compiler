@@ -152,11 +152,6 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			checkBreak(tree);
 			break;
 
-		case RETURN:
-			checkReturn(tree);
-			dispatch(tree->getChild(tree, 0)); // dispatch expr
-			break;
-
 
 		case ASSIGNE:
 			checkAssigne(tree);

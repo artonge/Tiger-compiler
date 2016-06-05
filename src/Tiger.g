@@ -3,11 +3,10 @@ grammar Tiger;
 options {
   k = 1;
   output = AST;
-  language = C;
 }
 
 tokens {
-  INSTRUCTIONS; LET; WHILE; FOR; IF; BREAK; RETURN;
+  INSTRUCTIONS; LET; WHILE; FOR; IF; BREAK;
   DECLARATIONS; VAR_DECLARATION; FUNC_DECLARATION; PARAMS; PARAM;
 
   EXPR;

@@ -6,9 +6,10 @@
 
 #include "TigerParser.h"
 #include "helpers.h"
+#include "tds.h"
 
 
-#define DEBUG_CHECKERS 0
+#define DEBUG_CHECKERS 1
 
 
 void checkVarDeclaration(ANTLR3_BASE_TREE *tree);

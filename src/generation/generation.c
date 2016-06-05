@@ -11,7 +11,7 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node);
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node);
 
 
-// TODO - build DISPLAY, link it in R14
+// TODO - make instructions return something
 void generateASM(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mGenerate ASM\033[0m");
   initRegisters();
@@ -42,7 +42,7 @@ void generateASM(ANTLR3_BASE_TREE *node) {
   fprintf(file, program->string);
   fclose(file);
 
-  printChunk(program);
+  // printChunk(program);
 
   freeChunk(instructionASM);
   freeChunk(program);
@@ -173,8 +173,6 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
 
   // Get free register to host result
   loadAtom(NULL, chunk);
-
-  printf("%d\n", type);
 
   // Do operation with chunk's register
   switch (type) {
