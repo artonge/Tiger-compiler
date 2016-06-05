@@ -134,8 +134,10 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
 
   chunk *chunk, *chunk_left, *chunk_right;
   int type = node->getType(node);
-
   char *template;
+  char etiq_1[10], etiq_2[10];
+  static int etiq_nb = 0;
+
 
   chunk = initChunk();
 
@@ -178,11 +180,18 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
                     node->getLine(node),
                     node->getCharPositionInLine(node));
 
-      jumpTo(chunk, type, 2);
+      sprintf(etiq_1, "ETIQ_%d", etiq_nb++);
+      sprintf(etiq_2, "ETIQ_%d", etiq_nb++);
+
+      jumpTo(chunk, type, etiq_1);
 
       addInstruction(chunk, "STW R%d, #0", chunk->registre);
-      jumpTo(chunk, 0, 2);
+      jumpTo(chunk, 0, etiq_2);
+
+      addEtiquette(chunk, etiq_1);
       addInstruction(chunk, "STW R%d, #1", chunk->registre);
+
+      addEtiquette(chunk, etiq_2);
 
       break;
 
@@ -242,58 +251,53 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
 
 
 chunk *computeIf(ANTLR3_BASE_TREE *node) {
-  //         CONDITION COMPUTING
-  //         |
-  //     <-- JUMP TO AFTER IF INSTRUCTIONS IF RESULT == 0
-  //    |    |
-  //    |    IF INSTRUCTION
-  //    |    |
-  //  <-|--- JUMP TO AFTER ELSE INSTRUCTION
-  // |  |
-  // |   -->
-  // |       |
-  // |       ELSE INSTRUCTION
-  // |       |
-  //  -----> END
-
   debug(DEBUG_GENERATION, "\033[22;93mCompute if\033[0m");
 
   ANTLR3_BASE_TREE *expr;
-  chunk *chunk, *chunk_expr, *chunk_if, *chunk_else;
+  chunk *chunk, *chunk_expr, *chunk_if, *chunk_else = NULL;
+  static int if_nb = 0;
+  char else_etiq[10], if_end_etiq[10];
 
-  chunk = initChunk();
 
+  // Get chunks
+  chunk      = initChunk();
+  chunk_expr = computeExpr(node->getChild(node, 0));
+  chunk_if   = computeInstruction(node->getChild(node, 1));
+  if (node->getChildCount(node) > 2)
+    chunk_else = computeInstruction(node->getChild(node, 2));
+
+
+  // Set etiquettes
+  sprintf(  else_etiq, "IF_%d", if_nb++);
+  sprintf(if_end_etiq, "IF_%d", if_nb++);
+
+
+  // Add ASM
   addInstruction(chunk, "// IF (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
-  // Get expression chunks
-  chunk_expr = computeExpr(node->getChild(node, 0));
-  // Merge chunk_expr into chunk
-  appendChunks(chunk, chunk_expr);
+  //         CONDITION COMPUTING
+             appendChunks(chunk, chunk_expr);
+  //         |
+             jumpTo(chunk, EQ, else_etiq);
+  //     <-- JUMP TO AFTER IF INSTRUCTIONS IF RESULT == 0
+  //    |    |
+  //    |    IF INSTRUCTION
+  /*    |  */appendChunks(chunk, chunk_if);
+  //    |    |
+  //  <-|--- JUMP TO AFTER ELSE INSTRUCTION
+  /* |  |  */jumpTo(chunk, 0, if_end_etiq);
+  // |  |
+  // |   --> if_etiq_1
+  /* |     */addEtiquette(chunk, else_etiq);
+  // |       |
+  // |       ELSE INSTRUCTION
+  /* |     */appendChunks(chunk, chunk_else);
+  // |       |
+  //  -----> if_etiq_2
+             addEtiquette(chunk, if_end_etiq);
 
-
-  // Get if chunks
-  chunk_if = computeInstruction(node->getChild(node, 1));
-
-
-  // Jump to after the if expression and the jump at the end of the if
-  jumpTo(chunk, EQ, chunk_if->nb_instructions*2 + 2);
-
-
-  // Merge if's chunk into chunk
-  appendChunks(chunk, chunk_if);
-
-
-  // If 'if else', get else chunk and append it
-  if (node->getChildCount(node) > 2) {
-    chunk_else = computeInstruction(node->getChild(node, 2));
-
-    // Jump to after else at the end of the if
-    jumpTo(chunk, 0, chunk_else->nb_instructions*2);
-
-    appendChunks(chunk, chunk_else);
-  }
 
   // Free chunks, because now useless
   freeChunk(chunk_expr);
@@ -398,41 +402,47 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
 
 
 chunk *computeWhile(ANTLR3_BASE_TREE *node) {
-  //     -->
-  //    |   |
-  //    |  CONDITION COMPUTING
-  //    |   |
-  //  <-|- JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
-  // |  |   |
-  // |  |  INSTRUCTIONS...-->
-  // |  |                    |
-  // |   <-------------------
-  // |
-  //  -->  END
-
   debug(DEBUG_GENERATION, "\033[22;93mCompute while\033[0m");
 
   chunk *chunk, *chunk_cond, *chunk_instr;
-  // Set chunks
+  char while_begin_etiq[10], while_end_etiq[10];
+  static int while_nb = 0;
+
+
+  // Get chunks
   chunk       = initChunk();
   chunk_cond  = computeExpr(node->getChild(node, 0));
   chunk_instr = computeInstruction(node->getChild(node, 1));
 
 
+  // Set etiquettes
+  sprintf(while_begin_etiq, "WHILE_%d", while_nb++);
+  sprintf(  while_end_etiq, "WHILE_%d", while_nb++);
+
+
+  // Add ASM
   addInstruction(chunk, "// WHILE (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
+  //     --> while_begin_etiq
+  /*    |   */addEtiquette(chunk, while_begin_etiq);
+  //    |    |
+  //    |    CONDITION COMPUTING
+  /*    |  */appendChunks(chunk, chunk_cond);
+  //    |    |
+  //  <-|----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
+  /* |  |  */jumpTo(chunk, 0, while_end_etiq);
+  // |  |    |
+  // |  |    INSTRUCTIONS...
+  /* |  |  */appendChunks(chunk, chunk_instr);
+  // |  |    |
+  // |   <---JUMP TO BEGIN
+  /* |     */jumpTo(chunk, EQ, while_begin_etiq);
+  // |
+  //  ------>while_end_etiq
+             addEtiquette(chunk, while_end_etiq);
 
-  appendChunks(chunk, chunk_cond);
-
-  jumpTo(chunk, EQ, -(chunk_instr->nb_instructions*2 + 2));
-
-  appendChunks(chunk, chunk_instr);
-
-  // Jump to before the condition computation
-  jumpTo(chunk, 0,
-        chunk_cond->nb_instructions*2 + chunk_instr->nb_instructions*2 + 4);
 
   // Free chunks
   freeChunk(chunk_cond);
@@ -443,24 +453,12 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
 
 
 chunk *computeFor(ANTLR3_BASE_TREE *node) {
-  //       INITIALISATION (for ...)
-  //     -->
-  //    |   |
-  //    |  CONDITION COMPUTING (to ...)
-  //    |   |
-  //  <-|- JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
-  // |  |   |
-  // |  |  INSTRUCTIONS (do ...) -->
-  // |  |                           |
-  // |  |                LOOP INSTRUCTION (var init ++)
-  // |  |                           |
-  // |   <--------------------------
-  // |
-  //  -->  END
-
   debug(DEBUG_GENERATION, "\033[22;93mCompute for\033[0m");
 
   chunk *chunk, *chunk_init, *chunk_cond, *chunk_instr;
+  char for_begin_etiq[10], for_end_etiq[10];
+  static int for_nb = 0;
+
 
   // Set chunks
   chunk       = initChunk();
@@ -469,27 +467,46 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   chunk_instr = computeInstruction(node->getChild(node, 2));
 
 
+  // Set etiquettes
+  sprintf(for_begin_etiq, "FOR_%d", for_nb++);
+  sprintf(  for_end_etiq, "FOR_%d", for_nb++);
+
+
+  loadAtom(NULL, chunk);
+
+
+  // Add ASM
   addInstruction(chunk, "// FOR (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
+  //          INITIALISATION (for ...)
+  /*        */appendChunks(chunk, chunk_init);
+  //     ---->for_begin_etiq
+  /*    |   */addEtiquette(chunk, for_begin_etiq);
+  //    |     |
+  //    |     CONDITION COMPUTING (to ...)
+  /*    |   */appendChunks(chunk, chunk_cond);
+  //    |     |
+  //    |     INIT - COND
+  /*    |   */addInstruction(chunk, "SUB R%d, R%d, R%d",
+  /*    |     |            */chunk_init->registre,
+  /*    |     |            */chunk_cond->registre,
+  /*    |     |            */chunk->registre);
+  //    |     |
+  //  <-|-----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
+  /* |  |   */jumpTo(chunk, SUP_EQ, for_end_etiq);
+  // |  |     |
+  // |  |     INSTRUCTIONS (do ...) -->
+  /* |  |   */appendChunks(chunk, chunk_instr);
+  // |  |     |
+  // |  |     LOOP INSTRUCTION (var init ++ and jump)
+  /* |  |   */addInstruction(chunk, "ADQ 1, R%d", chunk_init->registre);
+  /* |   <--*/jumpTo(chunk, 0, for_begin_etiq);
+  // |
+  //  ------->for_end_etiq
+              addEtiquette(chunk, for_end_etiq);
 
-  appendChunks(chunk, chunk_init);
-
-  appendChunks(chunk, chunk_cond);
-
-  loadAtom(NULL, chunk);
-
-  addInstruction(chunk, "SUB R%d, R%d, R%d",
-                chunk_init->registre, chunk_cond->registre, chunk->registre);
-
-  jumpTo(chunk, SUP_EQ, -(chunk_instr->nb_instructions*2 + 2));
-
-  appendChunks(chunk, chunk_instr);
-
-  // Jump to before the condition computation
-  jumpTo(chunk, 0,
-        chunk_cond->nb_instructions*2 + chunk_instr->nb_instructions*2 + 6);
 
   // Free chunks
   freeChunk(chunk_init);

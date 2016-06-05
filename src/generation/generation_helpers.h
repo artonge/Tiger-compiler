@@ -19,7 +19,7 @@ void addEtiquette(chunk *c, char *etiquette);
 
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c);
 
-void jumpTo(chunk *c, int type, int gap);
+void jumpTo(chunk *c, int type, char *etiquette);
 
 
 #endif /*  generation_helpers_h */

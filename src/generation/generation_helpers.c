@@ -71,6 +71,8 @@ chunk *appendChunks(chunk *c1, chunk *c2) {
 
 
 void freeChunk(chunk *c) {
+  if (c == NULL) return;
+
   freeRegister(c->registre);
 
   free(c->string);
@@ -112,18 +114,7 @@ void addInstruction(chunk *c, char *template, ...) {
 
 
 void addEtiquette(chunk *c, char *etiquette) {
-  debug(DEBUG_GENERATION, "\033[22;93mAdd etiquette\033[0m %s", etiquette);
-
-  int etiq_length = strlen(etiquette);
-
-  c->length += etiq_length+1;
-
-  // Update chunk size in memory to accepte new instruction
-  c->string = realloc(c->string, c->length*sizeof(char) + 1);
-  // Add instruction to end of chunk and update chunk lenght
-  strcat(c->string, etiquette);
-  c->string[c->length-1] = ' ';
-  c->string[c->length] = '\0';
+  addInstruction(c, "%s NOP", etiquette);
 }
 
 
@@ -235,28 +226,28 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
 }
 
 
-void jumpTo(chunk *c, int type, int gap) {
+void jumpTo(chunk *c, int type, char *etiquette) {
   switch (type) {
     case SUP :
-      addInstruction(c, "JGT #%d", gap);
+      addInstruction(c, "JGT #%s", etiquette);
       break;
     case INF :
-      addInstruction(c, "JLW #%d", gap);
+      addInstruction(c, "JLW #%s", etiquette);
       break;
     case SUP_EQ :
-      addInstruction(c, "JGE #%d", gap);
+      addInstruction(c, "JGE #%s", etiquette);
       break;
     case INF_EQ :
-      addInstruction(c, "JLE #%d", gap);
+      addInstruction(c, "JLE #%s", etiquette);
       break;
     case EQ :
-      addInstruction(c, "JEQ #%d", gap);
+      addInstruction(c, "JEQ #%s", etiquette);
       break;
     case DIFF :
-      addInstruction(c, "JNE #%d", gap);
+      addInstruction(c, "JNE #%s", etiquette);
       break;
     default :
-      addInstruction(c, "JMP #%d", gap);
+      addInstruction(c, "JMP #%s", etiquette);
       break;
   }
 }
