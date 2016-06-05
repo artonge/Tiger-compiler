@@ -43,7 +43,7 @@ OUTPUT = -o ./tigerc
 ###########################
 ######## COMMANDES ########
 ###########################
-all : grammar c exec ## grammar c exec
+all : exec ## grammar c exec
 
 clean : ## Clean the project
 	$(info ${\n} ${line} CLEAN ${line} ${\n})
@@ -52,6 +52,7 @@ clean : ## Clean the project
 	rm -f src/TigerParser*
 	rm -f Tiger.tokens
 	rm -f *.asm
+	rm -f *.iup
 	rm -f Report.Tex
 	sudo rm -fr src/output
 
@@ -67,7 +68,7 @@ grammar : ## Compile the grammar using antlr3
 	$(info Make sure `language = C;` is uncommented in grammar options${\n})
 	antlr3 ./src/Tiger.g -make
 
-c : ## Compile all the sources into the executable
+c : grammar ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
 	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT)
@@ -77,13 +78,9 @@ c_ben : ## Compile all the sources into the executable
 	$(info Make sure libantlr3c and header are in the same place as PATH_EXTEND${\n})
 	$(CC) $(SOURCES) $(PATH_EXTEND) $(FLAGS) $(OUTPUT) -m32
 
-exec : ## Execute the program with ./Tests/test.tiger file as input
+exec : c ## Execute the program with ./Tests/test.tiger file as input
 	$(info ${\n} ${line} EXECUTION ${line} ${\n})
 	./tigerc ./test/test.tiger
-
-c_e : c exec ## Compile C files and launch executable
-
-c_e_ben : c_ben exec ## Compile C files and launch executable
 
 test_report : ## Generate PDF files containing AST from tests files
 	$(info ${\n} ${line} GENERATING PDF ${line} ${\n})
@@ -94,9 +91,9 @@ test_report : ## Generate PDF files containing AST from tests files
 	pdflatex Report.tex
 	pdflatex Report.tex
 
-sim : ## compile asm file into .iup and launch simulator
+sim : exec ## compile asm file into .iup and launch simulator
 	java -jar microPIUPK.jar -ass a.asm
-	java -jar microPIUPK.jar -sim &
+	java -jar microPIUPK.jar -batch a.iup
 
 
 ###########################

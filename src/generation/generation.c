@@ -19,12 +19,14 @@ void generateASM(ANTLR3_BASE_TREE *node) {
   program = initChunk();
   chunk *instructionASM = computeInstruction(node);
 
-  addInstruction(program, "STACK EQU 0x1000");
   addInstruction(program, "SP EQU R15");
+  addInstruction(program, "FP EQU R14");
   addInstruction(program, "MAIN EQU 0xFF10");
   addInstruction(program, "ORG MAIN");
   addInstruction(program, "START MAIN");
   addInstruction(program, "// PRGM");
+  addInstruction(program, "STACKBASE 0x1000");
+  addInstruction(program, "LDW FP, SP");
 
   appendChunks(program, instructionASM);
 
@@ -330,19 +332,63 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
   return chunk;
 }
 
-
+// TODO - stack display ? ckoi ?
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute func declaration\033[0m");
 
   chunk *chunk, *chunk_instr;
+  entity *e = searchFunc((char*)node->toString(node->getChild(node, 0))->chars);
+  int i,
+      count = node->getChildCount(node),
+      params_count = node->getChildCount(node->getChild(node, 1)),
+      _registres[15];
 
-  int count = node->getChildCount(node);
 
   chunk = initChunk();
 
+  addInstruction(chunk, "// FUNC_DECLARATION %s (%d:%d)",
+                e->name,
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
+  // Save registers
+  for (i = 0; i <= 15; i++)
+    _registres[i] = registres[i];
+  initRegisters();
+
+  addEtiquette(chunk, e->etiquette);
+
+  // Stack dynamic link
+  addInstruction(chunk, "STW FP, -(SP)");
+  addInstruction(chunk, "STW SP, FP");
+
+
+  // Free space in stack for local vars
+  for (i = 0; i < params_count; i++)
+    addInstruction(chunk, "ADQ 2, SP");
+
+  // Get instructions chunk
   chunk_instr = computeInstruction(node->getChild(node, count-1));
   appendChunks(chunk, chunk_instr);
   freeChunk(chunk_instr);
+
+  // Put last operation result into R0
+  addInstruction(chunk, "LDW R0, R%d", chunk->registre);
+
+  // Unstack local vars
+  for (i = 0; i < params_count; i++)
+    addInstruction(chunk, "ADQ -2, SP");
+
+  // Update frame pointer
+  addInstruction(chunk, "LDW FP, (SP)+");
+
+  // Return
+  addInstruction(chunk, "RTS");
+
+  // Restor registers
+  for (i = 0; i <= 15; i++)
+    registres[i] = _registres[i];
 
   return chunk;
 }

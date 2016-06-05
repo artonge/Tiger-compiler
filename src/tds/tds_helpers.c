@@ -54,12 +54,18 @@ entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
 
 entity *buildFuncEntity(ANTLR3_BASE_TREE *scope) {
   char *string;
+  static int func_n = 0;
 
   entity *e = malloc(sizeof(entity));
 
   e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
   e->classe      = FUNC_DECLARATION;
   e->type        = getReturnType(scope);
+  e->infos       = scope->getChildCount(scope->getChild(scope, 1));
+  e->etiquette   = malloc(sizeof(char) * 10);
+
+  // Create unique etiquette for the function
+  sprintf(e->etiquette, "FUNC_%d", func_n++);
 
   return e;
 }

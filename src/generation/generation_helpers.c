@@ -111,6 +111,60 @@ void addInstruction(chunk *c, char *template, ...) {
 }
 
 
+void addEtiquette(chunk *c, char *etiquette) {
+  debug(DEBUG_GENERATION, "\033[22;93mAdd etiquette\033[0m %s", etiquette);
+
+  int etiq_length = strlen(etiquette);
+
+  c->length += etiq_length+1;
+
+  // Update chunk size in memory to accepte new instruction
+  c->string = realloc(c->string, c->length*sizeof(char) + 1);
+  // Add instruction to end of chunk and update chunk lenght
+  strcat(c->string, etiquette);
+  c->string[c->length-1] = ' ';
+  c->string[c->length] = '\0';
+}
+
+
+chunk *computeFuncCall(ANTLR3_BASE_TREE *tree) {
+  debug(DEBUG_GENERATION, "\033[22;93mCompute func call\033[0m");
+
+  ANTLR3_BASE_TREE *args = tree->getChild(tree, 0);
+  entity *e = searchFunc((char*)tree->toString(tree->getChild(tree, 1))->chars);
+  chunk *chunk = initChunk();
+  int i, count = tree->getChildCount(args);
+
+  // Stack registers
+  for (i = 0; i <= 15; i++) {
+    if (registres[i] == 1)
+      addInstruction(chunk, "STW R%d, -(SP)", i);
+  }
+
+  // Stack params
+  for (i = 0; i < count; i++) {
+    loadAtom(args->getChild(args, i), chunk);
+    addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
+    freeRegister(chunk->registre);
+  }
+
+  // Jump to function
+  addInstruction(chunk, "JSR @%s", e->etiquette);
+
+  // Unstack params
+  for (i = 0; i < count; i++)
+    addInstruction(chunk, "ADQ -2, SP");
+
+  // Unstack registers
+  for (i = 0; i <= 15; i++) {
+    if (registres[i] == 1)
+      addInstruction(chunk, "LDW R%d, (SP)+", i);
+  }
+
+  return chunk;
+}
+
+
 char *addStringToProgram(chunk *c, char *string) {
   static int compteur = 0;
 
@@ -126,6 +180,10 @@ char *addStringToProgram(chunk *c, char *string) {
 
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
   debug(DEBUG_GENERATION, "\033[22;93mLoad atom\033[0m");
+
+  int tmp_reg;
+
+  chunk *chunk_func_call;
 
   if (tree == NULL) {
     c->registre =  getRegister();
@@ -151,23 +209,26 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
 
     case ID :
       c->registre = getRegister();
+      tmp_reg     = getRegister();
+
       e = searchVar(string);
-      addInstruction(c, "LDW R%d, #%d", c->registre, e->scope->depth*2);
-      addInstruction(c, "ADD R14, R%d, R%d", e->scope->depth*2, c->registre, c->registre);
-      addInstruction(c, "LDW R%d, (R%d)%d",
-                     c->registre,
-                     c->registre,
-                     e == NULL ? 0 : e->deplacement*2);
+      // Load address of var's scope in c->registre
+      addInstruction(c, "LDW R%d, *(R14)%d", c->registre, e->scope->depth*2);
+      // Load deplacement in tmp_reg
+      addInstruction(c, "LDW R%d, #%d", tmp_reg, e->deplacement);
+      // Add var's scope base and var deplacement into c->registre
+      addInstruction(c, "ADD R%d, R%d, R%d", c->registre, tmp_reg, c->registre);
+      // Load var into c->registre
+      addInstruction(c, "LDW R%d, (R%d)", c->registre, c->registre);
+
+      freeRegister(tmp_reg);
+
       break;
 
     case FUNC_CALL :
-      c->registre = -1;
-      // TODO - handle function calls
-      // save registers
-      // save display
-      // add paramters
-      // add return pointer
-      // add static pointer
+      chunk_func_call = computeFuncCall(tree);
+      appendChunks(c, chunk_func_call);
+      freeChunk(chunk_func_call);
       break;
 
   }

@@ -15,6 +15,7 @@ src/output
 tigerc
 
 a.asm
+a.iup
 
 .gcc-flags.json
 

@@ -32,6 +32,7 @@ typedef struct entity {
   int classe; // VAR_DECLARATION or FUNC_DECLARATION
   int deplacement; // position in memory
   int infos; // nb of args
+  char *etiquette; // etiquette for functions
   struct entity *brother;
   struct scope *scope;
 } entity;

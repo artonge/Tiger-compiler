@@ -1,25 +1,28 @@
 ("test";
-(kikoo());
 let
 	var str := "te t"
 
 	var i := 87
 
-	function main(test:int, ok :string, deux: char) : int = (
-    while i <> a+i do print("test", a, 2);
+	function print(str : string) = 1
+
+	function func(i : int) = 1
+
+	function main(test:int, ok :string, deux: string) : int = (
+    while i <> a+i do print("test");
 
     if i < 4 then
       print("ok")
     else (
       print("ok");
-			a := -1+aze()+a-1;
+			a := -1+print("ok")+a-1;
 			return a
 		);
 
 		let
 			var in_scope_2 : int := 3
 		in
-			prout()
+			print("dac")
 		end;
 
 		return a
@@ -28,6 +31,6 @@ let
   var a : int := 1+4*56/9*(3+a)+34
 
 in
-	for i:=0 to func(89) do main(test, 2+1, "ok")
+	for i:=0 to func(89) do main(str, 2+1, "ok")
 end
 )
