@@ -263,6 +263,9 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
 
   chunk = initChunk();
 
+  addInstruction(chunk, "// IF (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
 
   // Get expression chunks
   chunk_expr = computeExpr(node->getChild(node, 0));
@@ -423,7 +426,7 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
 
   appendChunks(chunk, chunk_cond);
 
-  jumpTo(chunk, EQ, chunk_instr->nb_instructions*2 + 2);
+  jumpTo(chunk, EQ, -(chunk_instr->nb_instructions*2 + 2));
 
   appendChunks(chunk, chunk_instr);
 
@@ -480,7 +483,7 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   addInstruction(chunk, "SUB R%d, R%d, R%d",
                 chunk_init->registre, chunk_cond->registre, chunk->registre);
 
-  jumpTo(chunk, SUP_EQ, chunk_instr->nb_instructions*2 + 2);
+  jumpTo(chunk, SUP_EQ, -(chunk_instr->nb_instructions*2 + 2));
 
   appendChunks(chunk, chunk_instr);
 
@@ -505,6 +508,10 @@ chunk *computeLet(ANTLR3_BASE_TREE *node) {
   chunk = initChunk();
   chunk_decl  = computeInstruction(node->getChild(node, 0));
   chunk_instr = computeInstruction(node->getChild(node, 1));
+
+  addInstruction(chunk, "// LET (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
 
   appendChunks(chunk, chunk_decl);
   appendChunks(chunk, chunk_instr);
