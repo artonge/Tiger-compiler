@@ -34,8 +34,8 @@ Set DEBUG to 1 in helpers.h to display debuging infos
 [o] - `benoit` - `checkBreak(tree);` <br>
 [o] - `benoit` - `checkReturn(tree);` <br>
 [+] - `artonge` - `checkAssigne(tree);` <br>
-[o] - `Lilian` - `checkOr(tree);` <br>
-[-] - `Lilian` - `checkAnd(tree);` <br>
+[+] - `Lilian` - `checkOr(tree);` <br>
+[+] - `Lilian` - `checkAnd(tree);` <br>
 [o] - `Lilian` - `checkComp(tree);` <br>
 [o] - `Lilian` - `checkAdd(tree);` <br>
 [o] - `Lilian` - `checkMult(tree);` <br>
@@ -57,4 +57,5 @@ Set DEBUG to 1 in helpers.h to display debuging infos
 [+] - `artonge` - `func/var declaration` <br>
 [+] - `artonge` - `func call` <br>
 [+] - `artonge` - `let` <br>
-[-] - `artonge` - `display` <br>
+[+] - `artonge` - `display` <br>
+[-] - `artonge` - `instruction return` <br>
