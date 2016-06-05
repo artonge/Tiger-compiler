@@ -62,9 +62,9 @@ chunk *appendChunks(chunk *c1, chunk *c2) {
 
   c1->nb_instructions += c2->nb_instructions;
 
-  c1->registre = c2->registre;
-
   freeRegister(c1->registre);
+
+  c1->registre = c2->registre;
 
   return c1;
 }
@@ -169,21 +169,49 @@ char *addStringToProgram(chunk *c, char *string) {
 }
 
 
+chunk *getVarAddress(char *name) {
+  debug(DEBUG_GENERATION, "\033[22;93mGet var address\033[0m");
+
+  int tmp_reg;
+  chunk *chunk = initChunk();
+  entity *e;
+
+
+  chunk->registre = getRegister();
+  tmp_reg         = getRegister();
+
+
+  // Get var entity in TDS
+  e = searchVar(name);
+  // Load address of var's scope in chunk->registre
+  // addInstruction(chunk, "LDW R%d, #%d", chunk->registre, e->scope->depth*2);
+  // addInstruction(chunk, "ADD R%d, DISPLAY, R%d", chunk->registre, chunk->registre);
+  // addInstruction(chunk, "LDW R%d, (R%d)", chunk->registre, chunk->registre);
+  addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, e->scope->depth*2);
+  // Load deplacement in tmp_reg
+  addInstruction(chunk, "LDW R%d, #%d", tmp_reg, e->deplacement);
+  // Add var's scope base - var deplacement into chunk->registre
+  // (SUB because it's a stack)
+  addInstruction(chunk, "SUB R%d, R%d, R%d", chunk->registre, tmp_reg, chunk->registre);
+
+
+  freeRegister(tmp_reg);
+
+  return chunk;
+}
+
+
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
   debug(DEBUG_GENERATION, "\033[22;93mLoad atom\033[0m");
 
-  int tmp_reg;
-
-  chunk *chunk_func_call;
-
   if (tree == NULL) {
-    c->registre =  getRegister();
+    c->registre = getRegister();
     return;
   }
 
-  char *string = (char *)tree->toString(tree)->chars;
 
-  entity *e;
+  chunk *chunk_tmp;
+  char *string = (char *)tree->toString(tree)->chars;
 
 
   switch (tree->getType(tree)) {
@@ -199,29 +227,20 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
       break;
 
     case ID :
-      c->registre = getRegister();
-      tmp_reg     = getRegister();
+      chunk_tmp = getVarAddress(string);
+      appendChunks(c, chunk_tmp);
 
-      e = searchVar(string);
-      // Load address of var's scope in c->registre
-      addInstruction(c, "LDW R%d, *(R14)%d", c->registre, e->scope->depth*2);
-      // Load deplacement in tmp_reg
-      addInstruction(c, "LDW R%d, #%d", tmp_reg, e->deplacement);
-      // Add var's scope base and var deplacement into c->registre
-      addInstruction(c, "ADD R%d, R%d, R%d", c->registre, tmp_reg, c->registre);
       // Load var into c->registre
-      addInstruction(c, "LDW R%d, (R%d)", c->registre, c->registre);
+      addInstruction(c, "LDW R%d, (R%d)", c->registre, chunk_tmp->registre);
 
-      freeRegister(tmp_reg);
-
+      freeChunk(chunk_tmp);
       break;
 
     case FUNC_CALL :
-      chunk_func_call = computeFuncCall(tree);
-      appendChunks(c, chunk_func_call);
-      freeChunk(chunk_func_call);
+      chunk_tmp = computeFuncCall(tree);
+      appendChunks(c, chunk_tmp);
+      freeChunk(chunk_tmp);
       break;
-
   }
 }
 
@@ -250,4 +269,51 @@ void jumpTo(chunk *c, int type, char *etiquette) {
       addInstruction(c, "JMP #%s", etiquette);
       break;
   }
+}
+
+
+chunk *stackEnvironement() {
+  chunk *chunk = initChunk();
+  entity *current_entity = TDS->entities;
+
+  // Stack dynamic link
+  addInstruction(chunk, "STW FP, -(SP)");
+  addInstruction(chunk, "STW SP, FP");
+  addInstruction(chunk, "ADQ 2, FP");
+
+  // Stack display
+  loadAtom(NULL, chunk);
+  addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
+  addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
+  addInstruction(chunk, "STW FP, (DISPLAY)%d", TDS->depth*2);
+
+  // Free space in stack for local vars
+  while (current_entity != NULL) {
+    addInstruction(chunk, "ADQ -2, SP");
+    current_entity = current_entity->brother;
+  }
+
+  return chunk;
+}
+
+chunk *unstackEnvironement() {
+  chunk *chunk = initChunk();
+  entity *current_entity = TDS->entities;
+
+  // Unstack local vars
+  while (current_entity != NULL) {
+    addInstruction(chunk, "ADQ 2, SP");
+    current_entity = current_entity->brother;
+  }
+
+  // Unstack display
+  loadAtom(NULL, chunk);
+  addInstruction(chunk, "LDW R%d, (SP)+", chunk->registre);
+  addInstruction(chunk, "STW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
+  freeRegister(chunk->registre);
+
+  // Unstack frame pointer
+  addInstruction(chunk, "LDW FP, (SP)+");
+
+  return chunk;
 }

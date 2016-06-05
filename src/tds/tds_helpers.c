@@ -82,8 +82,16 @@ int isDuplicate(char *name) {
 int getDeplacement(int type) {
 
   entity *current_entity = TDS->entities;
-  int deplacement = 0;
-
+  int deplacement = type == PARAM ? 0 : 4;
+  // Desgusting logic here :
+  // We have two options :
+  //  1 - It's a param, so the initial deplacement is 0
+  //  2 - It's a variable, so the initial deplacement is either :
+  //        + 4 if we are in a LET
+  //        + 6 if we are in a FUNC
+  // But there is no varaible in a FUNC
+  // so it's either 0 or 4 depending on the type PARAM or VAR
+  // Damn Tiger language !
 
   while (current_entity != NULL && current_entity->classe != type)
     current_entity = current_entity->brother;
@@ -93,9 +101,9 @@ int getDeplacement(int type) {
 
 
   if (type == PARAM) // If params, deplacement is negatif
-    deplacement--;
+    deplacement -= 2;
   else // If var declaration, deplacement is positif
-    deplacement++;
+    deplacement += 2;
 
   debug(DEBUG_TDS, "\033[01;36mdeplacement\033[0m %d", deplacement);
   return deplacement;

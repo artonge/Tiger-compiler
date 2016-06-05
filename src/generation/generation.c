@@ -17,18 +17,26 @@ void generateASM(ANTLR3_BASE_TREE *node) {
   initRegisters();
 
   program = initChunk();
+
   chunk *instructionASM = computeInstruction(node);
+  chunk *stack = stackEnvironement();
+  chunk *unstack = unstackEnvironement();
 
   addInstruction(program, "SP EQU R15");
   addInstruction(program, "FP EQU R14");
-  addInstruction(program, "MAIN EQU 0xFF10");
+  addInstruction(program, "DISPLAY EQU R13");
+  // TODO - dynamise load adr
+  addInstruction(program, "MAIN EQU 0xE000");
   addInstruction(program, "ORG MAIN");
   addInstruction(program, "START MAIN");
   addInstruction(program, "// PRGM");
   addInstruction(program, "STACKBASE 0x1000");
   addInstruction(program, "LDW FP, SP");
+  addInstruction(program, "LDW DISPLAY, #0x2000");
 
+  appendChunks(program, stack);
   appendChunks(program, instructionASM);
+  appendChunks(program, unstack);
 
   FILE *file = fopen("a.asm", "w");
   fprintf(file, program->string);
@@ -151,10 +159,12 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
   }
 
   // Else get both operand chunk
+  // unless it's assign, we only want the address of the left opperand
   // unless it's a NEG node, because NEG only has one child
-  // Append chunks
-  chunk_left  = computeExpr(node->getChild(node, 0));
-  appendChunks(chunk, chunk_left);
+  if (type != ASSIGNE) {
+    chunk_left  = computeExpr(node->getChild(node, 0));
+    appendChunks(chunk, chunk_left);
+  }
 
   if (type != NEG) {
     chunk_right = computeExpr(node->getChild(node, 1));
@@ -164,6 +174,7 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
   // Get free register to host result
   loadAtom(NULL, chunk);
 
+  printf("%d\n", type);
 
   // Do operation with chunk's register
   switch (type) {
@@ -234,7 +245,11 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
       break;
 
     case ASSIGNE :
-      addInstruction(chunk, "STW R%d, R%d", chunk_right->registre, chunk_left->registre);
+      chunk_left = getVarAddress(
+                    (char*)node->toString(node->getChild(node, 0))->chars
+                 );
+      appendChunks(chunk, chunk_left);
+      addInstruction(chunk, "STW R%d, (R%d)", chunk_right->registre, chunk_left->registre);
       break;
 
     default:
@@ -242,9 +257,7 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
   }
 
   freeChunk(chunk_left);
-
-  if (type != NEG)
-    freeChunk(chunk_right);
+  freeChunk(chunk_right);
 
   return chunk;
 }
@@ -254,13 +267,17 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute if\033[0m");
 
   ANTLR3_BASE_TREE *expr;
-  chunk *chunk, *chunk_expr, *chunk_if, *chunk_else = NULL;
+  chunk *chunk = initChunk(), *chunk_expr, *chunk_if, *chunk_else = NULL;
   static int if_nb = 0;
   char else_etiq[10], if_end_etiq[10];
 
 
+  addInstruction(chunk, "// IF (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
   // Get chunks
-  chunk      = initChunk();
   chunk_expr = computeExpr(node->getChild(node, 0));
   chunk_if   = computeInstruction(node->getChild(node, 1));
   if (node->getChildCount(node) > 2)
@@ -273,10 +290,6 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
 
 
   // Add ASM
-  addInstruction(chunk, "// IF (%d:%d)",
-                node->getLine(node),
-                node->getCharPositionInLine(node));
-
   //         CONDITION COMPUTING
              appendChunks(chunk, chunk_expr);
   //         |
@@ -313,11 +326,8 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
 chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute var declaration\033[0m");
 
-  chunk *chunk, *chunk_expr;
+  chunk *chunk = initChunk(), *chunk_expr, *chunk_var;
   int count = node->getChildCount(node);
-
-  chunk      = initChunk();
-  chunk_expr = computeExpr(node->getChild(node, count-1));
 
 
   addInstruction(chunk, "// VAR_DECLARATION (%d:%d)",
@@ -325,16 +335,27 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
                 node->getCharPositionInLine(node));
 
 
+  // Get var address
+  chunk_var  = getVarAddress(
+                  (char*)node->toString(node->getChild(node, 0))->chars
+                );
+  // Get expression result
+  chunk_expr = computeExpr(node->getChild(node, count-1));
+
+
+  appendChunks(chunk, chunk_var);
   appendChunks(chunk, chunk_expr);
 
-  loadAtom(node->getChild(node, 0), chunk);
 
+  // Write result in var address
   addInstruction(chunk,
-                "STW R%d, R%d",
+                "STW R%d, (R%d)",
                 chunk_expr->registre,
-                chunk->registre);
+                chunk_var->registre);
+
 
   freeChunk(chunk_expr);
+  freeChunk(chunk_var);
 
   return chunk;
 }
@@ -343,20 +364,12 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute func declaration\033[0m");
 
-  chunk *chunk, *chunk_instr;
+  chunk *chunk = initChunk(),
+        *chunk_instr,
+        *chunk_stack, *chunk_unstack;
   entity *e = searchFunc((char*)node->toString(node->getChild(node, 0))->chars);
-  int i,
-      count = node->getChildCount(node),
-      params_count = node->getChildCount(node->getChild(node, 1)),
+  int i, count = node->getChildCount(node),
       _registres[15];
-
-
-  chunk = initChunk();
-
-  addInstruction(chunk, "// FUNC_DECLARATION %s (%d:%d)",
-                e->name,
-                node->getLine(node),
-                node->getCharPositionInLine(node));
 
 
   // Save registers
@@ -364,34 +377,35 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
     _registres[i] = registres[i];
   initRegisters();
 
+
+  addInstruction(chunk, "// FUNC_DECLARATION %s (%d:%d)",
+                e->name,
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
   addEtiquette(chunk, e->etiquette);
 
-  // Stack dynamic link
-  addInstruction(chunk, "STW FP, -(SP)");
-  addInstruction(chunk, "STW SP, FP");
-
-
-  // Free space in stack for local vars
-  for (i = 0; i < params_count; i++)
-    addInstruction(chunk, "ADQ 2, SP");
+  chunk_stack   = stackEnvironement();
+  chunk_instr   = computeInstruction(node->getChild(node, count-1));
+  chunk_unstack = unstackEnvironement();
 
   // Get instructions chunk
-  chunk_instr = computeInstruction(node->getChild(node, count-1));
+  appendChunks(chunk, chunk_stack);
   appendChunks(chunk, chunk_instr);
+  appendChunks(chunk, chunk_unstack);
+
+  chunk->registre = chunk_instr->registre;
+
+  freeChunk(chunk_stack);
   freeChunk(chunk_instr);
+  freeChunk(chunk_unstack);
 
   // Put last operation result into R0
   addInstruction(chunk, "LDW R0, R%d", chunk->registre);
-
-  // Unstack local vars
-  for (i = 0; i < params_count; i++)
-    addInstruction(chunk, "ADQ -2, SP");
-
-  // Update frame pointer
-  addInstruction(chunk, "LDW FP, (SP)+");
-
   // Return
   addInstruction(chunk, "RTS");
+
 
   // Restor registers
   for (i = 0; i <= 15; i++)
@@ -404,13 +418,17 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
 chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute while\033[0m");
 
-  chunk *chunk, *chunk_cond, *chunk_instr;
+  chunk *chunk = initChunk(), *chunk_cond, *chunk_instr;
   char while_begin_etiq[10], while_end_etiq[10];
   static int while_nb = 0;
 
 
+  addInstruction(chunk, "// WHILE (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
   // Get chunks
-  chunk       = initChunk();
   chunk_cond  = computeExpr(node->getChild(node, 0));
   chunk_instr = computeInstruction(node->getChild(node, 1));
 
@@ -421,10 +439,6 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
 
 
   // Add ASM
-  addInstruction(chunk, "// WHILE (%d:%d)",
-                node->getLine(node),
-                node->getCharPositionInLine(node));
-
   //     --> while_begin_etiq
   /*    |   */addEtiquette(chunk, while_begin_etiq);
   //    |    |
@@ -455,13 +469,17 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
 chunk *computeFor(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute for\033[0m");
 
-  chunk *chunk, *chunk_init, *chunk_cond, *chunk_instr;
+  chunk *chunk = initChunk(), *chunk_init, *chunk_cond, *chunk_instr;
   char for_begin_etiq[10], for_end_etiq[10];
   static int for_nb = 0;
 
 
+  addInstruction(chunk, "// FOR (%d:%d)",
+                node->getLine(node),
+                node->getCharPositionInLine(node));
+
+
   // Set chunks
-  chunk       = initChunk();
   chunk_init  = computeExpr(node->getChild(node, 0));
   chunk_cond  = computeExpr(node->getChild(node, 1));
   chunk_instr = computeInstruction(node->getChild(node, 2));
@@ -476,10 +494,6 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
 
 
   // Add ASM
-  addInstruction(chunk, "// FOR (%d:%d)",
-                node->getLine(node),
-                node->getCharPositionInLine(node));
-
   //          INITIALISATION (for ...)
   /*        */appendChunks(chunk, chunk_init);
   //     ---->for_begin_etiq
@@ -517,22 +531,34 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
 }
 
 
+// Act like a function, without params and no return ?
 chunk *computeLet(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute let\033[0m");
 
-  chunk *chunk, *chunk_decl, *chunk_instr;
-
-  chunk = initChunk();
-  chunk_decl  = computeInstruction(node->getChild(node, 0));
-  chunk_instr = computeInstruction(node->getChild(node, 1));
+  chunk *chunk = initChunk(),
+        *chunk_decl, *chunk_instr,
+        *chunk_stack, *chunk_unstack;
 
   addInstruction(chunk, "// LET (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
+
+  chunk_stack   = stackEnvironement();
+  chunk_decl    = computeInstruction(node->getChild(node, 0));
+  chunk_instr   = computeInstruction(node->getChild(node, 1));
+  chunk_unstack = unstackEnvironement();
+
+  appendChunks(chunk, chunk_stack);
   appendChunks(chunk, chunk_decl);
   appendChunks(chunk, chunk_instr);
+  appendChunks(chunk, chunk_unstack);
 
+  // Set chunk's registre to the instruction chunk registre
+  chunk->registre = chunk_instr->registre;
+
+  freeChunk(chunk_stack);
+  freeChunk(chunk_unstack);
   freeChunk(chunk_decl);
   freeChunk(chunk_instr);
 

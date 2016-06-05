@@ -17,9 +17,13 @@ void freeChunk(chunk *c);
 void addInstruction(chunk *c, char *template, ...);
 void addEtiquette(chunk *c, char *etiquette);
 
+chunk *getVarAddress(char *name);
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c);
 
 void jumpTo(chunk *c, int type, char *etiquette);
+
+chunk *stackEnvironement();
+chunk *unstackEnvironement();
 
 
 #endif /*  generation_helpers_h */

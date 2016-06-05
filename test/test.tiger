@@ -1,4 +1,11 @@
-("test";
+let
+	var a : int := 1
+in
+	a := 2
+end
+
+
+/*("test";
 let
 	var str := "te t"
 
@@ -33,4 +40,4 @@ let
 in
 	for i:=0 to func(89) do main(str, 2+1, "ok")
 end
-)
+)*/
