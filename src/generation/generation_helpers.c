@@ -184,9 +184,6 @@ chunk *getVarAddress(char *name) {
   // Get var entity in TDS
   e = searchVar(name);
   // Load address of var's scope in chunk->registre
-  // addInstruction(chunk, "LDW R%d, #%d", chunk->registre, e->scope->depth*2);
-  // addInstruction(chunk, "ADD R%d, DISPLAY, R%d", chunk->registre, chunk->registre);
-  // addInstruction(chunk, "LDW R%d, (R%d)", chunk->registre, chunk->registre);
   addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, e->scope->depth*2);
   // Load deplacement in tmp_reg
   addInstruction(chunk, "LDW R%d, #%d", tmp_reg, e->deplacement);

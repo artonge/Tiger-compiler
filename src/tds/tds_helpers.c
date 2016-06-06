@@ -116,10 +116,21 @@ entity *search_helper(scope *scope, char *name, int classe) {
   entity *current_entity = scope->entities;
 
   while (current_entity != NULL) {
-    if (strcmp(current_entity->name, name) == 0
-        && current_entity->classe == classe)
-      return current_entity;
+    if (strcmp(current_entity->name, name) == 0) {
 
+      // IF FUNC_DECLARATION, we need a function
+      if (   classe == FUNC_DECLARATION
+          && current_entity->classe == classe)
+            return current_entity;
+
+      // IF VAR_DECLARATION, we need a var or a param
+      if (   classe == VAR_DECLARATION
+          && (   current_entity->classe == VAR_DECLARATION
+              || current_entity->classe == PARAM ) )
+            return current_entity;
+    }
+
+    
     current_entity = current_entity->brother;
   }
 
