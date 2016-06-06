@@ -9,7 +9,7 @@
 #include "tds.h"
 
 
-#define DEBUG_CHECKERS 1
+#define DEBUG_CHECKERS 0
 
 
 void checkVarDeclaration(ANTLR3_BASE_TREE *tree);
