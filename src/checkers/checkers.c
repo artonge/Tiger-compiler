@@ -99,11 +99,28 @@ void checkAssigne(ANTLR3_BASE_TREE *tree) {
 }
 
 
+void checkNotProcedure(ANTLR3_BASE_TREE *tree, char *side) {
+
+  if(tree->getType(tree) == FUNC_CALL) {
+
+		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
+		char * FuncName = (char *)tree->toString(Func)->chars;
+
+		if(searchFunc(FuncName)->type == -1){
+			error("The %s operand should not be a procedure (function should return a value) %d:%d",
+        side,
+				tree->getLine(tree),
+				tree->getCharPositionInLine(tree));
+		}
+	}
+}
+
+
 // Check that both operands are not :
 // - an INSTRUCTIONS node
 // - an assignement
 // - a procedure call
-void checkOr(ANTLR3_BASE_TREE *tree) {
+void checkBinaryOperation(ANTLR3_BASE_TREE *tree) {
 	debug(DEBUG_CHECKERS, "\033[22;35mcheckOr\033[0m");
 
 	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
@@ -132,81 +149,18 @@ void checkOr(ANTLR3_BASE_TREE *tree) {
 			tree->getCharPositionInLine(Operand2));
 	}
 
-	if(Token1->type == FUNC_CALL){
-		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
-		char * FuncName = (char *)tree->toString(Func)->chars;
-		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){
-			error("The left operand should not be a procedure (function should return a value) %d:%d",
-				tree->getLine(Operand1),
-				tree->getCharPositionInLine(Operand1));
-		}
-	}else if(Token2->type == FUNC_CALL){
-		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
-		char * FuncName = (char *)tree->toString(Func)->chars;
-		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){
-			error("The right operand should not be a procedure (function should return a value) %d:%d",
-				tree->getLine(Operand2),
-				tree->getCharPositionInLine(Operand2));
-  	}
-  }
+  checkNotProcedure(Operand1, "left");
+  checkNotProcedure(Operand2, "right");
 }
 
 
-// Check that both operands are not :
-// - an INSTRUCTIONS node
-// - an assignement
-// - a procedure call
+void checkOr(ANTLR3_BASE_TREE *tree) {
+  checkBinaryOperation(tree);
+}
 void checkAnd(ANTLR3_BASE_TREE *tree) {
-	debug(DEBUG_CHECKERS, "\033[22;35mcheckAnd\033[0m");
-
-	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
-	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
-
-	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
-	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
-
-	if(Token1->type == NIL){
-		error("The left operand should not be 'NIL' %d:%d",
-			tree->getLine(Operand1),
-			tree->getCharPositionInLine(Operand1));
-	}else if(Token2->type == NIL){
-		error("The right operand should not be 'NIL' %d:%d",
-			tree->getLine(Operand2),
-			tree->getCharPositionInLine(Operand2));
-	}
-
-	if(containsInstruction(Operand1)){
-		error("The left operand should not be an instruction %d:%d",
-			tree->getLine(Operand1),
-			tree->getCharPositionInLine(Operand1));
-	}else if(containsInstruction(Operand2)){
-		error("The right operand should not be an instruction %d:%d",
-			tree->getLine(Operand2),
-			tree->getCharPositionInLine(Operand2));
-	}
-
-	if(Token1->type == FUNC_CALL){
-		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
-		char * FuncName = (char *)tree->toString(Func)->chars;
-		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){
-			error("The left operand should not be a procedure (function should return a value) %d:%d",
-				tree->getLine(Operand1),
-				tree->getCharPositionInLine(Operand1));
-		}
-	}else if(Token2->type == FUNC_CALL){
-		ANTLR3_BASE_TREE * Func = tree->getChild(tree, 1);
-		char * FuncName = (char *)tree->toString(Func)->chars;
-		entity * ent = searchFunc(FuncName);
-		if(ent->type == -1){
-			error("The right operand should not be a procedure (function should return a value) %d:%d",
-				tree->getLine(Operand2),
-				tree->getCharPositionInLine(Operand2));
-  	}
-  }
+  checkBinaryOperation(tree);
 }
+
 
 // Check that both operands are not :
 // - an INSTRUCTIONS node

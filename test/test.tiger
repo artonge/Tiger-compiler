@@ -1,7 +1,16 @@
 let
-	var a : int := 1 | (if 1 then 2 else 3)
+	var a : int := 1
+	var c := 0
+
+	function add(a:int, b:int) : int =
+		if a = 0 then b
+		else add(a-1, b+1)
+
 in
-	a := 2
+	(
+	a := 2;
+	c := add(a, 2)
+	)
 end
 
 

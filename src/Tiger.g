@@ -72,7 +72,6 @@ instruction
   | 'while' expr 'do' instructions                                              -> ^(WHILE expr instructions)
   | 'for' v1=expr 'to' v2=expr 'do' instructions                                -> ^(FOR $v1 $v2 instructions)
   | 'break'                                                                     -> BREAK
-  | 'return' expr                                                               -> ^(RETURN expr)
   ;
 
 atom

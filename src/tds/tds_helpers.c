@@ -115,6 +115,7 @@ entity *search_helper(scope *scope, char *name, int classe) {
 
   entity *current_entity = scope->entities;
 
+  printf("%d", current_entity->type);
   while (current_entity != NULL) {
     if (strcmp(current_entity->name, name) == 0
         && current_entity->classe == classe)
