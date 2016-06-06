@@ -115,29 +115,8 @@ void checkNotProcedure(ANTLR3_BASE_TREE *tree, char *side) {
 	}
 }
 
-
-// Check that both operands are not :
-// - an INSTRUCTIONS node
-// - an assignement
-// - a procedure call
-void checkLogicOperation(ANTLR3_BASE_TREE *tree) {
-	debug(DEBUG_CHECKERS, "\033[22;35mcheckOr\033[0m");
-
-	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
-	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
-
-	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
-	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
-
-	if(Token1->type == NIL){
-		error("The left operand should not be 'NIL' %d:%d",
-			tree->getLine(Operand1),
-			tree->getCharPositionInLine(Operand1));
-	}else if(Token2->type == NIL){
-		error("The right operand should not be 'NIL' %d:%d",
-			tree->getLine(Operand2),
-			tree->getCharPositionInLine(Operand2));
-	}
+void checkNotInstructionOrProcedure(ANTLR3_BASE_TREE * Operand1,
+	ANTLR3_BASE_TREE * Operand2){
 
 	if(containsInstruction(Operand1)){
 		error("The left operand should not be an instruction %d:%d",
@@ -154,25 +133,47 @@ void checkLogicOperation(ANTLR3_BASE_TREE *tree) {
 }
 
 
+// Check that both operands are not :
+// - an INSTRUCTIONS node
+// - an assignement
+// - a procedure call
+void checkLogicOperation(ANTLR3_BASE_TREE *tree) {
+	debug(DEBUG_CHECKERS, "\033[22;35mcheckLogicOperation\033[0m");
+
+	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
+	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
+
+	checkNotInstructionOrProcedure(Operand1, Operand2);
+}
+
+
 
 // Check that both operands are not :
 // - an INSTRUCTIONS node
 // - an assignement
 // - a procedure call
 // - a NIL NODE
-void checkComp(ANTLR3_BASE_TREE *tree) {
+void checkCompAndArithmeticOperation(ANTLR3_BASE_TREE *tree) {
+	debug(DEBUG_CHECKERS, "\033[22;35mcheckCompAndArithmeticOperation\033[0m");
+	
+	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
+	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
 
+	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
+	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
+	
+	checkNotInstructionOrProcedure(Operand1, Operand2);
+	
+		if(Token1->type == NIL){
+			error("The left operand should not be 'NIL' %d:%d",
+				tree->getLine(Operand1),
+				tree->getCharPositionInLine(Operand1));
+		}else if(Token2->type == NIL){
+			error("The right operand should not be 'NIL' %d:%d",
+				tree->getLine(Operand2),
+				tree->getCharPositionInLine(Operand2));
+		}
 }
-
-// Check that both operands are not :
-// - an INSTRUCTIONS node
-// - an assignement
-// - a procedure call
-// - a NIL NODE
-void checkAdd(ANTLR3_BASE_TREE *tree) {
-
-}
-
 
 
 // Check that both operands are not :
@@ -181,8 +182,9 @@ void checkAdd(ANTLR3_BASE_TREE *tree) {
 // - a procedure call
 // - a NIL NODE
 // Check that division by 0 do not happen
-void checkMult(ANTLR3_BASE_TREE *tree) {
-
+void checkDiv(ANTLR3_BASE_TREE *tree) {
+	debug(DEBUG_CHECKERS, "\033[22;35mcheckDiv\033[0m");
+	checkCompAndArithmeticOperation(tree);
 }
 
 

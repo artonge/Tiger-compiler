@@ -67,6 +67,11 @@ grammar : ## Compile the grammar using antlr3
 	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
 	$(info Make sure `language = C;` is uncommented in grammar options${\n})
 	antlr3 ./src/Tiger.g -make
+	
+grammar_lil : ## Compile the grammar using antlr3
+	$(info ${\n} ${line} GRAMMAR ${line} ${\n})
+	$(info Make sure `language = C;` is uncommented in grammar options${\n})
+	java -jar antlr-3.5.2.jar ./src/Tiger.g -make
 
 c : grammar ## Compile all the sources into the executable
 	$(info ${\n} ${line} COMPILE ${line} ${\n})
