@@ -55,4 +55,5 @@ Set DEBUG to 1 in helpers.h to display debuging infos
 [+] - `artonge` - `func/var declaration` <br>
 [+] - `artonge` - `func call` <br>
 [+] - `artonge` - `let` <br>
-[-] - `artonge` - `display` <br>
+[+] - `artonge` - `display` <br>
+[-] - `artonge` - `instruction return` <br>
