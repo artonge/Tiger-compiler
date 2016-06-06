@@ -33,8 +33,7 @@ Set DEBUG to 1 in helpers.h to display debuging infos
 [+] - `artonge` - `checkParam(tree);` <br>
 [o] - `...` - `checkBreak(tree);` <br>
 [+] - `artonge` - `checkAssigne(tree);` <br>
-[o] - `Lilian` - `checkOr(tree);` <br>
-[-] - `Lilian` - `checkAnd(tree);` <br>
+[o] - `Lilian` - `checkLogicOperation(tree);` <br>
 [o] - `Lilian` - `checkComp(tree);` <br>
 [o] - `Lilian` - `checkAdd(tree);` <br>
 [o] - `Lilian` - `checkMult(tree);` <br>

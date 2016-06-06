@@ -158,12 +158,6 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;
 
-		case OR:
-			checkOr(tree);
-			dispatch(tree->getChild(tree, 0)); // dispatch left operand
-			dispatch(tree->getChild(tree, 1)); // dispatch right operand
-			break;
-
 		case SUP    :
 		case INF    :
 		case SUP_EQ :
@@ -176,7 +170,8 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 			break;
 
 		case AND:
-			checkAnd(tree);
+		case OR:
+			checkLogicOperation(tree);
 			dispatch(tree->getChild(tree, 0)); // dispatch left operand
 			dispatch(tree->getChild(tree, 1)); // dispatch right operand
 			break;

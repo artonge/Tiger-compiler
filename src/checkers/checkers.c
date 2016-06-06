@@ -120,7 +120,7 @@ void checkNotProcedure(ANTLR3_BASE_TREE *tree, char *side) {
 // - an INSTRUCTIONS node
 // - an assignement
 // - a procedure call
-void checkBinaryOperation(ANTLR3_BASE_TREE *tree) {
+void checkLogicOperation(ANTLR3_BASE_TREE *tree) {
 	debug(DEBUG_CHECKERS, "\033[22;35mcheckOr\033[0m");
 
 	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
@@ -153,13 +153,6 @@ void checkBinaryOperation(ANTLR3_BASE_TREE *tree) {
   checkNotProcedure(Operand2, "right");
 }
 
-
-void checkOr(ANTLR3_BASE_TREE *tree) {
-  checkBinaryOperation(tree);
-}
-void checkAnd(ANTLR3_BASE_TREE *tree) {
-  checkBinaryOperation(tree);
-}
 
 
 // Check that both operands are not :
