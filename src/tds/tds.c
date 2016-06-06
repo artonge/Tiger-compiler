@@ -104,7 +104,6 @@ void addEntity(ANTLR3_BASE_TREE *scope) {
 
 entity *searchVar(char *name) {
   debug(DEBUG_TDS, "\033[01;36msearchVar\033[0m");
-  printTDS(TDS);
   return search_helper(TDS, name, VAR_DECLARATION);
 }
 

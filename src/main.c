@@ -54,6 +54,7 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 
 
 	langAST = psr->program(psr);
+	printf("%s\n", langAST.tree->toStringTree(langAST.tree)->chars);
 
 
 	// Init new global TDS
