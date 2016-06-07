@@ -23,4 +23,7 @@ int registres[15];
 chunk *program;
 
 
+chunk *computeExpr(ANTLR3_BASE_TREE *node);
+
+
 #endif /*  generation_globals_h */

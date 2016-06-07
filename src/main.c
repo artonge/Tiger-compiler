@@ -198,8 +198,11 @@ void dispatch(ANTLR3_BASE_TREE *tree) {
 
 		case NEG:
 			checkNeg(tree);
+			dispatch(tree->getChild(tree, 0)); // dispatch atom
 			break;
 
+		case ID:
+			checkID(tree);
 
 		default:
 			// Dispatch all children

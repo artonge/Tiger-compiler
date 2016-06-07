@@ -125,8 +125,9 @@ chunk *computeFuncCall(ANTLR3_BASE_TREE *tree) {
 
   ANTLR3_BASE_TREE *args = tree->getChild(tree, 0);
   entity *e = searchFunc((char*)tree->toString(tree->getChild(tree, 1))->chars);
-  chunk *chunk = initChunk();
+  chunk *chunk = initChunk(), *chunk_tmp;
   int i, count = tree->getChildCount(args);
+  int reg;
 
   // Stack registers
   for (i = 0; i <= 15; i++) {
@@ -136,21 +137,27 @@ chunk *computeFuncCall(ANTLR3_BASE_TREE *tree) {
 
   // Stack params
   for (i = 0; i < count; i++) {
-    loadAtom(args->getChild(args, i), chunk);
+    chunk_tmp = computeExpr(args->getChild(args, i));
+    appendChunks(chunk, chunk_tmp);
     addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
-    freeRegister(chunk->registre);
+    freeChunk(chunk_tmp);
   }
 
   // Jump to function
   addInstruction(chunk, "JSR @%s", e->etiquette);
 
+  // Get register to store function return
+  reg = getRegister();
+  addInstruction(chunk, "LDW R%d, R0", reg);
+  chunk->registre = reg;
+
   // Unstack params
   for (i = 0; i < count; i++)
     addInstruction(chunk, "ADQ -2, SP");
 
-  // Unstack registers
+  // Unstack registers unless for reg which contains the return value and wasn't stacked
   for (i = 0; i <= 15; i++) {
-    if (registres[i] == 1)
+    if (registres[i] == 1 && i != reg)
       addInstruction(chunk, "LDW R%d, (SP)+", i);
   }
 
@@ -227,6 +234,8 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
       // Load var into c->registre
       addInstruction(c, "LDW R%d, (R%d)", c->registre, chunk_tmp->registre);
 
+      chunk_tmp->registre = -1;
+
       freeChunk(chunk_tmp);
       break;
 
@@ -240,28 +249,28 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
 }
 
 
-void jumpTo(chunk *c, int type, char *etiquette) {
+void jumpTo(chunk *c, int type, char *etiquette, int up) {
   switch (type) {
     case SUP :
-      addInstruction(c, "JGT #%s", etiquette);
+      addInstruction(c, "JGT #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     case INF :
-      addInstruction(c, "JLW #%s", etiquette);
+      addInstruction(c, "JLW #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     case SUP_EQ :
-      addInstruction(c, "JGE #%s", etiquette);
+      addInstruction(c, "JGE #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     case INF_EQ :
-      addInstruction(c, "JLE #%s", etiquette);
+      addInstruction(c, "JLE #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     case EQ :
-      addInstruction(c, "JEQ #%s", etiquette);
+      addInstruction(c, "JEQ #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     case DIFF :
-      addInstruction(c, "JNE #%s", etiquette);
+      addInstruction(c, "JNE #%s - $ %s", etiquette, up ? "-2" : "");
       break;
     default :
-      addInstruction(c, "JMP #%s", etiquette);
+      addInstruction(c, "JMP #%s - $ %s", etiquette, up ? "-2" : "");
       break;
   }
 }
@@ -271,20 +280,29 @@ chunk *stackEnvironement() {
   chunk *chunk = initChunk();
   entity *current_entity = TDS->entities;
 
-  // Stack dynamic link
+  // Stack FP in dynamic link
   addInstruction(chunk, "STW FP, -(SP)");
+  // Store SP in FP
   addInstruction(chunk, "STW SP, FP");
+  // Increment FP to match real one
   addInstruction(chunk, "ADQ 2, FP");
 
-  // Stack display
   chunk->registre = getRegister();
+
+  // Stack display
+  // Store FP of same scope stored in DISPLAY in a register
   addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
+  // Stack that FP
   addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
+  // Update DISPLAY with our FP
   addInstruction(chunk, "STW FP, (DISPLAY)%d", TDS->depth*2);
+
+  freeRegister(chunk->registre);
 
   // Free space in stack for local vars
   while (current_entity != NULL) {
-    addInstruction(chunk, "ADQ -2, SP");
+    if (current_entity->classe == VAR_DECLARATION)
+      addInstruction(chunk, "ADQ -2, SP");
     current_entity = current_entity->brother;
   }
 
@@ -297,17 +315,22 @@ chunk *unstackEnvironement() {
 
   // Unstack local vars
   while (current_entity != NULL) {
-    addInstruction(chunk, "ADQ 2, SP");
+    if (current_entity->classe == VAR_DECLARATION)
+      addInstruction(chunk, "ADQ 2, SP");
     current_entity = current_entity->brother;
   }
 
-  // Unstack display
   chunk->registre = getRegister();
+
+  // Unstack display
+  // Unstack previous FP of same scope for DISPLAY
   addInstruction(chunk, "LDW R%d, (SP)+", chunk->registre);
+  // Store it in DISPLAY
   addInstruction(chunk, "STW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
+
   freeRegister(chunk->registre);
 
-  // Unstack frame pointer
+  // Unstack old dynamic link int FP
   addInstruction(chunk, "LDW FP, (SP)+");
 
   return chunk;

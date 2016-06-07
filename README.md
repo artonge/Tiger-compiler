@@ -31,7 +31,7 @@ Set DEBUG to 1 in helpers.h to display debuging infos
 [+] - `artonge` - `checkVarDeclaration(tree);` <br>
 [+] - `artonge` - `checkFuncDeclaration(tree);` <br>
 [+] - `artonge` - `checkParam(tree);` <br>
-[o] - `...` - `checkBreak(tree);` <br>
+[o] - `Lilian` - `checkBreak(tree);` <br>
 [+] - `artonge` - `checkAssigne(tree);` <br>
 [o] - `Lilian` - `checkLogicOperation(tree);` <br>
 [o] - `Lilian` - `checkComp(tree);` <br>

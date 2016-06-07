@@ -20,7 +20,7 @@ void addEtiquette(chunk *c, char *etiquette);
 chunk *getVarAddress(char *name);
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c);
 
-void jumpTo(chunk *c, int type, char *etiquette);
+void jumpTo(chunk *c, int type, char *etiquette, int up);
 
 chunk *stackEnvironement();
 chunk *unstackEnvironement();
