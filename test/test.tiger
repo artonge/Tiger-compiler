@@ -24,7 +24,7 @@ in
 	a := 2;
 	c := add(a, 2)
 	)
-end
+end*/
 
 
 /*("test";
