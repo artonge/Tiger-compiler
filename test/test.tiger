@@ -1,7 +1,6 @@
-let
+/*let
 	var a : int := 1
-	var c := 0
-	var str := "OK"
+	var c := 3
 
 	function add(a:int) : int = a
 
@@ -10,12 +9,11 @@ in
 	a := 2;
 	c := add(a)
 	)
-end
+end*/
 
-
-/*let
+let
 	var a : int := 1
-	var c := 0
+	var c := 3
 
 	function add(a:int, b:int) : int =
 		if a = 0 then b
@@ -26,7 +24,7 @@ in
 	a := 2;
 	c := add(a, 2)
 	)
-end*/
+end
 
 
 /*("test";

@@ -129,14 +129,16 @@ chunk *computeFuncCall(ANTLR3_BASE_TREE *tree) {
   int i, count = tree->getChildCount(args);
   int reg;
 
+  addInstruction(chunk, "\n// STACK REGISTERS");
   // Stack registers
   for (i = 0; i <= 15; i++) {
     if (registres[i] == 1)
       addInstruction(chunk, "STW R%d, -(SP)", i);
   }
 
-  // Stack params
-  for (i = 0; i < count; i++) {
+  addInstruction(chunk, "\n// STACK PARAMS");
+  // Stack params in reverse
+  for (i = count-1; i >= 0; i--) {
     chunk_tmp = computeExpr(args->getChild(args, i));
     appendChunks(chunk, chunk_tmp);
     addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
@@ -146,15 +148,18 @@ chunk *computeFuncCall(ANTLR3_BASE_TREE *tree) {
   // Jump to function
   addInstruction(chunk, "JSR @%s", e->etiquette);
 
+  addInstruction(chunk, "\n// STORE FUNC RETURN");
   // Get register to store function return
   reg = getRegister();
   addInstruction(chunk, "LDW R%d, R0", reg);
   chunk->registre = reg;
 
+  addInstruction(chunk, "\n// UNSTACK PARAMS");
   // Unstack params
   for (i = 0; i < count; i++)
-    addInstruction(chunk, "ADQ -2, SP");
+    addInstruction(chunk, "ADQ 2, SP");
 
+    addInstruction(chunk, "\n// UNSTACK REGISTERS");
   // Unstack registers unless for reg which contains the return value and wasn't stacked
   for (i = 0; i <= 15; i++) {
     if (registres[i] == 1 && i != reg)
@@ -181,27 +186,21 @@ char *addStringToProgram(chunk *c, char *string) {
 chunk *getVarAddress(char *name) {
   debug(DEBUG_GENERATION, "\033[22;93mGet var address\033[0m");
 
-  int tmp_reg;
   chunk *chunk = initChunk();
   entity *e;
 
 
   chunk->registre = getRegister();
-  tmp_reg         = getRegister();
 
 
   // Get var entity in TDS
   e = searchVar(name);
   // Load address of var's scope in chunk->registre
   addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, e->scope->depth*2);
-  // Load deplacement in tmp_reg
-  addInstruction(chunk, "LDW R%d, #%d", tmp_reg, e->deplacement);
   // Add var's scope base - var deplacement into chunk->registre
-  // (SUB because it's a stack)
-  addInstruction(chunk, "SUB R%d, R%d, R%d", chunk->registre, tmp_reg, chunk->registre);
+  // -deplacement because stack...
+  addInstruction(chunk, "ADQ %d, R%d", -e->deplacement, chunk->registre);
 
-
-  freeRegister(tmp_reg);
 
   return chunk;
 }
@@ -281,6 +280,7 @@ chunk *stackEnvironement() {
   entity *current_entity = TDS->entities;
 
   // Stack FP in dynamic link
+  addInstruction(chunk, "\n// STACK DYN LINK");
   addInstruction(chunk, "STW FP, -(SP)");
   // Store SP in FP
   addInstruction(chunk, "STW SP, FP");
@@ -290,6 +290,7 @@ chunk *stackEnvironement() {
   chunk->registre = getRegister();
 
   // Stack display
+  addInstruction(chunk, "\n// STACK DISPLAY");
   // Store FP of same scope stored in DISPLAY in a register
   addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
   // Stack that FP
@@ -299,12 +300,14 @@ chunk *stackEnvironement() {
 
   freeRegister(chunk->registre);
 
-  // Free space in stack for local vars
-  while (current_entity != NULL) {
-    if (current_entity->classe == VAR_DECLARATION)
-      addInstruction(chunk, "ADQ -2, SP");
+  // Search for the latest VAR_DECLARATION
+  while (current_entity != NULL && current_entity->classe != VAR_DECLARATION)
     current_entity = current_entity->brother;
-  }
+
+  // Free as mutch as memory as its deplacement, if it exists
+  addInstruction(chunk, "\n// ADD VAR IN STACK");
+  if (current_entity != NULL)
+    addInstruction(chunk, "ADQ -%d, SP", current_entity->deplacement - 4);
 
   return chunk;
 }
@@ -314,15 +317,20 @@ chunk *unstackEnvironement() {
   entity *current_entity = TDS->entities;
 
   // Unstack local vars
-  while (current_entity != NULL) {
-    if (current_entity->classe == VAR_DECLARATION)
-      addInstruction(chunk, "ADQ 2, SP");
+  // Search for the latest VAR_DECLARATION
+  while (current_entity != NULL && current_entity->classe != VAR_DECLARATION)
     current_entity = current_entity->brother;
-  }
+
+  // Free as mutch as memory as its deplacement, if it exists
+  addInstruction(chunk, "\n// REMOVE VAR FROM STACK");
+  if (current_entity != NULL)
+    addInstruction(chunk, "ADQ %d, SP", current_entity->deplacement - 4);
+
 
   chunk->registre = getRegister();
 
   // Unstack display
+  addInstruction(chunk, "\n// UNSTACK DISPLAY");
   // Unstack previous FP of same scope for DISPLAY
   addInstruction(chunk, "LDW R%d, (SP)+", chunk->registre);
   // Store it in DISPLAY
@@ -331,6 +339,7 @@ chunk *unstackEnvironement() {
   freeRegister(chunk->registre);
 
   // Unstack old dynamic link int FP
+  addInstruction(chunk, "\n// UNSTACK OLD DYN LINK");
   addInstruction(chunk, "LDW FP, (SP)+");
 
   return chunk;

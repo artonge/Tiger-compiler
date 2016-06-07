@@ -1,6 +1,7 @@
 #include "generation.h"
 
 
+// TODO - Handle string
 chunk *computeInstruction(ANTLR3_BASE_TREE *node);
 chunk *computeExpr(ANTLR3_BASE_TREE *node);
 chunk *computeIf(ANTLR3_BASE_TREE *node);
@@ -30,15 +31,18 @@ void generateASM(ANTLR3_BASE_TREE *node) {
   chunk *unstack = unstackEnvironement();
 
 
-  addInstruction(program, "// PRGM");
+  addInstruction(program, "\n\n\n// PRGM");
   addEtiquette(program, "MAIN");
   addInstruction(program, "STACKBASE 0x1000");
   addInstruction(program, "LDW FP, SP");
   addInstruction(program, "LDW DISPLAY, #0x2000");
+  addInstruction(program, "// STACK FACK RETURN");
+  addInstruction(program, "ADQ -2, SP");
   appendChunks(program, stack);
   appendChunks(program, instructionASM);
   appendChunks(program, unstack);
-
+  addInstruction(program, "// UNSTACK FACK RETURN");
+  addInstruction(program, "ADQ 2, SP");
 
   FILE *file = fopen("a.asm", "w");
   fprintf(file, program->string);
@@ -202,11 +206,11 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
 
       jumpTo(chunk, type, etiq_1, 0);
 
-      addInstruction(chunk, "STW R%d, #0", chunk->registre);
+      addInstruction(chunk, "LDW R%d, #0", chunk->registre);
       jumpTo(chunk, 0, etiq_2, 0);
 
       addEtiquette(chunk, etiq_1);
-      addInstruction(chunk, "STW R%d, #1", chunk->registre);
+      addInstruction(chunk, "LDW R%d, #1", chunk->registre);
 
       addEtiquette(chunk, etiq_2);
 
@@ -364,7 +368,7 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
   int count = node->getChildCount(node);
 
 
-  addInstruction(chunk, "// VAR_DECLARATION (%d:%d)",
+  addInstruction(chunk, "\n\n// VAR_DECLARATION (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
@@ -413,7 +417,7 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   initRegisters();
 
 
-  addInstruction(chunk, "// FUNC_DECLARATION %s (%d:%d)",
+  addInstruction(chunk, "\n\n\n// FUNC_DECLARATION %s (%d:%d)",
                 e->name,
                 node->getLine(node),
                 node->getCharPositionInLine(node));
@@ -427,6 +431,7 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
 
   // Get instructions chunk
   appendChunks(chunk, chunk_stack);
+  addInstruction(chunk, "\n// FUNC CORE");
   appendChunks(chunk, chunk_instr);
   appendChunks(chunk, chunk_unstack);
 
@@ -463,7 +468,7 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   static int while_nb = 0;
 
 
-  addInstruction(chunk, "// WHILE (%d:%d)",
+  addInstruction(chunk, "\n\n// WHILE (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
@@ -515,7 +520,7 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   static int for_nb = 0;
 
 
-  addInstruction(chunk, "// FOR (%d:%d)",
+  addInstruction(chunk, "\n\n// FOR (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
@@ -579,7 +584,7 @@ chunk *computeLet(ANTLR3_BASE_TREE *node) {
         *chunk_decl, *chunk_instr,
         *chunk_stack, *chunk_unstack;
 
-  addInstruction(chunk, "// LET (%d:%d)",
+  addInstruction(chunk, "\n\n\n// LET (%d:%d)",
                 node->getLine(node),
                 node->getCharPositionInLine(node));
 
@@ -589,10 +594,15 @@ chunk *computeLet(ANTLR3_BASE_TREE *node) {
   chunk_instr   = computeInstruction(node->getChild(node, 1));
   chunk_unstack = unstackEnvironement();
 
+
+  addInstruction(chunk, "// STACK FACK RETURN");
+  addInstruction(chunk, "ADQ -2, SP");
   appendChunks(chunk, chunk_stack);
   appendChunks(chunk, chunk_decl);
   appendChunks(chunk, chunk_instr);
   appendChunks(chunk, chunk_unstack);
+  addInstruction(chunk, "// UNSTACK FACK RETURN");
+  addInstruction(chunk, "ADQ 2, SP");
 
   // Set chunk's registre to the instruction chunk registre
   chunk->registre = chunk_instr->registre;

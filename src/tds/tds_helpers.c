@@ -39,6 +39,7 @@ entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
   entity *e = malloc(sizeof(entity));
   char * string;
   int count = scope->getChildCount(scope);
+  int str_len;
 
 
   e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
@@ -48,7 +49,14 @@ entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
 
   if (e->type == STRING) {
     string = (char *)scope->toString(scope->getChild(scope, count-1))->chars;
-    e->deplacement = getDeplacement(e->classe, strlen(string)*2 + 2);
+
+    // Remove quotes;
+    string  = string+sizeof(char);
+    str_len = strlen(string);
+    string[str_len-1] = '\0';
+    str_len--;
+
+    e->deplacement = getDeplacement(e->classe, str_len*2 + 2);
   } else // INTEGER
     e->deplacement = getDeplacement(e->classe, 2);
 
@@ -153,12 +161,12 @@ void printEntities(entity *e) {
 
   if (e == NULL) return;
 
-  debug(1, "%s : %s - %s (%d) [%d]",
+  debug(1, "%s\t:\t%s\t%s\t[%d] (%d)",
         classeToString(e->classe),
         typeToString(e->type),
         e->name,
-        e->deplacement,
-        e->scope->depth);
+        e->scope->depth,
+        e->deplacement);
 
   printEntities(e->brother);
 }
