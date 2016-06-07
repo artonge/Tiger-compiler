@@ -204,3 +204,9 @@ void checkFuncCall(ANTLR3_BASE_TREE *tree) {
 void checkArgs(ANTLR3_BASE_TREE *tree) {
 
 }
+
+
+// Check that the ID exists in TDS
+void checkID(ANTLR3_BASE_TREE *tree) {
+
+}

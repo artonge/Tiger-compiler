@@ -11,34 +11,34 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node);
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node);
 
 
-// TODO - make instructions return something
-// TODO - jumpTo should take a deplacement not an etiquette !
-// TODO - problem of R-1 in asm, WHY ?
 void generateASM(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mGenerate ASM\033[0m");
   initRegisters();
 
   program = initChunk();
 
-  chunk *instructionASM = computeInstruction(node);
-  chunk *stack = stackEnvironement();
-  chunk *unstack = unstackEnvironement();
-
   addInstruction(program, "SP EQU R15");
   addInstruction(program, "FP EQU R14");
   addInstruction(program, "DISPLAY EQU R13");
   // TODO - dynamise load adr
-  addInstruction(program, "MAIN EQU 0xE000");
-  addInstruction(program, "ORG MAIN");
+  addInstruction(program, "ORG 0xE000");
   addInstruction(program, "START MAIN");
+
+
+  chunk *stack = stackEnvironement();
+  chunk *instructionASM = computeInstruction(node);
+  chunk *unstack = unstackEnvironement();
+
+
   addInstruction(program, "// PRGM");
+  addEtiquette(program, "MAIN");
   addInstruction(program, "STACKBASE 0x1000");
   addInstruction(program, "LDW FP, SP");
   addInstruction(program, "LDW DISPLAY, #0x2000");
-
   appendChunks(program, stack);
   appendChunks(program, instructionASM);
   appendChunks(program, unstack);
+
 
   FILE *file = fopen("a.asm", "w");
   fprintf(file, program->string);
@@ -47,6 +47,8 @@ void generateASM(ANTLR3_BASE_TREE *node) {
   // printChunk(program);
 
   freeChunk(instructionASM);
+  freeChunk(stack);
+  freeChunk(unstack);
   freeChunk(program);
 }
 
@@ -130,7 +132,8 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *node) {
         // appendChunks replace chunk->registre with tmp_chunk's one
         // but freeChunk free the registre of tmp_chunk
         // we don't want chunk->registre to be overwritten !
-        tmp_chunk->registre = -1;
+        if (tmp_chunk != NULL)
+          tmp_chunk->registre = -1;
         freeChunk(tmp_chunk);
       }
 
@@ -197,10 +200,10 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
       sprintf(etiq_1, "ETIQ_%d", etiq_nb++);
       sprintf(etiq_2, "ETIQ_%d", etiq_nb++);
 
-      jumpTo(chunk, type, etiq_1);
+      jumpTo(chunk, type, etiq_1, 0);
 
       addInstruction(chunk, "STW R%d, #0", chunk->registre);
-      jumpTo(chunk, 0, etiq_2);
+      jumpTo(chunk, 0, etiq_2, 0);
 
       addEtiquette(chunk, etiq_1);
       addInstruction(chunk, "STW R%d, #1", chunk->registre);
@@ -315,7 +318,7 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   //         CONDITION COMPUTING
              appendChunks(chunk, chunk_expr);
   //         |
-             jumpTo(chunk, EQ, else_etiq);
+             jumpTo(chunk, EQ, else_etiq, 0);
   //     <-- JUMP TO AFTER IF INSTRUCTIONS IF RESULT == 0
   //    |    |
   //    |    IF INSTRUCTION
@@ -324,7 +327,7 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   /*    |  */addInstruction(chunk, "LDW R%d, R%d", reg, chunk_if->registre);
   //    |    |
   //  <-|--- JUMP TO AFTER ELSE INSTRUCTION
-  /* |  |  */jumpTo(chunk, 0, if_end_etiq);
+  /* |  |  */jumpTo(chunk, 0, if_end_etiq, 0);
   // |  |
   // |   --> if_etiq_1
   /* |     */addEtiquette(chunk, else_etiq);
@@ -444,7 +447,11 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   for (i = 0; i <= 15; i++)
     registres[i] = _registres[i];
 
-  return chunk;
+  appendChunks(program, chunk);
+
+  freeChunk(chunk);
+
+  return NULL;
 }
 
 
@@ -479,13 +486,13 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   /*    |  */appendChunks(chunk, chunk_cond);
   //    |    |
   //  <-|----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
-  /* |  |  */jumpTo(chunk, 0, while_end_etiq);
+  /* |  |  */jumpTo(chunk, 0, while_end_etiq, 0);
   // |  |    |
   // |  |    INSTRUCTIONS...
   /* |  |  */appendChunks(chunk, chunk_instr);
   // |  |    |
   // |   <---JUMP TO BEGIN
-  /* |     */jumpTo(chunk, EQ, while_begin_etiq);
+  /* |     */jumpTo(chunk, EQ, while_begin_etiq, 1);
   // |
   //  ------>while_end_etiq
              addEtiquette(chunk, while_end_etiq);
@@ -540,14 +547,14 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   /*    |     |            */chunk_cond->registre);
   //    |     |
   //  <-|-----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
-  /* |  |   */jumpTo(chunk, SUP_EQ, for_end_etiq);
+  /* |  |   */jumpTo(chunk, SUP_EQ, for_end_etiq, 0);
   // |  |     |
   // |  |     INSTRUCTIONS (do ...) -->
   /* |  |   */appendChunks(chunk, chunk_instr);
   // |  |     |
   // |  |     LOOP INSTRUCTION (var init ++ and jump)
   /* |  |   */addInstruction(chunk, "ADQ 1, R%d", chunk_init->registre);
-  /* |   <--*/jumpTo(chunk, 0, for_begin_etiq);
+  /* |   <--*/jumpTo(chunk, 0, for_begin_etiq, 1);
   // |
   //  ------->for_end_etiq
               addEtiquette(chunk, for_end_etiq);

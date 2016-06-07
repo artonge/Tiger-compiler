@@ -35,12 +35,22 @@ void freeScope(scope *scope) {
 }
 
 entity *buildVarEntity(ANTLR3_BASE_TREE *scope) {
+
   entity *e = malloc(sizeof(entity));
+  char * string;
+  int count = scope->getChildCount(scope);
+
 
   e->name        = (char *)scope->toString(scope->getChild(scope, 0))->chars;
   e->classe      = scope->getType(scope);
   e->type        = getType(scope);
-  e->deplacement = getDeplacement(e->classe);
+
+
+  if (e->type == STRING) {
+    string = (char *)scope->toString(scope->getChild(scope, count-1))->chars;
+    e->deplacement = getDeplacement(e->classe, strlen(string) + 1);
+  } else // INTEGER
+    e->deplacement = getDeplacement(e->classe, 2);
 
   return e;
 }
@@ -79,7 +89,7 @@ int isDuplicate(char *name) {
 /* Compute the entity relative memory position depending on the entity size
  * and last entity's siblings deplacement
  */
-int getDeplacement(int type) {
+int getDeplacement(int type, int size) {
 
   entity *current_entity = TDS->entities;
   int deplacement = type == PARAM ? 0 : 4;
@@ -101,9 +111,9 @@ int getDeplacement(int type) {
 
 
   if (type == PARAM) // If params, deplacement is negatif
-    deplacement -= 2;
+    deplacement -= size;
   else // If var declaration, deplacement is positif
-    deplacement += 2;
+    deplacement += size;
 
   debug(DEBUG_TDS, "\033[01;36mdeplacement\033[0m %d", deplacement);
   return deplacement;
@@ -130,7 +140,7 @@ entity *search_helper(scope *scope, char *name, int classe) {
             return current_entity;
     }
 
-    
+
     current_entity = current_entity->brother;
   }
 

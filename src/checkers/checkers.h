@@ -24,5 +24,7 @@ void checkDiv(ANTLR3_BASE_TREE *tree);
 void checkNeg(ANTLR3_BASE_TREE *tree);
 void checkFuncCall(ANTLR3_BASE_TREE *tree);
 void checkArgs(ANTLR3_BASE_TREE *tree);
+void checkID(ANTLR3_BASE_TREE *tree);
+
 
 #endif /* checkers_h */

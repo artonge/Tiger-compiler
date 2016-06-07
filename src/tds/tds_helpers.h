@@ -12,7 +12,7 @@ entity *buildVarEntity(ANTLR3_BASE_TREE *scope);
 entity *buildParamEntity(ANTLR3_BASE_TREE *scope);
 entity *buildFuncEntity(ANTLR3_BASE_TREE *scope);
 int isDuplicate(char *name);
-int getDeplacement(int type);
+int getDeplacement(int type, int size);
 entity *search_helper(scope *scope, char *name, int classe);
 void printEntities(entity *e);
 char *typeToString(int type);
