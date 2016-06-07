@@ -12,6 +12,8 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node);
 
 
 // TODO - make instructions return something
+// TODO - jumpTo should take a deplacement not an etiquette !
+// TODO - problem of R-1 in asm, WHY ?
 void generateASM(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mGenerate ASM\033[0m");
   initRegisters();
@@ -125,6 +127,10 @@ chunk *computeInstruction(ANTLR3_BASE_TREE *node) {
       for (i = 0; i < node->getChildCount(node); i++) {
         tmp_chunk = computeInstruction(node->getChild(node, i));
         appendChunks(chunk, tmp_chunk);
+        // appendChunks replace chunk->registre with tmp_chunk's one
+        // but freeChunk free the registre of tmp_chunk
+        // we don't want chunk->registre to be overwritten !
+        tmp_chunk->registre = -1;
         freeChunk(tmp_chunk);
       }
 
@@ -140,7 +146,7 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
         node->getLine(node),
         node->getCharPositionInLine(node));
 
-  chunk *chunk, *chunk_left, *chunk_right;
+  chunk *chunk, *chunk_left = NULL, *chunk_right = NULL;
   int type = node->getType(node);
   char *template;
   char etiq_1[10], etiq_2[10];
@@ -158,23 +164,22 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
     return chunk;
   }
 
+
   // Else get both operand chunk
   // unless it's assign, we only want the address of the left opperand
+  if (type != ASSIGNE) chunk_left  = computeExpr(node->getChild(node, 0));
   // unless it's a NEG node, because NEG only has one child
-  if (type != ASSIGNE) {
-    chunk_left  = computeExpr(node->getChild(node, 0));
-    appendChunks(chunk, chunk_left);
-  }
+  if (type != NEG)     chunk_right = computeExpr(node->getChild(node, 1));
 
-  if (type != NEG) {
-    chunk_right = computeExpr(node->getChild(node, 1));
-    appendChunks(chunk, chunk_right);
-  }
 
-  // Get free register to host result
-  loadAtom(NULL, chunk);
+  appendChunks(chunk, chunk_left);
+  // It frees chunk_left->registre. Weird but ok because no more registre needed
+  // unless for assign, but it will erased chunk_left->registre that is not initialised
+  // SO KEEP THAT ORDER UNLESS YOU KNOW WHAT YOU'RE DOING !
+  appendChunks(chunk, chunk_right);
 
-  // Do operation with chunk's register
+
+  // Do operation
   switch (type) {
     case SUP :
     case INF :
@@ -201,6 +206,8 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
       addInstruction(chunk, "STW R%d, #1", chunk->registre);
 
       addEtiquette(chunk, etiq_2);
+
+      chunk_right->registre = -1;
 
       break;
 
@@ -235,24 +242,39 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
                     chunk->registre,
                     node->getLine(node),
                     node->getCharPositionInLine(node));
+
+      chunk_right->registre = -1;
+
       break;
 
 
     case NEG :
       addInstruction(chunk, "NEG R%d, R%d", chunk_left->registre, chunk->registre);
+
+      chunk_left->registre = -1;
+
       break;
 
     case ASSIGNE :
+      // We don't need this register for that
       chunk_left = getVarAddress(
                     (char*)node->toString(node->getChild(node, 0))->chars
                  );
       appendChunks(chunk, chunk_left);
       addInstruction(chunk, "STW R%d, (R%d)", chunk_right->registre, chunk_left->registre);
+      // Set chunk->registre so we have the value
+      chunk->registre = chunk_right->registre;
+      // Free left register, now useless
+      freeRegister(chunk_left->registre);
+
+      chunk_right->registre = -1;
+
       break;
 
     default:
       error("Not handling that kind of opperations. Sorry.");
   }
+
 
   freeChunk(chunk_left);
   freeChunk(chunk_right);
@@ -268,7 +290,7 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   chunk *chunk = initChunk(), *chunk_expr, *chunk_if, *chunk_else = NULL;
   static int if_nb = 0;
   char else_etiq[10], if_end_etiq[10];
-
+  int reg;
 
   addInstruction(chunk, "// IF (%d:%d)",
                 node->getLine(node),
@@ -280,6 +302,8 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   chunk_if   = computeInstruction(node->getChild(node, 1));
   if (node->getChildCount(node) > 2)
     chunk_else = computeInstruction(node->getChild(node, 2));
+
+  reg = getRegister();
 
 
   // Set etiquettes
@@ -296,6 +320,8 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   //    |    |
   //    |    IF INSTRUCTION
   /*    |  */appendChunks(chunk, chunk_if);
+  //    |    Store if's last result into chunk's registre
+  /*    |  */addInstruction(chunk, "LDW R%d, R%d", reg, chunk_if->registre);
   //    |    |
   //  <-|--- JUMP TO AFTER ELSE INSTRUCTION
   /* |  |  */jumpTo(chunk, 0, if_end_etiq);
@@ -305,9 +331,16 @@ chunk *computeIf(ANTLR3_BASE_TREE *node) {
   // |       |
   // |       ELSE INSTRUCTION
   /* |     */appendChunks(chunk, chunk_else);
+  // |       Store else's last result into chunk's registre
+  /* |     */addInstruction(chunk, "LDW R%d, R%d", reg, chunk_else->registre);
   // |       |
   //  -----> if_etiq_2
              addEtiquette(chunk, if_end_etiq);
+
+  // Free chunk->registre that is equal to chunk_else->registre
+  freeRegister(chunk->registre);
+  // Set chunk registre to be the one we reserved for if or else last result
+  chunk->registre = reg;
 
 
   // Free chunks, because now useless
@@ -352,13 +385,14 @@ chunk *computeVarDeclaration(ANTLR3_BASE_TREE *node) {
                 chunk_var->registre);
 
 
+  chunk_expr->registre = -1;
   freeChunk(chunk_expr);
   freeChunk(chunk_var);
 
   return chunk;
 }
 
-// TODO - stack display ? ckoi ?
+
 chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   debug(DEBUG_GENERATION, "\033[22;93mCompute func declaration\033[0m");
 
@@ -394,6 +428,7 @@ chunk *computeFuncDeclaration(ANTLR3_BASE_TREE *node) {
   appendChunks(chunk, chunk_unstack);
 
   chunk->registre = chunk_instr->registre;
+  chunk_instr->registre = -1;
 
   freeChunk(chunk_stack);
   freeChunk(chunk_instr);
@@ -455,6 +490,7 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   //  ------>while_end_etiq
              addEtiquette(chunk, while_end_etiq);
 
+  chunk_instr->registre = -1;
 
   // Free chunks
   freeChunk(chunk_cond);
@@ -488,9 +524,6 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   sprintf(  for_end_etiq, "FOR_%d", for_nb++);
 
 
-  loadAtom(NULL, chunk);
-
-
   // Add ASM
   //          INITIALISATION (for ...)
   /*        */appendChunks(chunk, chunk_init);
@@ -504,7 +537,7 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   /*    |   */addInstruction(chunk, "SUB R%d, R%d, R%d",
   /*    |     |            */chunk_init->registre,
   /*    |     |            */chunk_cond->registre,
-  /*    |     |            */chunk->registre);
+  /*    |     |            */chunk_cond->registre);
   //    |     |
   //  <-|-----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
   /* |  |   */jumpTo(chunk, SUP_EQ, for_end_etiq);
@@ -518,6 +551,8 @@ chunk *computeFor(ANTLR3_BASE_TREE *node) {
   // |
   //  ------->for_end_etiq
               addEtiquette(chunk, for_end_etiq);
+
+  chunk_instr->registre = -1;
 
 
   // Free chunks
@@ -554,6 +589,7 @@ chunk *computeLet(ANTLR3_BASE_TREE *node) {
 
   // Set chunk's registre to the instruction chunk registre
   chunk->registre = chunk_instr->registre;
+  chunk_instr->registre = -1;
 
   freeChunk(chunk_stack);
   freeChunk(chunk_unstack);

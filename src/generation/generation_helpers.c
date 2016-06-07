@@ -51,8 +51,10 @@ void printChunk(chunk *c) {
 }
 
 
-chunk *appendChunks(chunk *c1, chunk *c2) {
+void appendChunks(chunk *c1, chunk *c2) {
   debug(DEBUG_GENERATION, "\033[22;93mAppend chunks\033[0m");
+
+  if (c2 == NULL) return;
 
   c1->length += c2->length;
 
@@ -66,7 +68,7 @@ chunk *appendChunks(chunk *c1, chunk *c2) {
 
   c1->registre = c2->registre;
 
-  return c1;
+  return;
 }
 
 
@@ -201,11 +203,6 @@ chunk *getVarAddress(char *name) {
 void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
   debug(DEBUG_GENERATION, "\033[22;93mLoad atom\033[0m");
 
-  if (tree == NULL) {
-    c->registre = getRegister();
-    return;
-  }
-
 
   chunk *chunk_tmp;
   char *string = (char *)tree->toString(tree)->chars;
@@ -236,6 +233,7 @@ void loadAtom(ANTLR3_BASE_TREE *tree, chunk *c) {
     case FUNC_CALL :
       chunk_tmp = computeFuncCall(tree);
       appendChunks(c, chunk_tmp);
+      chunk_tmp->registre = -1; // See com in computeInstruction
       freeChunk(chunk_tmp);
       break;
   }
@@ -279,7 +277,7 @@ chunk *stackEnvironement() {
   addInstruction(chunk, "ADQ 2, FP");
 
   // Stack display
-  loadAtom(NULL, chunk);
+  chunk->registre = getRegister();
   addInstruction(chunk, "LDW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
   addInstruction(chunk, "STW R%d, -(SP)", chunk->registre);
   addInstruction(chunk, "STW FP, (DISPLAY)%d", TDS->depth*2);
@@ -304,7 +302,7 @@ chunk *unstackEnvironement() {
   }
 
   // Unstack display
-  loadAtom(NULL, chunk);
+  chunk->registre = getRegister();
   addInstruction(chunk, "LDW R%d, (SP)+", chunk->registre);
   addInstruction(chunk, "STW R%d, (DISPLAY)%d", chunk->registre, TDS->depth*2);
   freeRegister(chunk->registre);

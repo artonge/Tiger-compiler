@@ -11,7 +11,7 @@ void freeRegister(int registre);
 
 chunk* initChunk();
 void printChunk(chunk *c);
-chunk *appendChunks(chunk *c1, chunk *c2);
+void appendChunks(chunk *c1, chunk *c2);
 void freeChunk(chunk *c);
 
 void addInstruction(chunk *c, char *template, ...);

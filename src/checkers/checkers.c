@@ -120,12 +120,12 @@ void checkNotInstructionOrProcedure(ANTLR3_BASE_TREE * Operand1,
 
 	if(containsInstruction(Operand1)){
 		error("The left operand should not be an instruction %d:%d",
-			tree->getLine(Operand1),
-			tree->getCharPositionInLine(Operand1));
+			Operand1->getLine(Operand1),
+			Operand1->getCharPositionInLine(Operand1));
 	}else if(containsInstruction(Operand2)){
 		error("The right operand should not be an instruction %d:%d",
-			tree->getLine(Operand2),
-			tree->getCharPositionInLine(Operand2));
+			Operand1->getLine(Operand2),
+			Operand1->getCharPositionInLine(Operand2));
 	}
 
   checkNotProcedure(Operand1, "left");
@@ -155,15 +155,15 @@ void checkLogicOperation(ANTLR3_BASE_TREE *tree) {
 // - a NIL NODE
 void checkCompAndArithmeticOperation(ANTLR3_BASE_TREE *tree) {
 	debug(DEBUG_CHECKERS, "\033[22;35mcheckCompAndArithmeticOperation\033[0m");
-	
+
 	ANTLR3_BASE_TREE * Operand1 = tree->getChild(tree,0);
 	pANTLR3_COMMON_TOKEN Token1 = tree->getToken(Operand1);
 
 	ANTLR3_BASE_TREE * Operand2 = tree->getChild(tree,1);
 	pANTLR3_COMMON_TOKEN Token2 = tree->getToken(Operand2);
-	
+
 	checkNotInstructionOrProcedure(Operand1, Operand2);
-	
+
 		if(Token1->type == NIL){
 			error("The left operand should not be 'NIL' %d:%d",
 				tree->getLine(Operand1),

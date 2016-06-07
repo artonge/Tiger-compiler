@@ -8,7 +8,7 @@
 #include "tds.h"
 
 
-#define DEBUG_GENERATION 0
+#define DEBUG_GENERATION 1
 
 
 struct chunk {
