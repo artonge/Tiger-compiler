@@ -11,13 +11,15 @@ in
 	)
 end*/
 
-let
+
+/*let
 	var a : int := 1
 	var c := 3
 
 	function add(a:int, b:int) : int =
-		if a = 0 then b
-		else add(a-1, b+1)
+		real_add(b)
+
+	function real_add(a:int) : int =  c + a
 
 in
 	(
@@ -25,6 +27,13 @@ in
 	c := add(a, 2)
 	)
 end*/
+
+
+let
+	var a : int := 1
+in
+	while a < 4 do a := a + 1
+end
 
 
 /*("test";

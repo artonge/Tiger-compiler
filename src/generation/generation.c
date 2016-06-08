@@ -492,13 +492,13 @@ chunk *computeWhile(ANTLR3_BASE_TREE *node) {
   /*    |  */appendChunks(chunk, chunk_cond);
   //    |    |
   //  <-|----JUMP TO AFTER INSTRUCTIONS IF RESULT == 0
-  /* |  |  */jumpTo(chunk, 0, while_end_etiq, 0);
+  /* |  |  */jumpTo(chunk, EQ, while_end_etiq, 0);
   // |  |    |
   // |  |    INSTRUCTIONS...
   /* |  |  */appendChunks(chunk, chunk_instr);
   // |  |    |
   // |   <---JUMP TO BEGIN
-  /* |     */jumpTo(chunk, EQ, while_begin_etiq, 1);
+  /* |     */jumpTo(chunk, 0, while_begin_etiq, 1);
   // |
   //  ------>while_end_etiq
              addEtiquette(chunk, while_end_etiq);
