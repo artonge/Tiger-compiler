@@ -264,7 +264,6 @@ chunk *computeExpr(ANTLR3_BASE_TREE *node) {
       break;
 
     case ASSIGNE :
-      // We don't need this register for that
       chunk_left = getVarAddress(
                     (char*)node->toString(node->getChild(node, 0))->chars
                  );

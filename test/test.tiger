@@ -31,9 +31,28 @@ end*/
 
 let
 	var a : int := 1
+
+	function add(a:int, b:int) : int = a
+
+in
+	add(a, 2)
+end
+
+
+
+/*let
+	var a : int := 1
 in
 	while a < 4 do a := a + 1
-end
+end*/
+
+
+/*let
+var a : int := 0
+in
+	for a := 1 to 4 do a := a + 1
+end*/
+
 
 
 /*("test";
