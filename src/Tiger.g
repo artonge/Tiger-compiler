@@ -3,7 +3,7 @@ grammar Tiger;
 options {
   k = 1;
   output = AST;
-  language = C;
+  //language = C;
 }
 
 tokens {

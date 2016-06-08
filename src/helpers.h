@@ -8,7 +8,7 @@
 
 
 #define DEBUG 1
-#define DEBUG_HELPERS 0
+#define DEBUG_HELPERS 1
 
 
 void debug(int DISPLAY, char *template, ...);

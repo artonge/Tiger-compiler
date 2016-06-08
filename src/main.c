@@ -85,7 +85,6 @@ int ANTLR3_CDECL main (int argc, char *argv[]) {
 
 // Dispatch each node to the correct function
 void dispatch(ANTLR3_BASE_TREE *tree) {
-
 	ANTLR3_UINT32 type  = tree->getType(tree);
 	ANTLR3_UINT32 count = tree->getChildCount(tree);
 	int i = 0;
