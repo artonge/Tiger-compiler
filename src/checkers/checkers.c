@@ -1,5 +1,6 @@
 #include "checkers.h"
-
+#include "tds.h"
+#include "tds_globals.h"
 
 // Check that type is 'int' or 'string'
 void checkVarDeclaration(ANTLR3_BASE_TREE *tree) {
@@ -188,21 +189,48 @@ void checkDiv(ANTLR3_BASE_TREE *tree) {
 }
 
 
+
 // Check that the atom is an ID or a FUNC_CALL
 void checkNeg(ANTLR3_BASE_TREE *tree) {
-
+  debug(DEBUG_CHECKERS, "\033[22;35mcheckNeg\033[0m");
+  ANTLR3_BASE_TREE * nameNode   =         tree->getChild(tree, 0);
+  char             * nameString = (char *)tree->toString(nameNode)->chars;
+  if(searchVar(nameString)->type == -1 || searchFunc(nameString)->type == -1)
+    error("Variable or fuction %s does not exist", nameString);
 }
 
 
 // Check that the number of parameters is the same as in the declaration
 void checkFuncCall(ANTLR3_BASE_TREE *tree) {
+  debug(DEBUG_CHECKERS, "\033[22;35mcheckFuncCall\033[0m");
+  ANTLR3_BASE_TREE * nameNode   =         tree->getChild(tree, 0);
+  char             * nameString = (char *)tree->toString(tree->getChild(tree, 1))->chars;
+  entity* entity;
+  entity = searchFunc(nameString);
+  if(entity == NULL) {
+    error("Function %s does not exist", nameString);
+    return;
+  }
 
+  int expectedParamCount = entity->infos;
+
+  nameNode                      =         tree->getChild(tree, 0);
+  int actualParamCount          =         tree->getChildCount(tree);
+
+  if(expectedParamCount != actualParamCount) {
+    error("Incorrect number of arguments");
+  }
 }
 
 
 // Check that ARGS are not an INSTRUCTIONS node
 void checkArgs(ANTLR3_BASE_TREE *tree) {
-
+  debug(DEBUG_CHECKERS, "\033[22;35mcheckArgs\033[0m");
+  ANTLR3_BASE_TREE * nameNode   =         tree->getChild(tree, 0);
+  char             * nameString = (char *)tree->toString(nameNode)->chars;
+  if(strcmp(nameString, "INSTRUCTIONS")) {
+    error("Incorrect arguments");
+  }
 }
 
 

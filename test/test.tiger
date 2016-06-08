@@ -41,6 +41,8 @@ let
 	var str := "te t"
 
 	var i := 87
+	
+	var j := -1	
 
 	function print(str : string) = 1
 
