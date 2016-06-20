@@ -1,3 +1,19 @@
+let
+	var a : int := 1
+	var c := 3
+
+	function real_add(a:int) : int =  c + a
+
+	function add(a:int, b:int) : int =
+		real_add(b)
+in
+	(
+	a := 2;
+	c := add(a, 2)
+	)
+end
+
+
 /*let
 	var a : int := 1
 	var c := 3
@@ -12,31 +28,17 @@ in
 end*/
 
 
+/**/
+
+
 /*let
-	var a : int := 1
-	var c := 3
-
-	function add(a:int, b:int) : int =
-		real_add(b)
-
-	function real_add(a:int) : int =  c + a
-
-in
-	(
-	a := 2;
-	c := add(a, 2)
-	)
-end*/
-
-
-let
 	var a : int := 1
 
 	function add(a:int, b:int) : int = a
 
 in
 	add(a, 2)
-end
+end*/
 
 
 
@@ -60,8 +62,8 @@ let
 	var str := "te t"
 
 	var i := 87
-	
-	var j := -1	
+
+	var j := -1
 
 	function print(str : string) = 1
 

@@ -28,8 +28,6 @@ int getRegister() {
 void freeRegister(int registre) {
   if (registre == -1) return;
 
-  printf("FREE REGISTER %d\n", registre);
-
   registres[registre] = 0;
 }
 

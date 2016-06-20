@@ -203,23 +203,18 @@ void checkNeg(ANTLR3_BASE_TREE *tree) {
 // Check that the number of parameters is the same as in the declaration
 void checkFuncCall(ANTLR3_BASE_TREE *tree) {
   debug(DEBUG_CHECKERS, "\033[22;35mcheckFuncCall\033[0m");
-  ANTLR3_BASE_TREE * nameNode   =         tree->getChild(tree, 0);
-  char             * nameString = (char *)tree->toString(tree->getChild(tree, 1))->chars;
-  entity* entity;
-  entity = searchFunc(nameString);
+  ANTLR3_BASE_TREE * nameNode   = tree->getChild(tree, 1), *argsNode;
+  char             * nameString = (char *)tree->toString(nameNode)->chars;
+  entity* entity = searchFunc(nameString);
+
   if(entity == NULL) {
     error("Function %s does not exist", nameString);
     return;
   }
 
-  int expectedParamCount = entity->infos;
-
-  nameNode                      =         tree->getChild(tree, 0);
-  int actualParamCount          =         tree->getChildCount(tree);
-
-  if(expectedParamCount != actualParamCount) {
+  argsNode = tree->getChild(tree, 0);
+  if(tree->getChildCount(argsNode) != entity->infos)
     error("Incorrect number of arguments");
-  }
 }
 
 
@@ -228,9 +223,9 @@ void checkArgs(ANTLR3_BASE_TREE *tree) {
   debug(DEBUG_CHECKERS, "\033[22;35mcheckArgs\033[0m");
   ANTLR3_BASE_TREE * nameNode   =         tree->getChild(tree, 0);
   char             * nameString = (char *)tree->toString(nameNode)->chars;
-  if(strcmp(nameString, "INSTRUCTIONS")) {
+
+  if(containsInstruction(tree))
     error("Incorrect arguments");
-  }
 }
 
 
